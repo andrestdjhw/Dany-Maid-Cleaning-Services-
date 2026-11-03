@@ -6,6 +6,7 @@ require_once get_theme_file_path('/inc/helpers.php');
 require_once get_theme_file_path('/inc/icons.php');
 require_once get_theme_file_path('/inc/seo.php');
 require_once get_theme_file_path('/inc/contact.php');
+require_once get_theme_file_path('/inc/pages.php');
 
 function dm_load_assets() {
   $asset = include get_theme_file_path('/build/index.asset.php');
@@ -36,6 +37,27 @@ function dm_js_class() {
 }
 
 add_action('wp_head', 'dm_js_class', 0);
+
+// Google Consent Mode v2 defaults. Must print before GTM/GA4 so no tag runs without consent;
+// a choice saved earlier (src/scripts/consent.js) is re-applied on every page load.
+function dm_consent_defaults() {
+  ?>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied', functionality_storage: 'granted', security_storage: 'granted', wait_for_update: 500});
+    try {
+      var dmConsent = JSON.parse(localStorage.getItem('dm_consent'));
+      if (dmConsent && dmConsent.v === 1 && Date.now() - dmConsent.ts < 180 * 864e5) {
+        var dmAds = dmConsent.marketing ? 'granted' : 'denied';
+        gtag('consent', 'update', {analytics_storage: dmConsent.analytics ? 'granted' : 'denied', ad_storage: dmAds, ad_user_data: dmAds, ad_personalization: dmAds});
+      }
+    } catch (e) {}
+  </script>
+  <?php
+}
+
+add_action('wp_head', 'dm_consent_defaults', 0);
 
 function dm_add_support() {
   add_theme_support('title-tag');

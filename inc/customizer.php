@@ -57,6 +57,14 @@ function dm_customizer_schema() {
         'ratings_date'        => array('label' => 'Ratings checked on (e.g. October 2026)', 'default' => 'October 2026'),
       ),
     ),
+    'dm_cookies' => array(
+      'title'       => 'Cookie Banner',
+      'description' => 'Text of the cookie consent banner. Have legal review it together with the Privacy Policy before launch.',
+      'fields'      => array(
+        'cookie_title'   => array('label' => 'Title', 'default' => 'We value your privacy'),
+        'cookie_message' => array('label' => 'Message', 'type' => 'textarea', 'default' => 'We use essential cookies to make our site work. With your permission, we’d also like to use analytics cookies to understand how visitors use our site so we can improve it.'),
+      ),
+    ),
     'dm_home_hero' => array(
       'title'  => 'Home · 01 Hero',
       'fields' => array(

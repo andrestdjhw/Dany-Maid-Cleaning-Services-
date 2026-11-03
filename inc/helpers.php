@@ -81,11 +81,8 @@ function dm_stock_image($name, $alt, $class, $sizes, $eager = false) {
   );
 }
 
-/**
- * Renders a Customizer image, or the theme's illustrative stock photo while no real photo is set.
- * Editors see $note (if any) so the stock image is not forgotten; the wrapper must be `relative`.
- */
-function dm_photo($id, $stock, $alt, $class, $sizes, $note, $eager = false) {
+// Renders a Customizer image, or the theme's illustrative stock photo while no real photo is set.
+function dm_photo($id, $stock, $alt, $class, $sizes, $eager = false) {
   if ($id) {
     echo wp_get_attachment_image($id, 'large', false, array(
       'class'         => $class,
@@ -98,9 +95,26 @@ function dm_photo($id, $stock, $alt, $class, $sizes, $note, $eager = false) {
   }
   // Stock photos are illustrative, so they get a neutral alt instead of claiming to show the team.
   echo dm_stock_image($stock, '', $class, $sizes, $eager);
-  if ($note !== '' && current_user_can('edit_theme_options')) {
-    printf('<span class="absolute left-3 top-3 z-10 max-w-[80%%] rounded-lg bg-white/95 px-3 py-2 text-xs font-semibold text-brand-900 shadow">%s</span>', esc_html($note));
+}
+
+// Live reviews widget (Trustindex plugin). Rendered only if its shortcode is registered,
+// so deactivating the plugin falls back to the manual testimonials instead of printing raw text.
+function dm_reviews_widget() {
+  $shortcode = trim(dm_mod('home_reviews_widget'));
+  if ($shortcode === '' || !preg_match('/^\[([\w-]+)/', $shortcode, $tag) || !shortcode_exists($tag[1])) {
+    return '';
   }
+  return trim(do_shortcode($shortcode));
+}
+
+// Rendered WordPress editor content of the current page ('' when empty), used as each
+// template's editable block (e.g. a service's approved checklist).
+function dm_page_content() {
+  $post = get_queried_object();
+  if (!$post instanceof WP_Post || trim($post->post_content) === '') {
+    return '';
+  }
+  return apply_filters('the_content', $post->post_content);
 }
 
 // FAQ items from the Customizer; empty questions are skipped.

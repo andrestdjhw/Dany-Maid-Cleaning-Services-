@@ -2,8 +2,6 @@ import React, { useRef, useState } from "react"
 import Icon from "./Icon"
 import { track } from "../analytics"
 
-const FORM_ID = "home_contact"
-
 const CONTACT_METHODS = [
   { value: "call", label: "Phone call" },
   { value: "text", label: "Text" },
@@ -60,7 +58,8 @@ function Field({ id, label, optional, error, hint, children }) {
   )
 }
 
-export default function ContactForm({ data }) {
+// formId comes from the mount element's data-form-id (see src/index.js)
+export default function ContactForm({ data, formId = "home_contact" }) {
   const { services, business, privacyUrl, contact } = data
   const serviceFromUrl = new URLSearchParams(window.location.search).get("service")
   const initialService = services.some(s => s.key === serviceFromUrl) ? serviceFromUrl : ""
@@ -79,7 +78,7 @@ export default function ContactForm({ data }) {
   function onFirstInteraction() {
     if (started.current) return
     started.current = true
-    track("form_start", { form_id: FORM_ID, service_type: values.service || "unknown" })
+    track("form_start", { form_id: formId, service_type: values.service || "unknown" })
   }
 
   function update(name, value) {
@@ -101,7 +100,7 @@ export default function ContactForm({ data }) {
 
   function showErrors(found) {
     setErrors(found)
-    Object.entries(found).forEach(([field, reason]) => track("form_error", { form_id: FORM_ID, field_type: field, reason }))
+    Object.entries(found).forEach(([field, reason]) => track("form_error", { form_id: formId, field_type: field, reason }))
     const first = Object.keys(found)[0]
     // Wait for the error state to render, then move focus to the first problem.
     requestAnimationFrame(() => formRef.current?.querySelector(`[name="${first}"]`)?.focus())
@@ -125,7 +124,7 @@ export default function ContactForm({ data }) {
       if (response.ok && body.ok) {
         setReference(body.reference)
         setStatus("success")
-        track("generate_lead", { form_id: FORM_ID, service_type: values.service })
+        track("generate_lead", { form_id: formId, service_type: values.service })
         formRef.current?.closest("section")?.scrollIntoView({ behavior: "smooth", block: "start" })
         return
       }

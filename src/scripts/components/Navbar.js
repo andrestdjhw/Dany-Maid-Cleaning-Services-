@@ -15,7 +15,7 @@ function Logo({ logo, homeUrl, scrolled }) {
   return (
     <a href={homeUrl} className={`shrink-0 rounded-lg ${focusRing}`} aria-label="Dany Maid home">
       {logo ? (
-        <img src={logo.url} srcSet={logo.srcset} sizes="170px" width={logo.width} height={logo.height} alt={logo.alt} className={`w-auto transition-all duration-300 ${scrolled ? "h-15" : "h-16.5 lg:h-19.5"}`} />
+        <img src={logo.url} srcSet={logo.srcset} sizes="170px" width={logo.width} height={logo.height} alt={logo.alt} className={`w-auto transition-all duration-300 ${scrolled ? "h-13 min-[380px]:h-15" : "h-14 min-[380px]:h-16.5 lg:h-19.5"}`} />
       ) : (
         <span className="font-display text-2xl font-bold text-brand-800">Dany Maid</span>
       )}
@@ -190,7 +190,7 @@ export default function Navbar({ data }) {
         </nav>
 
         <div className="flex items-center gap-1 sm:gap-3">
-          <a href={business.phoneHref} data-location="header" aria-label={`Call Dany Maid at ${business.phone}`} className={`flex size-11 items-center justify-center rounded-full text-brand-700 ring-1 ring-brand-900/15 transition hover:bg-brand-50 lg:hidden ${focusRing}`}>
+          <a href={business.phoneHref} data-location="header" aria-label={`Call Dany Maid at ${business.phone}`} className={`flex size-10 items-center justify-center rounded-full text-brand-700 ring-1 ring-brand-900/15 transition hover:bg-brand-50 min-[380px]:size-11 lg:hidden ${focusRing}`}>
             <Icon name="phone" className="size-5" />
           </a>
           <a
@@ -208,7 +208,7 @@ export default function Navbar({ data }) {
             aria-controls="dm-mobile-menu"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={toggleMenu}
-            className={`flex size-11 items-center justify-center rounded-full text-brand-950 transition hover:bg-brand-50 lg:hidden ${focusRing}`}
+            className={`flex size-10 items-center justify-center rounded-full text-brand-950 transition hover:bg-brand-50 min-[380px]:size-11 lg:hidden ${focusRing}`}
           >
             <Icon name={menuOpen ? "x-mark" : "bars"} className="size-6" />
           </button>

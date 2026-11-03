@@ -75,6 +75,14 @@
   }
 
   /*
+   * Reveal animations, decorative blobs and third-party widgets can extend past the edge;
+   * clip (unlike hidden) creates no scroll container, so nothing else changes.
+   */
+  main {
+    overflow-x: clip;
+  }
+
+  /*
    * Height of the WordPress admin bar (logged-in users) so the sticky header sits below it.
    * Matches core: 32px, 46px up to 782px, and 0 up to 600px where the bar scrolls away.
    */
@@ -183,6 +191,42 @@
     }
 
     .dm-carousel-track > [inert] {
+      display: none;
+    }
+  }
+
+  /*
+   * Home service-areas rows: each row holds 3 identical sets and scrolls by one third;
+   * rows alternate direction (first row left → right). All rows pause while hovered.
+   */
+  .dm-marquee-row {
+    animation: dm-carousel var(--marquee-duration, 36s) linear infinite;
+  }
+
+  .dm-marquee-reverse {
+    animation-direction: reverse;
+  }
+
+  .dm-marquee:hover .dm-marquee-row {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dm-marquee {
+      mask-image: none;
+    }
+
+    .dm-marquee-row {
+      width: auto;
+      animation: none;
+    }
+
+    .dm-marquee-row > ul {
+      flex-wrap: wrap;
+      row-gap: 0.75rem;
+    }
+
+    .dm-marquee-row > [data-marquee-copy] {
       display: none;
     }
   }

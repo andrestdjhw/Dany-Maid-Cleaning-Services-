@@ -1,6 +1,7 @@
 <?php
 /**
- * Basic SEO output for the home page and LocalBusiness structured data.
+ * Basic SEO output: title/meta/OG for the home page and the registered pages (inc/pages.php),
+ * plus LocalBusiness, BreadcrumbList and Service structured data.
  * Title/meta/OG step aside when Yoast or Rank Math is active.
  */
 
@@ -8,33 +9,41 @@ function dm_has_seo_plugin() {
   return defined('WPSEO_VERSION') || defined('RANK_MATH_VERSION');
 }
 
-function dm_document_title($title) {
-  if (is_front_page() && !dm_has_seo_plugin() && dm_mod('home_seo_title')) {
-    return dm_mod('home_seo_title');
+// Title/description/url for the current view, or null when the theme has nothing specific.
+function dm_seo_for_current() {
+  if (is_front_page()) {
+    return array('title' => dm_mod('home_seo_title'), 'description' => dm_mod('home_seo_description'), 'url' => home_url('/'));
   }
-  return $title;
+  $page = dm_current_page();
+  if ($page) {
+    return array('title' => $page['seo_title'], 'description' => $page['description'], 'url' => get_permalink(get_queried_object_id()));
+  }
+  return null;
+}
+
+function dm_document_title($title) {
+  $seo = dm_has_seo_plugin() ? null : dm_seo_for_current();
+  return $seo && $seo['title'] ? $seo['title'] : $title;
 }
 
 add_filter('pre_get_document_title', 'dm_document_title');
 
 function dm_head_meta() {
-  if (!is_front_page() || dm_has_seo_plugin()) {
+  $seo = dm_has_seo_plugin() ? null : dm_seo_for_current();
+  if (!$seo) {
     return;
   }
-  $title       = dm_mod('home_seo_title');
-  $description = dm_mod('home_seo_description');
-  $url         = home_url('/');
-  $logo        = dm_logo();
+  $logo = dm_logo();
   ?>
-  <meta name="description" content="<?php echo esc_attr($description); ?>">
+  <meta name="description" content="<?php echo esc_attr($seo['description']); ?>">
   <?php if (!is_singular()) : ?>
-    <link rel="canonical" href="<?php echo esc_url($url); ?>">
+    <link rel="canonical" href="<?php echo esc_url($seo['url']); ?>">
   <?php endif; ?>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dany Maid">
-  <meta property="og:title" content="<?php echo esc_attr($title); ?>">
-  <meta property="og:description" content="<?php echo esc_attr($description); ?>">
-  <meta property="og:url" content="<?php echo esc_url($url); ?>">
+  <meta property="og:title" content="<?php echo esc_attr($seo['title']); ?>">
+  <meta property="og:description" content="<?php echo esc_attr($seo['description']); ?>">
+  <meta property="og:url" content="<?php echo esc_url($seo['url']); ?>">
   <?php if ($logo) : ?>
     <meta property="og:image" content="<?php echo esc_url($logo['url']); ?>">
   <?php endif; ?>
@@ -44,69 +53,83 @@ function dm_head_meta() {
 
 add_action('wp_head', 'dm_head_meta', 1);
 
+function dm_print_schema($schema) {
+  echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "</script>\n";
+}
+
+function dm_area_served() {
+  return array_map(function ($city) {
+    return array('@type' => 'City', 'name' => $city . ', CA');
+  }, dm_service_areas());
+}
+
 // No aggregateRating on purpose: self-served review markup breaks search engine rules.
 function dm_structured_data() {
-  if (!is_front_page()) {
+  if (is_front_page()) {
+    $business = dm_business();
+    $logo     = dm_logo();
+
+    $local_business = array(
+      '@context'     => 'https://schema.org',
+      '@type'        => 'LocalBusiness',
+      '@id'          => home_url('/#business'),
+      'name'         => $business['name'],
+      'legalName'    => $business['legalName'],
+      'url'          => home_url('/'),
+      'telephone'    => $business['phone'],
+      'email'        => $business['email'],
+      'foundingDate' => '2013',
+      'address'      => array(
+        '@type'           => 'PostalAddress',
+        'streetAddress'   => $business['street'],
+        'addressLocality' => $business['city'],
+        'addressRegion'   => $business['region'],
+        'postalCode'      => $business['zip'],
+        'addressCountry'  => 'US',
+      ),
+      'areaServed'   => dm_area_served(),
+      'sameAs'       => wp_list_pluck(dm_social_links(), 'url'),
+    );
+    if ($logo) {
+      $local_business['logo']  = $logo['url'];
+      $local_business['image'] = $logo['url'];
+    }
+
+    dm_print_schema($local_business);
+    dm_print_schema(array(
+      '@context'  => 'https://schema.org',
+      '@type'     => 'WebSite',
+      'name'      => 'Dany Maid',
+      'url'       => home_url('/'),
+      'publisher' => array('@id' => home_url('/#business')),
+    ));
     return;
   }
-  $business = dm_business();
-  $logo     = dm_logo();
 
-  $local_business = array(
-    '@context'     => 'https://schema.org',
-    '@type'        => 'LocalBusiness',
-    '@id'          => home_url('/#business'),
-    'name'         => $business['name'],
-    'legalName'    => $business['legalName'],
-    'url'          => home_url('/'),
-    'telephone'    => $business['phone'],
-    'email'        => $business['email'],
-    'foundingDate' => '2013',
-    'address'      => array(
-      '@type'           => 'PostalAddress',
-      'streetAddress'   => $business['street'],
-      'addressLocality' => $business['city'],
-      'addressRegion'   => $business['region'],
-      'postalCode'      => $business['zip'],
-      'addressCountry'  => 'US',
-    ),
-    'areaServed'   => array_map(function ($city) {
-      return array('@type' => 'City', 'name' => $city . ', CA');
-    }, dm_service_areas()),
-    'sameAs'       => wp_list_pluck(dm_social_links(), 'url'),
-  );
-  if ($logo) {
-    $local_business['logo']  = $logo['url'];
-    $local_business['image'] = $logo['url'];
+  if (!is_page()) {
+    return;
   }
 
-  $website = array(
-    '@context'  => 'https://schema.org',
-    '@type'     => 'WebSite',
-    'name'      => 'Dany Maid',
-    'url'       => home_url('/'),
-    'publisher' => array('@id' => home_url('/#business')),
-  );
+  dm_print_schema(array(
+    '@context'        => 'https://schema.org',
+    '@type'           => 'BreadcrumbList',
+    'itemListElement' => array_map(function ($crumb, $i) {
+      return array('@type' => 'ListItem', 'position' => $i + 1, 'name' => $crumb['label'], 'item' => $crumb['url']);
+    }, dm_breadcrumbs(), array_keys(dm_breadcrumbs())),
+  ));
 
-  $schemas = array($local_business, $website);
-
-  // FAQPage mirrors the visible FAQ section exactly (search engines require that).
-  if ($faqs = dm_faqs()) {
-    $schemas[] = array(
-      '@context'   => 'https://schema.org',
-      '@type'      => 'FAQPage',
-      'mainEntity' => array_map(function ($faq) {
-        return array(
-          '@type'          => 'Question',
-          'name'           => $faq['question'],
-          'acceptedAnswer' => array('@type' => 'Answer', 'text' => $faq['answer']),
-        );
-      }, $faqs),
-    );
-  }
-
-  foreach ($schemas as $schema) {
-    echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES) . "</script>\n";
+  $page = dm_current_page();
+  if ($page && !empty($page['service'])) {
+    dm_print_schema(array(
+      '@context'    => 'https://schema.org',
+      '@type'       => 'Service',
+      'name'        => $page['title'],
+      'serviceType' => $page['title'],
+      'description' => $page['description'],
+      'url'         => get_permalink(get_queried_object_id()),
+      'provider'    => array('@type' => 'LocalBusiness', '@id' => home_url('/#business'), 'name' => 'Dany Maid'),
+      'areaServed'  => dm_area_served(),
+    ));
   }
 }
 

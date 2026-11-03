@@ -35,6 +35,35 @@ function dm_service_areas() {
   return array_values(array_filter(array_map('trim', explode("\n", dm_mod('service_areas')))));
 }
 
+// County of each listed city (for the service-areas map). Cities not listed here go under "Other areas".
+function dm_city_counties() {
+  return array(
+    'Sacramento County' => array('Citrus Heights', 'Sacramento', 'Natomas', 'Carmichael', 'Arden-Arcade', 'Orangevale', 'Fair Oaks', 'Rancho Cordova', 'Folsom'),
+    'Placer County'     => array('Roseville', 'Rocklin', 'Granite Bay'),
+    'El Dorado County'  => array('El Dorado Hills'),
+  );
+}
+
+// Service areas grouped by county, keeping the Customizer order: [{county, cities[]}].
+function dm_service_areas_by_county() {
+  $lookup = array();
+  foreach (dm_city_counties() as $county => $cities) {
+    foreach ($cities as $city) {
+      $lookup[strtolower($city)] = $county;
+    }
+  }
+  $groups = array();
+  foreach (dm_service_areas() as $city) {
+    $county = isset($lookup[strtolower($city)]) ? $lookup[strtolower($city)] : 'Other areas';
+    $groups[$county][] = $city;
+  }
+  $result = array();
+  foreach ($groups as $county => $cities) {
+    $result[] = array('county' => $county, 'cities' => $cities);
+  }
+  return $result;
+}
+
 function dm_business() {
   $street = dm_mod('business_street');
   $city   = dm_mod('business_city');
@@ -165,11 +194,17 @@ function dm_react_data() {
     'social'       => dm_social_links(),
     'services'     => dm_service_list(),
     'serviceAreas' => dm_service_areas(),
+    'areaGroups'   => dm_service_areas_by_county(),
     'primaryMenu'  => dm_menu_tree('primary', dm_default_primary_menu()),
     'footerMenu'   => dm_menu_tree('footer', dm_default_footer_menu()),
     'footerTagline' => dm_mod('footer_tagline'),
     'privacyUrl'   => get_privacy_policy_url(),
-    'isFrontPage'  => is_front_page(),
+    // Every page template already ends with its own CTA (contact form or cta-band).
+    'hideFooterCta' => is_front_page() || is_page(),
+    'cookies'      => array(
+      'title'   => dm_mod('cookie_title'),
+      'message' => dm_mod('cookie_message'),
+    ),
     'contact'      => array(
       'endpoint'       => rest_url('dany-maid/v1/contact'),
       'successMessage' => dm_mod('home_contact_success'),

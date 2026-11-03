@@ -59,7 +59,6 @@ $business = dm_business();
           dm_mod('home_hero_image_alt'),
           'size-full animate-slow-zoom object-cover',
           '(min-width: 1024px) 600px, 100vw',
-          'Illustrative stock photo. Replace with a real Dany Maid photo in Customize → Dany Maid → Home · 01 Hero.',
           true
         );
         ?>

@@ -2,9 +2,11 @@
 /**
  * Home · 10 Contact form. The form itself is React (src/scripts/components/ContactForm.js);
  * this template renders the copy, contact details and the mount point.
+ * Args: form_id (GA4 form_id, default 'home_contact').
  */
 
 $business = dm_business();
+$form_id  = isset($args['form_id']) ? $args['form_id'] : 'home_contact';
 $promises = array(
   'A real person from our local team reviews every request.',
   'Sending this form does not book an appointment—we confirm details with you first.',
@@ -54,7 +56,7 @@ $promises = array(
 
     <div data-reveal="zoom" class="lg:col-span-7">
       <!-- React: src/scripts/components/ContactForm.js -->
-      <div id="dm-contact-form" class="min-h-160 rounded-[2rem] bg-white p-6 shadow-2xl shadow-brand-950/40 sm:p-10">
+      <div id="dm-contact-form" data-form-id="<?php echo esc_attr($form_id); ?>" class="min-h-160 rounded-[2rem] bg-white p-6 shadow-2xl shadow-brand-950/40 sm:p-10">
         <noscript>
           <p class="text-ink/80">Please call us at <a class="font-bold text-brand-700" href="<?php echo esc_url($business['phoneHref']); ?>"><?php echo esc_html($business['phone']); ?></a> or email <a class="font-bold text-brand-700" href="mailto:<?php echo esc_attr($business['email']); ?>"><?php echo esc_html($business['email']); ?></a>.</p>
         </noscript>

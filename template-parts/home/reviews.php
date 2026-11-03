@@ -5,13 +5,7 @@
 
 $testimonials = dm_testimonials();
 
-// Live reviews widget (Trustindex plugin). Rendered only if its shortcode is registered,
-// so deactivating the plugin falls back to the manual testimonials instead of printing raw text.
-$widget = '';
-$shortcode = trim(dm_mod('home_reviews_widget'));
-if ($shortcode !== '' && preg_match('/^\[([\w-]+)/', $shortcode, $tag) && shortcode_exists($tag[1])) {
-  $widget = trim(do_shortcode($shortcode));
-}
+$widget = dm_reviews_widget();
 ?>
 
 <section id="reviews" class="scroll-mt-28 bg-white py-20 lg:py-28" aria-labelledby="reviews-title">

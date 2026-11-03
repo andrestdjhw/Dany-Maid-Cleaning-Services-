@@ -1,5 +1,6 @@
 import React from "react"
 import Icon from "./Icon"
+import { OPEN_COOKIE_SETTINGS } from "../consent"
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
 const linkClass = `rounded text-brand-100 transition hover:text-white hover:underline ${focusRing}`
@@ -14,13 +15,13 @@ function Column({ title, children }) {
 }
 
 export default function Footer({ data }) {
-  const { homeUrl, quoteUrl, logo, business, social, services, serviceAreas, footerMenu, footerTagline, privacyUrl, isFrontPage } = data
+  const { homeUrl, quoteUrl, logo, business, social, services, serviceAreas, footerMenu, footerTagline, privacyUrl, hideFooterCta } = data
   const year = new Date().getFullYear()
 
   return (
     <footer className="bg-brand-950 text-brand-100">
-      {/* Closing CTA band (the home page ends with the contact form instead) */}
-      {!isFrontPage && (
+      {/* Closing CTA band (hidden where the page already ends with the contact form) */}
+      {!hideFooterCta && (
         <div className="border-b border-white/10">
           <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-12 sm:px-6 lg:flex-row lg:items-center lg:px-8">
             <div>
@@ -123,6 +124,9 @@ export default function Footer({ data }) {
                 Privacy Policy
               </a>
             )}
+            <button type="button" onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS))} className={linkClass}>
+              Cookie Settings
+            </button>
             <p className="text-brand-100/80">
               Crafted by{" "}
               <a href="https://828marketingsolutions.com" target="_blank" rel="noopener" className={`font-semibold text-white ${linkClass}`}>

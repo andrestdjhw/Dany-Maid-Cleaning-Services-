@@ -23,8 +23,7 @@ $points = array(
           'team-supplies',
           dm_mod('home_team_image_alt'),
           'size-full object-cover object-[center_70%] transition duration-1000 ease-out group-hover:scale-105',
-          '(min-width: 1024px) 600px, 100vw',
-          'Illustrative stock photo. Replace with a real team / leadership / branded vehicle photo in Customize → Dany Maid → Home · 06 Our Team.'
+          '(min-width: 1024px) 600px, 100vw'
         );
         ?>
       </div>
