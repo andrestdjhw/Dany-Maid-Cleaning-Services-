@@ -92,6 +92,7 @@ function dm_social_links() {
     array('key' => 'yelp', 'label' => 'Yelp', 'url' => dm_mod('profile_yelp')),
     array('key' => 'facebook', 'label' => 'Facebook', 'url' => dm_mod('profile_facebook')),
     array('key' => 'instagram', 'label' => 'Instagram', 'url' => dm_mod('profile_instagram')),
+    array('key' => 'bbb', 'label' => 'BBB', 'url' => dm_mod('profile_bbb')),
   );
   return array_values(array_filter($links, function ($link) {
     return !empty($link['url']);

@@ -42,6 +42,7 @@ function dm_customizer_schema() {
         'profile_yelp'      => array('label' => 'Yelp URL', 'type' => 'url', 'default' => 'https://www.yelp.com/biz/dany-maid-fair-oaks-3'),
         'profile_facebook'  => array('label' => 'Facebook URL', 'type' => 'url', 'default' => 'https://www.facebook.com/Danymaidcleaningservices'),
         'profile_instagram' => array('label' => 'Instagram URL', 'type' => 'url', 'default' => 'https://www.instagram.com/danymaid/'),
+        'profile_bbb'       => array('label' => 'BBB profile URL', 'type' => 'url', 'default' => 'https://www.bbb.org/us/ca/citrus-heights/profile/janitor-service/dany-maid-llc-1156-90094099'),
         'service_areas'     => array('label' => 'Service areas (one verified city per line)', 'type' => 'textarea', 'default' => "Citrus Heights\nSacramento\nRoseville\nFolsom\nEl Dorado Hills\nGranite Bay\nRocklin\nCarmichael\nArden-Arcade\nOrangevale\nFair Oaks\nRancho Cordova\nNatomas"),
         'footer_tagline'    => array('label' => 'Footer tagline', 'type' => 'textarea', 'default' => 'Dependable house cleaning from a trusted local team serving homes across the Sacramento area.'),
       ),

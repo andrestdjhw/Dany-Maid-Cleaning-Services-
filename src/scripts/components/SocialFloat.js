@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import Icon from "./Icon"
-import BrandIcon from "./BrandIcon"
+import BrandIcon, { hasBrandIcon } from "./BrandIcon"
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
 
@@ -50,7 +50,8 @@ function SocialLink({ link, onClick, className, style, tooltip }) {
 }
 
 export default function SocialFloat({ data }) {
-  const links = data.social
+  // Only social profiles with a brand icon (e.g. the BBB listing stays in the footer only)
+  const links = data.social.filter(link => hasBrandIcon(link.key))
   const hidden = useHiddenNearSections()
   const [entered, setEntered] = useState(false)
   const [open, setOpen] = useState(false)
