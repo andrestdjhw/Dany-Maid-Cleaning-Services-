@@ -16,6 +16,8 @@ get_header(); ?>
     'title'   => 'Contact Dany Maid.',
     'intro'   => 'Request a personalized quote or ask us a question. A real person from our local team reviews every request.',
     'cta'     => '',
+    'background' => attachment_url_to_postid(wp_upload_dir()['baseurl'] . '/2026/11/ContactUsHero-scaled.jpg'),
+    'focus'   => 'object-[center_85%]',
   )); ?>
 
   <?php get_template_part('template-parts/home/contact', null, array('form_id' => 'contact_page')); ?>

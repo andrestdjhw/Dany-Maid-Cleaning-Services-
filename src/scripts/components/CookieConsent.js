@@ -158,7 +158,7 @@ export default function CookieConsent({ data }) {
   return (
     <>
       {bannerVisible && !consent && !modalOpen && (
-        <div role="dialog" aria-modal="false" aria-labelledby="dm-cookie-title" aria-describedby="dm-cookie-text" className="fixed inset-x-3 bottom-3 z-[60] animate-fade-up rounded-3xl bg-white p-6 shadow-2xl shadow-brand-950/25 ring-1 ring-brand-900/10 sm:inset-x-auto sm:bottom-6 sm:left-6 sm:max-w-md">
+        <div role="dialog" aria-modal="false" aria-labelledby="dm-cookie-title" aria-describedby="dm-cookie-text" className="fixed inset-x-3 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-[60] animate-fade-up rounded-3xl bg-white p-6 shadow-2xl shadow-brand-950/25 ring-1 ring-brand-900/10 sm:inset-x-auto sm:bottom-6 sm:left-6 sm:max-w-md">
           <div className="flex items-start gap-4">
             <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
               <CookieIcon className="size-6" />

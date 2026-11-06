@@ -69,6 +69,10 @@
   }
 }
 
+/* Desktop screens with little height (e.g. 1280×720, 1440×900 laptops): used to keep the home hero
+   and the city ribbon inside the first screen (template-parts/home/hero.php). */
+@custom-variant short (@media (width >= 64rem) and (height < 58rem));
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -88,10 +92,29 @@
    */
   :root {
     --dm-admin-bar: 0px;
+    /* Initial sticky header height (src/scripts/components/Navbar.js): bar only, or utility bar + bar on lg */
+    --dm-header: 5rem;
+  }
+
+  @media (width >= 64rem) {
+    :root {
+      --dm-header: 8rem;
+    }
   }
 
   body.admin-bar {
     --dm-admin-bar: 32px;
+  }
+
+  /* Phones: room for the fixed call / quote bar (src/scripts/components/MobileActionBar.js) */
+  :root {
+    --dm-bottom-bar: 0px;
+  }
+
+  @media (width < 40rem) {
+    :root {
+      --dm-bottom-bar: calc(4.5rem + env(safe-area-inset-bottom));
+    }
   }
 
   @media (max-width: 782px) {
@@ -171,6 +194,13 @@
    */
   .dm-carousel-track {
     animation: dm-carousel 48s linear infinite;
+  }
+
+  /* Phones: no auto-scroll, the cards stack (see template-parts/home/services.php) */
+  @media (width < 40rem) {
+    .dm-carousel-track {
+      animation: none;
+    }
   }
 
   .dm-carousel:hover .dm-carousel-track,
@@ -253,4 +283,58 @@
       transform: none;
     }
   }
+}
+
+/* Quote modal (src/scripts/components/QuoteModal.js): ripples from the trigger and form fields
+   rising one after another once the panel is in. Reduced motion is covered by the base rule. */
+@layer components {
+  .dm-ripple {
+    animation: dm-ripple 1.6s var(--ease-out-soft) both;
+  }
+
+  @keyframes dm-ripple {
+    from { opacity: 0.7; transform: scale(0.2); }
+    to { opacity: 0; transform: scale(9); }
+  }
+
+  .dm-quote-stagger form > * {
+    animation: fade-up 0.6s var(--ease-out-soft) both;
+  }
+
+  .dm-quote-stagger form > :nth-child(1) { animation-delay: 380ms; }
+  .dm-quote-stagger form > :nth-child(2) { animation-delay: 440ms; }
+  .dm-quote-stagger form > :nth-child(3) { animation-delay: 500ms; }
+  .dm-quote-stagger form > :nth-child(4) { animation-delay: 560ms; }
+  .dm-quote-stagger form > :nth-child(5) { animation-delay: 620ms; }
+  .dm-quote-stagger form > :nth-child(6) { animation-delay: 680ms; }
+  .dm-quote-stagger form > :nth-child(n + 7) { animation-delay: 740ms; }
+}
+
+/* Header phone (src/scripts/components/Navbar.js): every few seconds the handset tips back and
+   forth on its diagonal like it's ringing, then rests. Hover stops it and spins it once. */
+@layer components {
+  .dm-phone-ring {
+    animation: dm-phone-ring 4s ease-in-out 1.5s infinite;
+  }
+
+  @keyframes dm-phone-ring {
+    0%, 30%, 100% { transform: rotate(0); }
+    5% { transform: rotate(-35deg); }
+    10% { transform: rotate(25deg); }
+    15% { transform: rotate(-20deg); }
+    20% { transform: rotate(12deg); }
+    25% { transform: rotate(-6deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dm-phone-ring {
+      animation: none;
+    }
+  }
+}
+
+/* Unlayered on purpose: WordPress global styles print body { padding: 0 } outside any layer,
+   which would beat this rule inside @layer base. Reserves room for the phones' bottom bar. */
+body {
+  padding-bottom: var(--dm-bottom-bar);
 }

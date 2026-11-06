@@ -190,17 +190,25 @@ export default function Navbar({ data }) {
         </nav>
 
         <div className="flex items-center gap-1 sm:gap-3">
-          <a href={business.phoneHref} data-location="header" aria-label={`Call Dany Maid at ${business.phone}`} className={`flex size-10 items-center justify-center rounded-full text-brand-700 ring-1 ring-brand-900/15 transition hover:bg-brand-50 min-[380px]:size-11 lg:hidden ${focusRing}`}>
-            <Icon name="phone" className="size-5" />
+          {/* Tablet only (phones use MobileActionBar). The pill grows leftward over the header on hover/focus so "Call now" never shifts the layout. */}
+          <a href={business.phoneHref} data-location="header" aria-label={`Call Dany Maid at ${business.phone}`} className={`group relative hidden size-11 shrink-0 rounded-full sm:block lg:hidden ${focusRing}`}>
+            <span className="absolute inset-y-0 right-0 flex items-center rounded-full bg-white text-brand-700 ring-1 ring-brand-900/15 transition-colors duration-300 group-hover:bg-brand-700 group-hover:text-white group-hover:shadow-lg group-hover:ring-brand-700 group-focus-visible:bg-brand-700 group-focus-visible:text-white">
+              <span className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-bold opacity-0 transition-all duration-500 ease-(--ease-out-soft) group-hover:max-w-24 group-hover:pl-4 group-hover:opacity-100 group-focus-visible:max-w-24 group-focus-visible:pl-4 group-focus-visible:opacity-100" aria-hidden="true">
+                Call now
+              </span>
+              <span className="flex size-10 shrink-0 items-center justify-center min-[380px]:size-11">
+                <Icon name="phone" className="dm-phone-ring size-5 transition-transform duration-700 ease-(--ease-out-soft) group-hover:rotate-[360deg] group-hover:[animation:none]" />
+              </span>
+            </span>
           </a>
           <a
             href={quoteUrl}
             data-track="quote_cta_click"
             data-position="header"
-            className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full px-3.5 py-2.5 text-sm font-bold transition-colors duration-300 sm:px-5 sm:text-base ${focusRing} ${scrolled ? "bg-leaf-500 text-brand-950 hover:bg-leaf-300" : "bg-brand-700 text-white hover:bg-brand-800"}`}
+            className={`hidden items-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-base font-bold transition-colors duration-300 sm:inline-flex ${focusRing} ${scrolled ? "bg-leaf-500 text-brand-950 hover:bg-leaf-300" : "bg-brand-700 text-white hover:bg-brand-800"}`}
           >
             Get a Quote
-            <Icon name="arrow-right" className="hidden size-4 sm:block" />
+            <Icon name="arrow-right" className="size-4" />
           </a>
           <button
             type="button"

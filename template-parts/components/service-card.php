@@ -2,25 +2,25 @@
 /**
  * Image-led service card (photo fills the card, copy sits on a gradient at the bottom).
  * Args: service (item from dm_service_list()), featured (bool), source (tracking page name),
- *       layout ('carousel' fixed width | 'grid' fills its column).
+ *       layout ('carousel' fixed width, stacked full-width landscape on phones | 'grid' fills its column).
  */
 
 $service  = $args['service'];
 $featured = !empty($args['featured']);
 $source   = isset($args['source']) ? $args['source'] : 'home';
 $sizing   = isset($args['layout']) && $args['layout'] === 'grid'
-  ? 'w-full'
-  : 'mr-5 w-[78vw] max-w-80 shrink-0 sm:mr-6 sm:w-80 sm:max-w-none lg:w-[22rem]';
+  ? 'aspect-[3/4] w-full'
+  : 'aspect-[4/3] w-full sm:mr-6 sm:aspect-[3/4] sm:w-80 sm:shrink-0 lg:w-[22rem]';
 ?>
 
-<article class="group relative aspect-[3/4] <?php echo $sizing; ?> overflow-hidden rounded-3xl bg-brand-900 shadow-lg shadow-brand-900/15 transition duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-brand-900/25 <?php echo $featured ? 'ring-2 ring-leaf-500 ring-offset-2 ring-offset-cream' : ''; ?>">
+<article class="group relative <?php echo $sizing; ?> overflow-hidden rounded-3xl bg-brand-900 shadow-lg shadow-brand-900/15 transition duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-brand-900/25 <?php echo $featured ? 'ring-2 ring-leaf-500 ring-offset-2 ring-offset-cream' : ''; ?>">
   <?php
   dm_photo(
     $service['image'],
     $service['stock'],
     '',
     'absolute inset-0 size-full object-cover transition duration-1000 ease-out group-hover:scale-110',
-    '(min-width: 1024px) 352px, (min-width: 640px) 320px, 78vw'
+    '(min-width: 1024px) 352px, (min-width: 640px) 320px, 100vw'
   );
   ?>
   <div class="absolute inset-0 bg-linear-to-t from-brand-950/95 via-brand-950/35 to-brand-950/0 transition duration-500 group-hover:via-brand-950/50" aria-hidden="true"></div>

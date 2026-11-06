@@ -95,7 +95,7 @@ export default function SocialFloat({ data }) {
       </div>
 
       {/* Mobile: one small button that fans the profiles out upward */}
-      <div ref={mobileRef} inert={show ? undefined : ""} className={`fixed bottom-4 left-4 z-30 transition duration-500 lg:hidden ${show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-24 opacity-0"}`}>
+      <div ref={mobileRef} inert={show ? undefined : ""} className={`fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] left-4 z-30 transition duration-500 sm:bottom-4 lg:hidden ${show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-24 opacity-0"}`}>
         <div id="dm-social-list" inert={open ? undefined : ""} className="absolute bottom-full left-0 mb-3 flex flex-col gap-2">
           {links.map((link, i) => (
             <SocialLink

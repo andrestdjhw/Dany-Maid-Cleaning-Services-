@@ -18,6 +18,7 @@ get_header(); ?>
     'eyebrow' => 'Customer reviews',
     'title'   => 'See What Our Customers Are Saying.',
     'intro'   => 'Real reviews from homeowners across the Sacramento area, shared on Google and Yelp.',
+    'background' => attachment_url_to_postid(wp_upload_dir()['baseurl'] . '/2026/11/GoodReviewsa-scaled.jpg'),
   )); ?>
 
   <section class="bg-white py-20 lg:py-28" aria-labelledby="ratings-title">
@@ -67,7 +68,7 @@ get_header(); ?>
     </div>
   </section>
 
-  <?php get_template_part('template-parts/components/proof-strip', null, array('bg' => 'white')); ?>
+  <?php get_template_part('template-parts/components/proof-strip', null, array('bg' => 'white', 'ratings' => false)); ?>
   <?php get_template_part('template-parts/components/cta-band'); ?>
 </main>
 

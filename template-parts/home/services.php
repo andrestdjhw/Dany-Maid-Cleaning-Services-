@@ -1,7 +1,7 @@
 <?php
 /**
- * Home · 02 Services by need: continuous horizontal carousel of image-led cards,
- * recurring highlighted as the core service.
+ * Home · 02 Services by need: continuous horizontal carousel of image-led cards (sm+),
+ * recurring highlighted as the core service. On phones the carousel is off and the cards stack.
  * The card list is rendered three times so the loop never shows a gap on wide screens;
  * the copies are inert and hidden from screen readers.
  */
@@ -20,10 +20,10 @@ $services = dm_service_list();
     )); ?>
   </div>
 
-  <div data-reveal class="dm-carousel mt-14 [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-    <div class="dm-carousel-track flex w-max py-4">
+  <div data-reveal class="dm-carousel mt-14 sm:[mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
+    <div class="dm-carousel-track flex px-4 py-4 sm:w-max sm:px-0">
       <?php for ($copy = 0; $copy < 3; $copy++) : ?>
-        <div class="flex" <?php echo $copy ? 'aria-hidden="true" inert' : ''; ?>>
+        <div class="<?php echo $copy ? 'hidden sm:flex' : 'flex w-full flex-col gap-4 sm:w-auto sm:flex-row sm:gap-0'; ?>" <?php echo $copy ? 'aria-hidden="true" inert' : ''; ?>>
           <?php foreach ($services as $service) {
             get_template_part('template-parts/components/service-card', null, array(
               'service'  => $service,

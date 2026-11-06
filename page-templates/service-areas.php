@@ -21,6 +21,7 @@ get_header(); ?>
     'eyebrow' => 'Service areas',
     'title'   => 'House Cleaning Across the Sacramento Area.',
     'intro'   => 'Based in ' . $home_base . ', we serve households across nearby Sacramento-area communities. Check your location when requesting a quote.',
+    'background' => attachment_url_to_postid(wp_upload_dir()['baseurl'] . '/2026/11/California--scaled.jpg'),
   )); ?>
 
   <section class="bg-white py-20 lg:py-28" aria-labelledby="cities-title">

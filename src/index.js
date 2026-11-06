@@ -6,6 +6,9 @@ import ContactForm from "./scripts/components/ContactForm"
 import SocialFloat from "./scripts/components/SocialFloat"
 import CookieConsent from "./scripts/components/CookieConsent"
 import ServiceAreaMap from "./scripts/components/ServiceAreaMap"
+import QuoteModal from "./scripts/components/QuoteModal"
+import LocationMap from "./scripts/components/LocationMap"
+import MobileActionBar from "./scripts/components/MobileActionBar"
 import { initClickTracking, captureUtm } from "./scripts/analytics"
 import { initReveal } from "./scripts/reveal"
 import { initBackgroundVideos } from "./scripts/bg-video"
@@ -19,7 +22,10 @@ const mounts = {
   "#dm-contact-form": ContactForm,
   "#dm-social-float": SocialFloat,
   "#dm-cookie-consent": CookieConsent,
-  "#dm-area-map": ServiceAreaMap
+  "#dm-area-map": ServiceAreaMap,
+  "#dm-quote-modal": QuoteModal,
+  "#dm-location-map": LocationMap,
+  "#dm-mobile-actions": MobileActionBar
 }
 
 Object.entries(mounts).forEach(([selector, Component]) => {

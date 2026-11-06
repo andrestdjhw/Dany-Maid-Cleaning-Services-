@@ -58,8 +58,9 @@ function Field({ id, label, optional, error, hint, children }) {
   )
 }
 
-// formId comes from the mount element's data-form-id (see src/index.js)
-export default function ContactForm({ data, formId = "home_contact" }) {
+// formId comes from the mount element's data-form-id (see src/index.js); idPrefix keeps
+// field ids unique when a second form is on the page (the quote modal).
+export default function ContactForm({ data, formId = "home_contact", idPrefix: p = "dm-cf" }) {
   const { services, business, privacyUrl, contact } = data
   const serviceFromUrl = new URLSearchParams(window.location.search).get("service")
   const initialService = services.some(s => s.key === serviceFromUrl) ? serviceFromUrl : ""
@@ -88,13 +89,13 @@ export default function ContactForm({ data, formId = "home_contact" }) {
 
   function fieldProps(name) {
     return {
-      id: `dm-cf-${name}`,
+      id: `${p}-${name}`,
       name,
       value: values[name],
       onChange: e => update(name, e.target.value),
       onFocus: onFirstInteraction,
       "aria-invalid": errors[name] ? "true" : undefined,
-      "aria-describedby": errors[name] ? `dm-cf-${name}-error` : undefined
+      "aria-describedby": errors[name] ? `${p}-${name}-error` : undefined
     }
   }
 
@@ -169,9 +170,9 @@ export default function ContactForm({ data, formId = "home_contact" }) {
   const showSmsConsent = values.contact_method === "text" || values.phone.trim() !== ""
 
   return (
-    <form ref={formRef} onSubmit={onSubmit} noValidate aria-labelledby="dm-cf-title" className="space-y-5">
+    <form ref={formRef} onSubmit={onSubmit} noValidate aria-labelledby={`${p}-title`} className="space-y-5">
       <div>
-        <h3 id="dm-cf-title" className="font-display text-2xl font-semibold text-brand-950">
+        <h3 id={`${p}-title`} className="font-display text-2xl font-semibold text-brand-950">
           Request your personalized quote
         </h3>
         <p className="mt-1 text-sm text-ink/60">Pricing depends on your home, its condition, and your service needs. It takes about a minute.</p>
@@ -199,21 +200,21 @@ export default function ContactForm({ data, formId = "home_contact" }) {
       )}
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field id="dm-cf-name" label="Full name" error={errors.name}>
+        <Field id={`${p}-name`} label="Full name" error={errors.name}>
           <input type="text" autoComplete="name" className={inputClass} {...fieldProps("name")} />
         </Field>
-        <Field id="dm-cf-email" label="Email" error={errors.email}>
+        <Field id={`${p}-email`} label="Email" error={errors.email}>
           <input type="email" autoComplete="email" inputMode="email" className={inputClass} {...fieldProps("email")} />
         </Field>
-        <Field id="dm-cf-phone" label="Mobile phone" optional={values.contact_method === "email"} error={errors.phone}>
+        <Field id={`${p}-phone`} label="Mobile phone" optional={values.contact_method === "email"} error={errors.phone}>
           <input type="tel" autoComplete="tel" inputMode="tel" placeholder="(916) 555-0123" className={inputClass} {...fieldProps("phone")} />
         </Field>
-        <Field id="dm-cf-zip" label="ZIP code" error={errors.zip} hint="We’ll confirm we serve your address.">
-          <input type="text" autoComplete="postal-code" inputMode="numeric" maxLength={5} placeholder="95610" className={inputClass} {...fieldProps("zip")} aria-describedby={errors.zip ? "dm-cf-zip-error" : "dm-cf-zip-hint"} />
+        <Field id={`${p}-zip`} label="ZIP code" error={errors.zip} hint="We’ll confirm we serve your address.">
+          <input type="text" autoComplete="postal-code" inputMode="numeric" maxLength={5} placeholder="95610" className={inputClass} {...fieldProps("zip")} aria-describedby={errors.zip ? `${p}-zip-error` : `${p}-zip-hint`} />
         </Field>
       </div>
 
-      <Field id="dm-cf-service" label="Service you’re interested in" error={errors.service}>
+      <Field id={`${p}-service`} label="Service you’re interested in" error={errors.service}>
         <div className="relative">
           <select className={`${inputClass} appearance-none pr-12`} {...fieldProps("service")}>
             <option value="">Choose a service…</option>
@@ -241,7 +242,7 @@ export default function ContactForm({ data, formId = "home_contact" }) {
         </div>
       </fieldset>
 
-      <Field id="dm-cf-message" label="Tell us about your home" optional error={errors.message}>
+      <Field id={`${p}-message`} label="Tell us about your home" optional error={errors.message}>
         <textarea rows={4} placeholder="Bedrooms, bathrooms, preferred timing, pets, anything we should know…" className={`${inputClass} resize-y`} {...fieldProps("message")} />
       </Field>
 
@@ -254,13 +255,13 @@ export default function ContactForm({ data, formId = "home_contact" }) {
               checked={values.sms_consent}
               onChange={e => update("sms_consent", e.target.checked)}
               aria-invalid={errors.sms_consent ? "true" : undefined}
-              aria-describedby={errors.sms_consent ? "dm-cf-sms_consent-error" : undefined}
+              aria-describedby={errors.sms_consent ? `${p}-sms_consent-error` : undefined}
               className="mt-0.5 size-5 shrink-0 rounded accent-brand-700"
             />
             <span>I agree to receive text messages from Dany Maid about my request. Message and data rates may apply. Reply STOP to opt out.</span>
           </label>
           {errors.sms_consent && (
-            <p id="dm-cf-sms_consent-error" className="mt-1.5 text-sm font-semibold text-red-700">
+            <p id={`${p}-sms_consent-error`} className="mt-1.5 text-sm font-semibold text-red-700">
               {errors.sms_consent}
             </p>
           )}
@@ -269,8 +270,8 @@ export default function ContactForm({ data, formId = "home_contact" }) {
 
       {/* Honeypot for bots: hidden from people and assistive tech */}
       <div className="absolute -left-[9999px]" aria-hidden="true">
-        <label htmlFor="dm-cf-company">Company</label>
-        <input id="dm-cf-company" type="text" name="company" tabIndex={-1} autoComplete="off" value={values.company} onChange={e => update("company", e.target.value)} />
+        <label htmlFor={`${p}-company`}>Company</label>
+        <input id={`${p}-company`} type="text" name="company" tabIndex={-1} autoComplete="off" value={values.company} onChange={e => update("company", e.target.value)} />
       </div>
 
       <button

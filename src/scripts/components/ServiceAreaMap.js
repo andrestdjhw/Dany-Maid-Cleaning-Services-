@@ -1,24 +1,12 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useRef, useState } from "react"
 import Icon from "./Icon"
-import { readConsent, CONSENT_UPDATED } from "../consent"
+import { useMapAllowed } from "../use-map-allowed"
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
 
 // Keyless Google Maps embed; counties show their boundary, cities get a pin.
 const embedUrl = place => `https://maps.google.com/maps?q=${encodeURIComponent(`${place.query}, CA`)}&z=${place.zoom}&hl=en&output=embed`
 const openUrl = place => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${place.query}, CA`)}&hl=en`
-
-// Google sets third-party cookies, so the map only loads automatically after "Accept all"
-// (or a saved choice that allows marketing); otherwise the visitor loads it with one click.
-function useMapAllowed() {
-  const [allowed, setAllowed] = useState(() => !!readConsent()?.marketing)
-  useEffect(() => {
-    const onConsent = e => e.detail?.marketing && setAllowed(true)
-    window.addEventListener(CONSENT_UPDATED, onConsent)
-    return () => window.removeEventListener(CONSENT_UPDATED, onConsent)
-  }, [])
-  return [allowed, () => setAllowed(true)]
-}
 
 export default function ServiceAreaMap({ data }) {
   const { areaGroups, business } = data

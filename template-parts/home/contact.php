@@ -18,7 +18,8 @@ $promises = array(
   <div class="pointer-events-none absolute -right-32 top-0 size-96 animate-float-slow rounded-full bg-brand-700/50 blur-3xl" aria-hidden="true"></div>
   <div class="pointer-events-none absolute -left-20 bottom-0 size-80 animate-float rounded-full bg-leaf-500/15 blur-3xl" aria-hidden="true"></div>
 
-  <div class="relative mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8">
+  <!-- Phones: copy, form, map. lg+: copy above the map on the left, form spanning both rows on the right. -->
+  <div class="relative mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-x-16 lg:gap-y-6 lg:px-8">
     <div class="lg:col-span-5">
       <?php get_template_part('template-parts/components/section-heading', null, array(
         'eyebrow' => 'Request a quote',
@@ -54,13 +55,20 @@ $promises = array(
       </div>
     </div>
 
-    <div data-reveal="zoom" class="lg:col-span-7">
+    <div data-reveal="zoom" class="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
       <!-- React: src/scripts/components/ContactForm.js -->
       <div id="dm-contact-form" data-form-id="<?php echo esc_attr($form_id); ?>" class="min-h-160 rounded-[2rem] bg-white p-6 shadow-2xl shadow-brand-950/40 sm:p-10">
         <noscript>
           <p class="text-ink/80">Please call us at <a class="font-bold text-brand-700" href="<?php echo esc_url($business['phoneHref']); ?>"><?php echo esc_html($business['phone']); ?></a> or email <a class="font-bold text-brand-700" href="mailto:<?php echo esc_attr($business['email']); ?>"><?php echo esc_html($business['email']); ?></a>.</p>
         </noscript>
       </div>
+    </div>
+
+    <!-- React: src/scripts/components/LocationMap.js (plain Google Maps link without JS) -->
+    <div id="dm-location-map" data-reveal class="lg:col-span-5 lg:col-start-1 lg:row-start-2">
+      <?php if ($business['mapsUrl']) : ?>
+        <a href="<?php echo esc_url($business['mapsUrl']); ?>" target="_blank" rel="noopener" class="font-bold text-leaf-300 hover:underline">View our location on Google Maps<span class="sr-only"> (opens in a new tab)</span></a>
+      <?php endif; ?>
     </div>
   </div>
 </section>
