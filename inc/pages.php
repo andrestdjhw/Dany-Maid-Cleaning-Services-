@@ -171,10 +171,10 @@ function dm_service_page($key) {
       'intro'      => 'For the moments when a regular cleaning is not enough, talk with our team about a more thorough visit and a clear plan for your home.',
       'cta'        => 'Get a Deep Cleaning Quote',
       'why_title'  => 'When a deep cleaning makes sense.',
-      'why_body'   => 'A deep cleaning is a more detailed visit for homes that need extra attention—for example, before starting a recurring schedule, after a busy season, or when you simply want a fresh start. We agree on a clear plan with you before the visit.',
+      'why_body'   => 'A deep cleaning is a more detailed visit for homes that need extra attention, for example before starting a recurring schedule, after a busy season, or when you simply want a fresh start. We agree on a clear plan with you before the visit.',
       'highlights' => array('More detailed than a standard visit', 'A clear plan agreed before we start', 'A good first step before recurring visits'),
       'faq'        => array(
-        array('question' => 'When is a deep cleaning a good idea?', 'answer' => 'When your home needs more attention than a regular visit—before starting recurring service, after a busy stretch, or when you want a reset. Our team can help you decide.'),
+        array('question' => 'When is a deep cleaning a good idea?', 'answer' => 'When your home needs more attention than a regular visit, such as before starting recurring service, after a busy stretch, or when you want a reset. Our team can help you decide.'),
         array('question' => 'Is a deep cleaning the same as restoration?', 'answer' => 'No. A deep cleaning is a more detailed house cleaning. It does not include restoration work such as water, fire, or mold damage remediation.'),
         array('question' => 'What exactly is included?', 'answer' => 'It depends on your home and priorities. Our team confirms the scope with you before the service, including anything that would need an add-on.'),
       ),
@@ -188,9 +188,9 @@ function dm_service_page($key) {
       'why_body'   => 'Hosting family, catching up after a busy stretch, or getting ready for a special day? A one-time cleaning gives your home professional attention without committing to a schedule.',
       'highlights' => array('No recurring commitment', 'Planned around your date', 'Focused on your priorities'),
       'faq'        => array(
-        array('question' => 'How is a one-time cleaning different from a deep cleaning?', 'answer' => 'A one-time cleaning focuses on getting your home ready for an occasion or a quick catch-up. If your home needs a more detailed reset, a deep cleaning may be a better fit—our team can help you decide.'),
+        array('question' => 'How is a one-time cleaning different from a deep cleaning?', 'answer' => 'A one-time cleaning focuses on getting your home ready for an occasion or a quick catch-up. If your home needs a more detailed reset, a deep cleaning may be a better fit, and our team can help you decide.'),
         array('question' => 'Can I talk about recurring visits later?', 'answer' => 'Of course. Let us know whenever you’d like to discuss a recurring schedule and we’ll help you find the right frequency.'),
-        array('question' => 'How do I request a date?', 'answer' => 'Share your preferred date when you request a quote. It’s a preference, not a confirmed booking—our team follows up to confirm availability.'),
+        array('question' => 'How do I request a date?', 'answer' => 'Share your preferred date when you request a quote. It’s a preference, not a confirmed booking. Our team follows up to confirm availability.'),
       ),
     ),
     'move' => array(
@@ -204,7 +204,7 @@ function dm_service_page($key) {
       'faq'        => array(
         array('question' => 'What should I share when I request a quote?', 'answer' => 'Let us know whether the home will be empty or occupied, your move or handover date, the size of the home, and any priority areas.'),
         array('question' => 'Do you guarantee I’ll get my deposit back?', 'answer' => 'No. Deposit decisions are made by your landlord or property manager. We focus on delivering the cleaning plan we agree on with you.'),
-        array('question' => 'Can you clean before I move in?', 'answer' => 'Yes—tell us your move-in date and our team will follow up to plan the cleaning around it.'),
+        array('question' => 'Can you clean before I move in?', 'answer' => 'Yes. Tell us your move-in date and our team will follow up to plan the cleaning around it.'),
       ),
     ),
   );

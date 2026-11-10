@@ -11,7 +11,7 @@ get_header(); ?>
 
   <?php
   // Remaining home sections, in order. Each one lives in template-parts/home/{name}.php.
-  foreach (array('services', 'reviews', 'trust', 'recurring', 'team', 'steps', 'areas', 'faq', 'contact') as $section) {
+  foreach (array('intro-video', 'services', 'reviews', 'trust', 'recurring', 'team', 'steps', 'areas', 'faq', 'contact') as $section) {
     get_template_part('template-parts/home/' . $section);
   }
   ?>

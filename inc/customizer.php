@@ -10,7 +10,7 @@ function dm_customizer_schema() {
   $service_defaults = array(
     'recurring' => array('Recurring Cleaning', 'Weekly, biweekly, or monthly visits that keep your home consistently cared for.'),
     'deep'      => array('Deep Cleaning', 'A more detailed visit for the moments when your home needs a reset.'),
-    'one-time'  => array('One-Time Cleaning', 'Hosting, catching up, or checking a task off your list—cleaning for the occasion.'),
+    'one-time'  => array('One-Time Cleaning', 'Hosting, catching up, or checking a task off your list: cleaning for the occasion.'),
     'move'      => array('Move-In & Move-Out', 'Cleaning planned around your moving date, whether you are arriving or leaving.'),
   );
   foreach ($service_defaults as $key => $defaults) {
@@ -82,7 +82,7 @@ function dm_customizer_schema() {
       'title'  => 'Home · 02 Services',
       'fields' => array(
         'home_services_title' => array('label' => 'H2', 'default' => 'The Right Cleaning for This Moment in Your Life.'),
-        'home_services_body'  => array('label' => 'Body', 'type' => 'textarea', 'default' => 'A regular routine, a deeper reset, or a new chapter in a new home—we’ll help you find a service that fits.'),
+        'home_services_body'  => array('label' => 'Body', 'type' => 'textarea', 'default' => 'A regular routine, a deeper reset, or a new chapter in a new home. We’ll help you find a service that fits.'),
         'home_services_cta'   => array('label' => 'CTA', 'default' => 'Explore Cleaning Services'),
       ) + $service_fields,
     ),
@@ -176,7 +176,7 @@ function dm_customizer_schema() {
     ),
     'dm_seo' => array(
       'title'       => 'Home · SEO',
-      'description' => 'Ignored when an SEO plugin (Yoast, Rank Math) is active—edit it there instead.',
+      'description' => 'Ignored when an SEO plugin (Yoast, Rank Math) is active. Edit it there instead.',
       'fields'      => array(
         'home_seo_title'       => array('label' => 'SEO title', 'default' => 'House Cleaning in the Sacramento Area | Dany Maid'),
         'home_seo_description' => array('label' => 'Meta description', 'type' => 'textarea', 'default' => 'Discover recurring, deep, and move-in/move-out cleaning with Dany Maid, a professional local cleaning team based in Citrus Heights.'),

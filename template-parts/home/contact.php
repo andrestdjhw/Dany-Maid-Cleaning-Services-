@@ -9,7 +9,7 @@ $business = dm_business();
 $form_id  = isset($args['form_id']) ? $args['form_id'] : 'home_contact';
 $promises = array(
   'A real person from our local team reviews every request.',
-  'Sending this form does not book an appointment—we confirm details with you first.',
+  'Sending this form does not book an appointment. We confirm details with you first.',
   'Your information is only used to respond to your request.',
 );
 ?>

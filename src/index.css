@@ -3,6 +3,10 @@
 
 /* Dany Maid design tokens: teal + leaf green taken from the logo / current site. */
 @theme {
+  /* Site container (max-w-7xl everywhere). Fluid instead of a fixed 80rem so the side margins
+     are ~20% smaller at any wide screen: 1440px → 88px instead of 112px, 1920px → 280px instead of 352px. */
+  --container-7xl: calc(20vw + 65rem);
+
   --font-sans: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Fraunces", ui-serif, Georgia, serif;
 

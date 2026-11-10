@@ -11,7 +11,7 @@ get_header(); ?>
   <?php get_template_part('template-parts/components/page-hero', null, array(
     'eyebrow' => 'Our services',
     'title'   => 'House Cleaning Services in the Sacramento Area.',
-    'intro'   => 'A regular routine, a deeper reset, or a new chapter in a new home—we’ll help you find a service that fits.',
+    'intro'   => 'A regular routine, a deeper reset, or a new chapter in a new home. We’ll help you find a service that fits.',
     'stock'   => 'hero-living-room',
   )); ?>
 

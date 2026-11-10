@@ -182,7 +182,7 @@ export default function ContactForm({ data, formId = "home_contact", idPrefix: p
         <div role="alert" className="animate-slide-down rounded-2xl bg-red-50 p-4 text-sm text-red-800 ring-1 ring-red-200">
           <p className="font-bold">{serverMessage || "We couldn’t send your request."}</p>
           <p className="mt-1">
-            Your details are still here—please try again, or reach us directly at{" "}
+            Your details are still here. Please try again, or reach us directly at{" "}
             <a href={business.phoneHref} data-location="contact_error" className="font-bold underline">
               {business.phone}
             </a>
