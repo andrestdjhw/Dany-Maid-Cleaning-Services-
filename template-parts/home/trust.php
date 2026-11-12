@@ -19,6 +19,12 @@ $pillar_icons = array(1 => 'user-group', 2 => 'identification', 3 => 'shield-che
         <div class="mt-8">
           <?php dm_text_link(dm_mod('home_trust_cta'), home_url('/why-dany-maid/')); ?>
         </div>
+
+        <!-- Dany Maid's own seals (assets/images/: cert-badge from CertBadge.png, quality-badge from QACert.webp) -->
+        <div data-reveal style="--reveal-delay: 150ms" class="mt-10 flex items-center justify-start gap-4 sm:gap-6">
+          <img src="<?php echo esc_url(get_theme_file_uri('assets/images/cert-badge-400.webp')); ?>" width="400" height="400" loading="lazy" decoding="async" alt="Dany Maid Verified Employees badge: background checked, safe and trusted" class="size-32 animate-float object-contain drop-shadow-[0_12px_18px_rgba(15,43,54,0.25)] sm:size-40">
+          <img src="<?php echo esc_url(get_theme_file_uri('assets/images/quality-badge-512.webp')); ?>" width="512" height="512" loading="lazy" decoding="async" alt="Dany Maid Quality Guaranteed seal" style="animation-delay: -3s" class="size-32 animate-float object-contain drop-shadow-[0_12px_18px_rgba(15,43,54,0.25)] sm:size-40">
+        </div>
       </div>
 
       <ul class="grid gap-5 sm:grid-cols-2 lg:col-span-7">

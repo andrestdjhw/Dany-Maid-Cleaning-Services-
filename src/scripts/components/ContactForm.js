@@ -277,7 +277,7 @@ export default function ContactForm({ data, formId = "home_contact", idPrefix: p
       <button
         type="submit"
         disabled={submitting}
-        className="group/btn flex w-full items-center justify-center gap-2 rounded-full bg-brand-700 px-6 py-4 text-lg font-bold text-white shadow-lg shadow-brand-900/20 transition duration-300 hover:-translate-y-0.5 hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:translate-y-0 disabled:cursor-wait disabled:opacity-80"
+        className="group/btn flex w-full items-center justify-center gap-2 rounded-full bg-cta px-6 py-4 text-lg font-bold text-white shadow-lg shadow-brand-900/20 transition duration-300 hover:-translate-y-0.5 hover:bg-cta-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:translate-y-0 disabled:cursor-wait disabled:opacity-80"
       >
         {submitting ? (
           <>

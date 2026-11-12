@@ -29,7 +29,7 @@ export default function Footer({ data }) {
               <p className="mt-2 text-lg text-brand-100">Tell us about your home and we’ll help you find the next step.</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <a href={quoteUrl} data-track="quote_cta_click" data-position="footer" className={`inline-flex items-center justify-center gap-2 rounded-full bg-leaf-500 px-6 py-3.5 font-bold text-brand-950 transition hover:bg-leaf-300 ${focusRing}`}>
+              <a href={quoteUrl} data-track="quote_cta_click" data-position="footer" className={`inline-flex items-center justify-center gap-2 rounded-full bg-cta px-6 py-3.5 font-bold text-white transition hover:bg-cta-hover ${focusRing}`}>
                 Get a Quote <Icon name="arrow-right" className="size-5" />
               </a>
               <a href={business.phoneHref} data-location="footer_cta" className={`inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/40 px-6 py-3 font-bold text-white transition hover:bg-white/10 ${focusRing}`}>

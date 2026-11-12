@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client"
 import Navbar from "./scripts/components/Navbar"
 import Footer from "./scripts/components/Footer"
 import ContactForm from "./scripts/components/ContactForm"
+import CareersForm from "./scripts/components/CareersForm"
 import SocialFloat from "./scripts/components/SocialFloat"
 import CookieConsent from "./scripts/components/CookieConsent"
 import ServiceAreaMap from "./scripts/components/ServiceAreaMap"
@@ -21,6 +22,7 @@ const mounts = {
   "#dm-navbar": Navbar,
   "#dm-footer": Footer,
   "#dm-contact-form": ContactForm,
+  "#dm-careers-form": CareersForm,
   "#dm-social-float": SocialFloat,
   "#dm-cookie-consent": CookieConsent,
   "#dm-area-map": ServiceAreaMap,

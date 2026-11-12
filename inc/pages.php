@@ -7,7 +7,7 @@
  * content is rendered as the editable "details" block of each template (e.g. a service's approved checklist).
  */
 
-const DM_PAGES_VERSION = '1';
+const DM_PAGES_VERSION = '2';
 
 function dm_pages() {
   return array(
@@ -78,6 +78,12 @@ function dm_pages() {
       'template'    => 'page-templates/contact.php',
       'seo_title'   => 'Contact Dany Maid | Request a House Cleaning Quote',
       'description' => 'Tell us about your home and request a personalized house cleaning quote from Dany Maid, or call our Citrus Heights team.',
+    ),
+    'careers' => array(
+      'title'       => 'Careers',
+      'template'    => 'page-templates/careers.php',
+      'seo_title'   => 'Careers at Dany Maid | House Cleaning Jobs in Citrus Heights',
+      'description' => 'Join the Dany Maid cleaning team in the Sacramento area. W2 positions with a local company. Apply online in English or Spanish.',
     ),
   );
 }

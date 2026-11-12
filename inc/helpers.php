@@ -12,7 +12,7 @@ function dm_quote_url($context = array()) {
 function dm_button_classes($variant = 'primary') {
   $base = 'group/btn inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-base font-bold transition duration-300 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
   $variants = array(
-    'primary'   => 'bg-brand-700 text-white shadow-sm shadow-brand-900/20 hover:bg-brand-800 focus-visible:outline-brand-700',
+    'primary'   => 'bg-cta text-white shadow-sm shadow-brand-900/20 hover:bg-cta-hover focus-visible:outline-brand-700',
     'secondary' => 'border-2 border-brand-700 bg-white text-brand-800 hover:bg-brand-50 focus-visible:outline-brand-700',
     'light'     => 'bg-white text-brand-900 shadow-sm hover:bg-brand-50 focus-visible:outline-white',
     'ghost'     => 'border-2 border-white/70 text-white hover:bg-white/10 focus-visible:outline-white',
@@ -93,8 +93,9 @@ function dm_photo($id, $stock, $alt, $class, $sizes, $eager = false) {
     ));
     return;
   }
-  // Stock photos are illustrative, so they get a neutral alt instead of claiming to show the team.
-  echo dm_stock_image($stock, '', $class, $sizes, $eager);
+  // Illustrative stock photos get an empty alt (callers pass ''); a theme copy of a real photo
+  // (e.g. team-building) gets the alt its caller passes.
+  echo dm_stock_image($stock, $alt, $class, $sizes, $eager);
 }
 
 // Live reviews widget (Trustindex plugin). Rendered only if its shortcode is registered,

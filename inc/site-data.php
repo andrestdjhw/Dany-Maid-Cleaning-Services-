@@ -112,7 +112,7 @@ function dm_ratings() {
 function dm_logo() {
   $id = get_theme_mod('custom_logo');
   if (!$id) {
-    $id = attachment_url_to_postid(wp_upload_dir()['baseurl'] . '/2026/11/DanyMaidLogo.png');
+    $id = attachment_url_to_postid(wp_upload_dir()['baseurl'] . '/2026/11/DANY-LOGO-scaled.png');
   }
   if (!$id) {
     return null;
@@ -151,6 +151,7 @@ function dm_default_footer_menu() {
     array('label' => 'Reviews', 'url' => home_url('/reviews/')),
     array('label' => 'Service Areas', 'url' => home_url('/service-areas/')),
     array('label' => 'Contact', 'url' => home_url('/contact/')),
+    array('label' => 'Careers', 'url' => home_url('/careers/')),
   );
   return array_map(function ($link) {
     return $link + array('children' => array());
@@ -209,6 +210,9 @@ function dm_react_data() {
     'contact'      => array(
       'endpoint'       => rest_url('dany-maid/v1/contact'),
       'successMessage' => dm_mod('home_contact_success'),
+    ),
+    'careers'      => array(
+      'endpoint' => rest_url('dany-maid/v1/careers'),
     ),
   );
 }

@@ -21,8 +21,11 @@ get_header(); ?>
     'title'     => 'A Local Cleaning Company Built on Trust.',
     'intro'     => 'Our story began in 2013. Since becoming Dany Maid in 2021, we have continued building a local cleaning team focused on dependable service and lasting customer relationships.',
     'secondary' => array('label' => 'Why Dany Maid', 'url' => dm_page_url('why-dany-maid')),
-    'image'     => dm_mod('home_team_image'),
-    'stock'     => 'team-supplies',
+    // Real team photo (uploads/2026/11/Equipo-Dany-Maid-frente-al-edificio.png → assets/images/team-building-*.webp).
+    // object-[36%_50%] keeps the whole row of team members inside the 4:3 frame on desktop.
+    'stock'       => 'team-building',
+    'image_alt'   => 'The Dany Maid team in uniform in front of the company office, with two Dany Maid cars',
+    'image_focus' => 'object-[36%_50%]',
   )); ?>
 
   <section class="bg-white py-20 lg:py-28" aria-labelledby="story-title">
@@ -82,6 +85,13 @@ get_header(); ?>
   </section>
 
   <?php get_template_part('template-parts/components/cta-band'); ?>
+
+  <?php get_template_part('template-parts/careers/apply', null, array(
+    'form_id' => 'about_careers',
+    'eyebrow' => 'Careers / Empleo',
+    'title'   => 'Join Our Team.',
+    'body'    => 'We are hiring. Apply in English or Spanish; choose your language at the top of the form. It takes about 3 minutes.',
+  )); ?>
 </main>
 
 <?php get_footer();

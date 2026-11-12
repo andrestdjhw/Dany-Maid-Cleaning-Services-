@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* Dany Maid design tokens: teal + leaf green taken from the logo / current site. */
+/* Dany Maid design tokens: turquoise built around the CTA color #4dabc1. */
 @theme {
   /* Site container (max-w-7xl everywhere). Fluid instead of a fixed 80rem so the side margins
      are ~20% smaller at any wide screen: 1440px → 88px instead of 112px, 1920px → 280px instead of 352px. */
@@ -10,24 +10,31 @@
   --font-sans: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Fraunces", ui-serif, Georgia, serif;
 
-  --color-brand-50: #eefafa;
-  --color-brand-100: #d2f1f2;
-  --color-brand-200: #a5e2e5;
-  --color-brand-300: #63ccd2;
-  --color-brand-400: #01c1c9;
-  --color-brand-500: #048a90;
-  --color-brand-600: #037b81;
-  --color-brand-700: #03686d;
-  --color-brand-800: #035458;
-  --color-brand-900: #034245;
-  --color-brand-950: #012b2d;
+  /* Turquoise is the main color (client request 2026-11-11): every brand shade shares the hue of the
+     CTA color #4dabc1 (= brand-400). "leaf" is the accent: the light green of the logo leaves (#90c058). */
+  --color-brand-50: #eef8fb;
+  --color-brand-100: #d6eff5;
+  --color-brand-200: #aedfeb;
+  --color-brand-300: #7ecbdc;
+  --color-brand-400: #4dabc1;
+  --color-brand-500: #3a95ab;
+  --color-brand-600: #2f7d91;
+  --color-brand-700: #276878;
+  --color-brand-800: #215564;
+  --color-brand-900: #1c4553;
+  --color-brand-950: #0f2b36;
 
-  --color-leaf-100: #eef8dc;
-  --color-leaf-200: #d9f0b0;
-  --color-leaf-300: #b5e06c;
-  --color-leaf-500: #7ac70f;
-  --color-leaf-600: #5c9a0a;
-  --color-leaf-700: #46760a;
+  --color-leaf-100: #f1f8e8;
+  --color-leaf-200: #dcedc4;
+  --color-leaf-300: #b9db8f;
+  --color-leaf-500: #90c058;
+  --color-leaf-600: #6f9d3a;
+  --color-leaf-700: #557a2b;
+
+  /* Call-to-action buttons: white bold text on #4dabc1 (client choice). Hover goes darker so the
+     white text keeps reading well. */
+  --color-cta: #4dabc1;
+  --color-cta-hover: #3a95ab;
 
   --color-cream: #faf8f4;
   --color-ink: #1d2b2c;

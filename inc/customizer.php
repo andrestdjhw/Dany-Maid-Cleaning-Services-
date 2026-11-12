@@ -174,6 +174,13 @@ function dm_customizer_schema() {
         'contact_recipient'     => array('label' => 'Send new requests to (email)', 'type' => 'email', 'default' => 'Danymaid@outlook.com'),
       ),
     ),
+    'dm_careers' => array(
+      'title'       => 'Careers',
+      'description' => 'Job applications from /careers/ are saved under Applications in the admin and emailed here. Leave empty to use the contact form email.',
+      'fields'      => array(
+        'careers_recipient' => array('label' => 'Send job applications to (HR email)', 'type' => 'email', 'default' => ''),
+      ),
+    ),
     'dm_seo' => array(
       'title'       => 'Home · SEO',
       'description' => 'Ignored when an SEO plugin (Yoast, Rank Math) is active. Edit it there instead.',

@@ -1,10 +1,13 @@
 <?php
 /**
  * Inner-page hero: breadcrumbs, eyebrow, H1, intro, CTAs and an optional photo.
- * Args: eyebrow, title (H1), intro, cta (label for the quote CTA), service (quote context),
+ * Args: eyebrow, title (H1), intro, cta (label for the quote CTA), cta_url (send the CTA somewhere
+ *       other than the quote page), service (quote context),
  *       secondary (array label/url), image (attachment id), stock (theme stock image name),
  *       background (attachment id: full-bleed photo behind the copy, switches to light text),
- *       focus (literal object-position class for the background, e.g. 'object-bottom').
+ *       focus (literal object-position class for the background, e.g. 'object-bottom'),
+ *       image_alt (alt for a split photo that shows real people), image_focus (literal object-position
+ *       class for the split photo).
  *
  * Three modes: 'bg' (background photo at every width), 'split' (photo beside the copy on lg+,
  * full-bleed behind it below lg so it doesn't sit alone under the text) and 'plain' (no photo).
@@ -15,10 +18,13 @@ $args = wp_parse_args($args, array(
   'title'     => get_the_title(),
   'intro'     => '',
   'cta'       => 'Get a Quote',
+  'cta_url'   => '',
   'service'   => '',
   'secondary' => null,
   'image'     => 0,
   'stock'     => '',
+  'image_alt' => '',
+  'image_focus' => 'object-center',
   'background' => 0,
   'focus'      => 'object-[center_40%]',
 ));
@@ -89,7 +95,9 @@ $c = array_map(fn($row) => $row[$mode], $tone);
 
       <?php if ($args['cta'] || $args['secondary']) : ?>
         <div style="animation-delay: 300ms" class="mt-8 flex animate-fade-up flex-col gap-3 sm:flex-row">
-          <?php if ($args['cta']) {
+          <?php if ($args['cta'] && $args['cta_url']) {
+            dm_button($args['cta'], $args['cta_url'], $mode === 'bg' ? 'light' : 'primary');
+          } elseif ($args['cta']) {
             dm_quote_cta($args['cta'], 'page_hero', $mode === 'bg' ? 'light' : 'primary', array('service' => $args['service']));
           } ?>
           <?php if ($args['secondary']) {
@@ -103,7 +111,7 @@ $c = array_map(fn($row) => $row[$mode], $tone);
       <div style="animation-delay: 150ms" class="absolute inset-0 animate-fade-in-zoom lg:relative lg:inset-auto lg:col-span-6">
         <div class="absolute -bottom-6 -left-6 hidden size-36 animate-float rounded-full bg-leaf-200/70 lg:block" aria-hidden="true"></div>
         <div class="relative h-full overflow-hidden lg:aspect-[4/3] lg:h-auto lg:rounded-[2rem] lg:shadow-2xl lg:shadow-brand-900/20">
-          <?php dm_photo($args['image'], $args['stock'], '', 'size-full animate-slow-zoom object-cover', '(min-width: 1024px) 600px, 100vw', true); ?>
+          <?php dm_photo($args['image'], $args['stock'], $args['image_alt'], 'size-full animate-slow-zoom object-cover ' . $args['image_focus'], '(min-width: 1024px) 600px, 100vw', true); ?>
           <!-- Below lg: dark veil so the white copy reads over the photo. lg+: soft bottom shade only. -->
           <div class="absolute inset-0 bg-linear-to-b from-brand-950/80 via-brand-950/70 to-brand-950/85 lg:bg-linear-to-t lg:from-brand-950/25 lg:via-transparent lg:to-transparent" aria-hidden="true"></div>
         </div>
