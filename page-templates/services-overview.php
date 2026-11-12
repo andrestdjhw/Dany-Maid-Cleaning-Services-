@@ -2,7 +2,8 @@
 /**
  * Template Name: Services Overview
  *
- * /house-cleaning/: overview of every residential service, linking to each service page.
+ * /house-cleaning/: overview of every service (residential, Airbnb and commercial), linking to each
+ * service page, plus the scope comparison from the client's services sheet.
  */
 
 get_header(); ?>
@@ -10,8 +11,8 @@ get_header(); ?>
 <main id="main">
   <?php get_template_part('template-parts/components/page-hero', null, array(
     'eyebrow' => 'Our services',
-    'title'   => 'House Cleaning Services in the Sacramento Area.',
-    'intro'   => 'A regular routine, a deeper reset, or a new chapter in a new home. We’ll help you find a service that fits.',
+    'title'   => 'Cleaning Services in the Sacramento Area.',
+    'intro'   => 'A regular routine, a deeper reset, a move, a rental turnover or a workspace. Every service has a clear scope, so you know exactly what is included.',
     'stock'   => 'hero-living-room',
   )); ?>
 
@@ -24,7 +25,7 @@ get_header(); ?>
         'id'      => 'services-list-title',
       )); ?>
 
-      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <?php foreach (dm_service_list() as $i => $service) : ?>
           <div data-reveal style="--reveal-delay: <?php echo $i * 110; ?>ms">
             <?php get_template_part('template-parts/components/service-card', null, array(
@@ -45,6 +46,7 @@ get_header(); ?>
     </div>
   </section>
 
+  <?php get_template_part('template-parts/components/scope-compare', null, array('bg' => 'tint')); ?>
   <?php get_template_part('template-parts/home/recurring'); ?>
   <?php get_template_part('template-parts/home/steps'); ?>
   <?php get_template_part('template-parts/components/pricing-factors', null, array('bg' => 'white')); ?>

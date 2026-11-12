@@ -21,11 +21,11 @@ get_header(); ?>
     'title'     => 'A Local Cleaning Company Built on Trust.',
     'intro'     => 'Our story began in 2013. Since becoming Dany Maid in 2021, we have continued building a local cleaning team focused on dependable service and lasting customer relationships.',
     'secondary' => array('label' => 'Why Dany Maid', 'url' => dm_page_url('why-dany-maid')),
-    // Real team photo (uploads/2026/11/Equipo-Dany-Maid-frente-al-edificio.png → assets/images/team-building-*.webp).
-    // object-[36%_50%] keeps the whole row of team members inside the 4:3 frame on desktop.
-    'stock'       => 'team-building',
-    'image_alt'   => 'The Dany Maid team in uniform in front of the company office, with two Dany Maid cars',
-    'image_focus' => 'object-[36%_50%]',
+    // Real team photo (uploads/2026/11/Equipo-Dany-Maid-en-la-oficina.png → assets/images/team-office-*.webp).
+    // 4:3 like the desktop frame; the focus keeps the group centered when it becomes the phone background.
+    'stock'       => 'team-office',
+    'image_alt'   => 'The Dany Maid team in uniform gathered together at the company office',
+    'image_focus' => 'object-[45%_55%]',
   )); ?>
 
   <section class="bg-white py-20 lg:py-28" aria-labelledby="story-title">

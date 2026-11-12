@@ -5,13 +5,17 @@
  * only defines structure (slugs, icons) and assembles the data.
  */
 
-// Core residential services. Titles and card text are editable in the Customizer.
+// Services (residential, plus Airbnb and commercial from the client's services sheet).
+// Titles and card text are editable in the Customizer. 'stock' overrides the default
+// assets/images/service-{key}-*.webp illustrative photo.
 function dm_services() {
   return array(
-    'recurring' => array('slug' => 'recurring-house-cleaning', 'icon' => 'arrow-path'),
-    'deep'      => array('slug' => 'deep-cleaning', 'icon' => 'sparkles'),
-    'one-time'  => array('slug' => 'one-time-cleaning', 'icon' => 'calendar'),
-    'move'      => array('slug' => 'move-in-move-out-cleaning', 'icon' => 'truck'),
+    'recurring'  => array('slug' => 'recurring-house-cleaning', 'icon' => 'arrow-path'),
+    'deep'       => array('slug' => 'deep-cleaning', 'icon' => 'sparkles'),
+    'one-time'   => array('slug' => 'one-time-cleaning', 'icon' => 'calendar'),
+    'move'       => array('slug' => 'move-in-move-out-cleaning', 'icon' => 'truck'),
+    'airbnb'     => array('slug' => 'airbnb-cleaning', 'icon' => 'key', 'stock' => 'hero-living-room'),
+    'commercial' => array('slug' => 'commercial-cleaning', 'icon' => 'building'),
   );
 }
 
@@ -25,7 +29,7 @@ function dm_service_list() {
       'title' => dm_mod('service_' . $key . '_title'),
       'text'  => dm_mod('service_' . $key . '_text'),
       'image' => (int) dm_mod('service_' . $key . '_image'),
-      'stock' => 'service-' . $key,
+      'stock' => isset($service['stock']) ? $service['stock'] : 'service-' . $key,
     );
   }
   return $list;

@@ -14,6 +14,7 @@ $service = current(array_filter(dm_service_list(), function ($s) use ($key) {
   return $s['key'] === $key;
 }));
 $scope = dm_page_content();
+$checklist = dm_service_scope($key);
 
 get_header(); ?>
 
@@ -64,16 +65,42 @@ get_header(); ?>
     <?php endif; ?>
   </section>
 
-  <!-- What's included -->
+  <!-- What's included: room-by-room checklist from inc/scope.php (client services sheet), plus any extra
+       notes typed in the page editor. One-time cleaning has no checklist in the sheet yet. -->
   <section class="bg-cream py-20 lg:py-28" aria-labelledby="scope-title">
-    <div class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8">
-      <div class="lg:col-span-7">
-        <?php get_template_part('template-parts/components/section-heading', null, array(
-          'eyebrow' => 'Scope',
-          'title'   => 'What’s Included.',
-          'id'      => 'scope-title',
-        )); ?>
-        <div data-reveal style="--reveal-delay: 120ms" class="mt-8 rounded-3xl bg-white p-8 shadow-sm ring-1 ring-brand-900/5">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
+        <div class="lg:col-span-7">
+          <?php get_template_part('template-parts/components/section-heading', null, array(
+            'eyebrow' => $checklist ? (!empty($checklist['steps']) ? 'Tailored scope' : 'Room by room') : 'Scope',
+            'title'   => 'What’s Included.',
+            'body'    => $checklist ? $checklist['intro'] : '',
+            'id'      => 'scope-title',
+          )); ?>
+        </div>
+
+        <aside data-reveal="right" class="lg:col-span-5">
+          <div class="rounded-3xl bg-brand-900 p-7 text-white sm:p-8">
+            <h3 class="font-display text-2xl font-semibold">Add-ons &amp; exclusions</h3>
+            <p class="mt-3 leading-relaxed text-brand-100">Some tasks may require an add-on or a separate service. Our team will tell you before your visit what is and isn’t included, so there are no surprises.</p>
+            <?php if ($key === 'deep' || $key === 'move') : ?>
+              <p class="mt-3 leading-relaxed text-brand-100">This service does not include restoration work such as water, fire, or mold damage remediation.</p>
+            <?php endif; ?>
+            <div class="mt-6">
+              <?php dm_quote_cta('Ask About Your ' . ($key === 'commercial' ? 'Space' : ($key === 'airbnb' ? 'Rental' : 'Home')), 'scope', 'light', array('service' => $key)); ?>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <?php if ($checklist) : ?>
+        <div class="mt-12 lg:mt-16">
+          <?php get_template_part('template-parts/components/scope-checklist', null, array('key' => $key)); ?>
+        </div>
+      <?php endif; ?>
+
+      <?php if ($scope || !$checklist) : ?>
+        <div data-reveal class="mt-10 rounded-3xl bg-white p-8 shadow-sm ring-1 ring-brand-900/5 lg:max-w-4xl">
           <?php if ($scope) : ?>
             <div class="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-brand-950 prose-a:text-brand-700 prose-strong:text-brand-950 prose-li:marker:text-leaf-600">
               <?php echo $scope; ?>
@@ -81,26 +108,17 @@ get_header(); ?>
           <?php else : ?>
             <p class="text-lg leading-relaxed text-ink/80">Every home is different, so we confirm exactly what your cleaning includes when we prepare your quote, including your priority areas and any special instructions.</p>
             <?php if (current_user_can('edit_pages')) : ?>
-              <p class="mt-4 rounded-xl border-2 border-dashed border-brand-200 p-4 text-sm font-semibold text-brand-900">Pending: add the approved checklist for this service in the page editor (Pages → <?php echo esc_html(get_the_title()); ?>). Only editors see this note.</p>
+              <p class="mt-4 rounded-xl border-2 border-dashed border-brand-200 p-4 text-sm font-semibold text-brand-900">Pending: the services sheet has no checklist for this service. Add it to dm_service_scope() in inc/scope.php, or type it in the page editor (Pages → <?php echo esc_html(get_the_title()); ?>). Only editors see this note.</p>
             <?php endif; ?>
           <?php endif; ?>
         </div>
-      </div>
-
-      <aside data-reveal="right" class="lg:col-span-5 lg:pt-24">
-        <div class="rounded-3xl bg-brand-900 p-8 text-white">
-          <h3 class="font-display text-2xl font-semibold">Add-ons &amp; exclusions</h3>
-          <p class="mt-3 leading-relaxed text-brand-100">Some tasks may require an add-on or a separate service. Our team will tell you before your visit what is and isn’t included, so there are no surprises.</p>
-          <?php if ($key === 'deep') : ?>
-            <p class="mt-3 leading-relaxed text-brand-100">Deep cleaning does not include restoration work such as water, fire, or mold damage remediation.</p>
-          <?php endif; ?>
-          <div class="mt-6">
-            <?php dm_quote_cta('Ask About Your Home', 'scope', 'light', array('service' => $key)); ?>
-          </div>
-        </div>
-      </aside>
+      <?php endif; ?>
     </div>
   </section>
+
+  <?php if (in_array($key, array('recurring', 'deep', 'move'), true)) {
+    get_template_part('template-parts/components/scope-compare', null, array('current' => $key, 'bg' => 'tint'));
+  } ?>
 
   <?php get_template_part('template-parts/components/pricing-factors', null, array('bg' => 'white', 'service' => $key)); ?>
 

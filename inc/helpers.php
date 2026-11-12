@@ -94,7 +94,7 @@ function dm_photo($id, $stock, $alt, $class, $sizes, $eager = false) {
     return;
   }
   // Illustrative stock photos get an empty alt (callers pass ''); a theme copy of a real photo
-  // (e.g. team-building) gets the alt its caller passes.
+  // (e.g. team-office) gets the alt its caller passes.
   echo dm_stock_image($stock, $alt, $class, $sizes, $eager);
 }
 

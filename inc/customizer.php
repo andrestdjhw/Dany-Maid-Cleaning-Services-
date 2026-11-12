@@ -11,7 +11,9 @@ function dm_customizer_schema() {
     'recurring' => array('Recurring Cleaning', 'Weekly, biweekly, or monthly visits that keep your home consistently cared for.'),
     'deep'      => array('Deep Cleaning', 'A more detailed visit for the moments when your home needs a reset.'),
     'one-time'  => array('One-Time Cleaning', 'Hosting, catching up, or checking a task off your list: cleaning for the occasion.'),
-    'move'      => array('Move-In & Move-Out', 'Cleaning planned around your moving date, whether you are arriving or leaving.'),
+    'move'      => array('Move-In & Move-Out', 'Everything in a deep cleaning, plus oven, refrigerator, cabinet interiors and interior windows.'),
+    'airbnb'    => array('Airbnb Cleaning', 'Turnovers between guests, cleaned to your own checklist.'),
+    'commercial' => array('Commercial Cleaning', 'Offices, stores and workspaces, with a plan tailored to your requirements.'),
   );
   foreach ($service_defaults as $key => $defaults) {
     $service_fields['service_' . $key . '_title'] = array('label' => "Service card: {$defaults[0]} — title", 'default' => $defaults[0]);
@@ -162,7 +164,7 @@ function dm_customizer_schema() {
         array('Is Dany Maid insured?', 'Yes. Dany Maid is an insured cleaning company.'),
         array('How often can I schedule recurring cleaning?', 'You can choose weekly, biweekly, or monthly visits. We’ll help you pick the frequency that fits your household when we prepare your quote.'),
         array('How much does a house cleaning cost?', 'Pricing depends on your home, its condition, and the service you need. Request a personalized quote and our team will follow up with the details.'),
-        array('What is the difference between a recurring cleaning and a deep cleaning?', 'Recurring cleaning keeps your home consistently cared for on a regular schedule. A deep cleaning is a more detailed visit for when your home needs a reset; our team confirms the exact scope with you before the service.'),
+        array('What is the difference between a recurring cleaning and a deep cleaning?', 'Recurring cleaning keeps your home in shape with regular visits: dusting, surfaces, floors, kitchen and bathrooms. A deep cleaning adds baseboards, doors, light fixtures, ceiling fans and an in-depth stove and microwave cleaning, which makes it a good first visit or full reset.'),
       ), array('question', 'answer')),
     ),
     'dm_home_contact' => array(

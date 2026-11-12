@@ -1,7 +1,8 @@
 <?php
 /**
  * Home · 02 Company introduction video (with sound), right after the first screen.
- * File: assets/video/intro-720.mp4 (from uploads/2026/11/web.mp4); subtitles are burned in.
+ * File: assets/video/intro-720.mp4 (from uploads/2026/11/DANYMaidWelcomeVideo.mp4, Nov 12 2026); subtitles
+ * are burned in. ?v=filemtime makes browsers fetch a replaced file instead of a cached one.
  * preload="none": nothing downloads until the visitor presses play. src/scripts/intro-video.js
  * swaps the native controls for the big play button, tracks plays and pauses off-screen.
  * Without JS the native controls stay.
@@ -17,12 +18,12 @@
       <?php get_template_part('template-parts/components/section-heading', null, array(
         'eyebrow' => 'Meet Dany Maid',
         'title'   => 'A Personal Welcome From Our Founder.',
-        'body'    => 'Get to know the people behind Dany Maid and what to expect when our team comes to your home. It takes about a minute and a half.',
+        'body'    => 'Get to know the people behind Dany Maid and what to expect when our team comes to your home. It takes just over a minute.',
         'id'      => 'intro-title',
       )); ?>
 
       <p data-reveal style="--reveal-delay: 150ms" class="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-brand-800 shadow-sm ring-1 ring-brand-900/10">
-        <?php echo dm_icon('play', 'size-4'); ?> 1:23 · Sound on · Captions included
+        <?php echo dm_icon('play', 'size-4'); ?> 1:14 · Sound on · Captions included
       </p>
 
       <div data-reveal style="--reveal-delay: 250ms" class="mt-8 hidden lg:block">
@@ -36,8 +37,8 @@
 
       <div data-intro-video class="relative aspect-video overflow-hidden rounded-3xl bg-brand-950 shadow-2xl shadow-brand-900/25 ring-1 ring-brand-900/10 sm:rounded-[2rem]">
         <video
-          src="<?php echo esc_url(get_theme_file_uri('/assets/video/intro-720.mp4')); ?>"
-          poster="<?php echo esc_url(get_theme_file_uri('/assets/images/intro-poster.webp')); ?>"
+          src="<?php echo esc_url(add_query_arg('v', filemtime(get_theme_file_path('/assets/video/intro-720.mp4')), get_theme_file_uri('/assets/video/intro-720.mp4'))); ?>"
+          poster="<?php echo esc_url(add_query_arg('v', filemtime(get_theme_file_path('/assets/images/intro-poster.webp')), get_theme_file_uri('/assets/images/intro-poster.webp'))); ?>"
           class="size-full object-cover"
           controls playsinline preload="none"
           aria-label="Dany Maid introduction video, with captions"
@@ -54,7 +55,7 @@
           <!-- Phones: button only, so the label never sits on the burned-in captions -->
           <span class="hidden flex-col sm:flex">
             <span class="font-display text-lg font-semibold leading-tight sm:text-2xl" data-intro-label>Watch our introduction</span>
-            <span class="text-xs font-semibold text-white/80 sm:text-sm">1:23 · Sound on</span>
+            <span class="text-xs font-semibold text-white/80 sm:text-sm">1:14 · Sound on</span>
           </span>
           </span>
         </button>

@@ -7,7 +7,7 @@
  * content is rendered as the editable "details" block of each template (e.g. a service's approved checklist).
  */
 
-const DM_PAGES_VERSION = '2';
+const DM_PAGES_VERSION = '3';
 
 function dm_pages() {
   return array(
@@ -15,7 +15,7 @@ function dm_pages() {
       'title'       => 'House Cleaning Services',
       'template'    => 'page-templates/services-overview.php',
       'seo_title'   => 'House Cleaning Services in the Sacramento Area | Dany Maid',
-      'description' => 'Explore recurring, deep, one-time, and move-in/move-out house cleaning from Dany Maid, a local team based in Citrus Heights. Request a personalized quote.',
+      'description' => 'Explore recurring, deep, one-time, move-in/move-out, Airbnb and commercial cleaning from Dany Maid, a local team based in Citrus Heights. Request a personalized quote.',
     ),
     'recurring-house-cleaning' => array(
       'title'       => 'Recurring House Cleaning',
@@ -48,6 +48,22 @@ function dm_pages() {
       'parent'      => 'house-cleaning',
       'seo_title'   => 'Move-In & Move-Out Cleaning | Dany Maid',
       'description' => 'Plan your next move with house cleaning support from Dany Maid. Share your home details and request a quote.',
+    ),
+    'airbnb-cleaning' => array(
+      'title'       => 'Airbnb Cleaning',
+      'template'    => 'page-templates/service.php',
+      'service'     => 'airbnb',
+      'parent'      => 'house-cleaning',
+      'seo_title'   => 'Airbnb & Vacation Rental Cleaning | Dany Maid',
+      'description' => 'Turnover cleaning between guests, built on your own checklist. Dany Maid serves hosts across the Sacramento area. Request a quote.',
+    ),
+    'commercial-cleaning' => array(
+      'title'       => 'Commercial Cleaning',
+      'template'    => 'page-templates/service.php',
+      'service'     => 'commercial',
+      'parent'      => 'house-cleaning',
+      'seo_title'   => 'Commercial Cleaning for Offices & Stores | Dany Maid',
+      'description' => 'Office, store and workspace cleaning with a scope and schedule tailored to your requirements. Request a commercial cleaning quote from Dany Maid.',
     ),
     'why-dany-maid' => array(
       'title'       => 'Why Dany Maid',
@@ -152,8 +168,8 @@ function dm_pricing_factors() {
 }
 
 /**
- * Copy for each service page (brief §07). Checklists are intentionally NOT invented here:
- * the approved scope goes in the WordPress page editor and shows as "What's included".
+ * Copy for each service page (brief §07). The room-by-room checklists live in inc/scope.php
+ * (client services sheet); highlights and FAQs below must stay consistent with them.
  */
 function dm_service_page($key) {
   $pages = array(
@@ -164,7 +180,7 @@ function dm_service_page($key) {
       'cta'        => 'Request a Recurring Cleaning Quote',
       'why_title'  => 'A cleaner home, without starting over every time.',
       'why_body'   => 'With regular visits, your home doesn’t have to wait for a big clean. Professional cleaning on a schedule keeps everyday spaces like kitchens, bathrooms, and living areas consistently cared for, so you can spend your time on what matters to you.',
-      'highlights' => array('Weekly, biweekly, or monthly visits', 'A schedule planned around your household', 'Your preferences noted before service'),
+      'highlights' => array('Weekly, biweekly, or monthly visits', 'Dusting, surfaces, floors, kitchen and bathrooms', 'A final review of details at every visit'),
       'faq'        => array(
         array('question' => 'Which recurring frequencies do you offer?', 'answer' => 'You can choose weekly, biweekly, or monthly visits. We’ll help you pick the frequency that fits your household when we prepare your quote.'),
         array('question' => 'Will the same cleaner come to every visit?', 'answer' => 'We talk with you about scheduling and continuity when we set up your service. We can’t promise the same team member at every visit.'),
@@ -178,11 +194,11 @@ function dm_service_page($key) {
       'cta'        => 'Get a Deep Cleaning Quote',
       'why_title'  => 'When a deep cleaning makes sense.',
       'why_body'   => 'A deep cleaning is a more detailed visit for homes that need extra attention, for example before starting a recurring schedule, after a busy season, or when you simply want a fresh start. We agree on a clear plan with you before the visit.',
-      'highlights' => array('More detailed than a standard visit', 'A clear plan agreed before we start', 'A good first step before recurring visits'),
+      'highlights' => array('Everything in a recurring visit, plus baseboards and doors', 'Light fixtures, ceiling fans and cobwebs', 'Stove and microwave cleaned in depth'),
       'faq'        => array(
         array('question' => 'When is a deep cleaning a good idea?', 'answer' => 'When your home needs more attention than a regular visit, such as before starting recurring service, after a busy stretch, or when you want a reset. Our team can help you decide.'),
         array('question' => 'Is a deep cleaning the same as restoration?', 'answer' => 'No. A deep cleaning is a more detailed house cleaning. It does not include restoration work such as water, fire, or mold damage remediation.'),
-        array('question' => 'What exactly is included?', 'answer' => 'It depends on your home and priorities. Our team confirms the scope with you before the service, including anything that would need an add-on.'),
+        array('question' => 'What exactly is included?', 'answer' => 'Everything in a recurring visit, plus baseboards and doors, light fixtures and switches, ceiling fans, cobwebs, and the stove and microwave cleaned in depth. See the full room-by-room checklist on this page. The oven, refrigerator, cabinet interiors and interior windows are part of move-in / move-out cleaning.'),
       ),
     ),
     'one-time' => array(
@@ -205,12 +221,41 @@ function dm_service_page($key) {
       'intro'      => 'Whether you’re moving into a home or preparing to leave one, we can help you plan cleaning around your next step.',
       'cta'        => 'Plan Your Move Cleaning',
       'why_title'  => 'Cleaning planned around your move.',
-      'why_body'   => 'Moving comes with enough to coordinate. Tell us whether the home will be empty or occupied, your handover date, and the areas that matter most, and we’ll help you plan the cleaning around your next step.',
-      'highlights' => array('Moving in or moving out', 'Planned around your handover date', 'Empty or occupied homes'),
+      'why_body'   => 'Moving comes with enough to coordinate. Our move-in / move-out cleaning is built for empty homes, before handover or move-in. Tell us your handover date and the size of the home, and we’ll help you plan the cleaning around your next step.',
+      'highlights' => array('Everything in a deep cleaning', 'Oven, refrigerator and inside of cabinets', 'Interior windows cleaned in every room'),
       'faq'        => array(
-        array('question' => 'What should I share when I request a quote?', 'answer' => 'Let us know whether the home will be empty or occupied, your move or handover date, the size of the home, and any priority areas.'),
+        array('question' => 'What does it add to a deep cleaning?', 'answer' => 'Interior windows in every room, a full oven and refrigerator cleaning, kitchen cabinets cleaned inside and out, trim added to baseboards and doors, and trash removed from every room.'),
+        array('question' => 'What should I share when I request a quote?', 'answer' => 'Let us know your move or handover date, the size of the home, and any priority areas. This service is built for empty homes.'),
         array('question' => 'Do you guarantee I’ll get my deposit back?', 'answer' => 'No. Deposit decisions are made by your landlord or property manager. We focus on delivering the cleaning plan we agree on with you.'),
         array('question' => 'Can you clean before I move in?', 'answer' => 'Yes. Tell us your move-in date and our team will follow up to plan the cleaning around it.'),
+      ),
+    ),
+    'airbnb' => array(
+      'eyebrow'    => 'Airbnb cleaning',
+      'h1'         => 'Turnover Cleaning Built on Your Checklist.',
+      'intro'      => 'Get your rental ready between guests. Share your checklist and we clean to it on every turnover.',
+      'cta'        => 'Request an Airbnb Cleaning Quote',
+      'why_title'  => 'Your standards, every turnover.',
+      'why_body'   => 'Every rental is set up differently, and you already know what your guests expect. Instead of a generic routine, we work from your own checklist on each turnover between guests and finish with a final review of details before the next check-in.',
+      'highlights' => array('Built on the host’s own checklist', 'Cleaned on every turnover between guests', 'Final review before the next check-in'),
+      'faq'        => array(
+        array('question' => 'What do you clean on a turnover?', 'answer' => 'We clean to your checklist. You share the list you use for your rental, and our team follows it on every turnover between guests.'),
+        array('question' => 'How do I get started?', 'answer' => 'Request a quote and tell us about your rental, your checklist and your usual checkout and check-in times. Our team follows up to confirm the details.'),
+        array('question' => 'Do you serve my rental’s area?', 'answer' => 'We are based in Citrus Heights and serve nearby Sacramento-area communities. Share the ZIP code when you request a quote and we’ll confirm coverage.'),
+      ),
+    ),
+    'commercial' => array(
+      'eyebrow'    => 'Commercial cleaning',
+      'h1'         => 'Cleaning Planned Around Your Business.',
+      'intro'      => 'Offices, stores and workspaces, with a cleaning scope and schedule tailored to your requirements.',
+      'cta'        => 'Request a Commercial Quote',
+      'why_title'  => 'A plan made for your space.',
+      'why_body'   => 'No two workspaces are the same. We review your space and its requirements, define a tailored scope and schedule with you, and deliver the cleaning to the plan we agree on.',
+      'highlights' => array('Offices, stores and workspaces', 'A tailored scope and schedule', 'Cleaning delivered to the agreed plan'),
+      'faq'        => array(
+        array('question' => 'What types of spaces do you clean?', 'answer' => 'Offices, stores and other workspaces. Tell us about your space when you request a quote and we’ll review its requirements with you.'),
+        array('question' => 'What is included in a commercial cleaning?', 'answer' => 'It depends on your space. We review your requirements first, then define a tailored scope and schedule, and deliver the cleaning to that plan.'),
+        array('question' => 'How do I get started?', 'answer' => 'Request a quote with a few details about your business and space. Our team follows up to review your requirements and next steps.'),
       ),
     ),
   );

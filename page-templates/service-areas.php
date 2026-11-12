@@ -60,7 +60,7 @@ get_header(); ?>
         'title'   => 'Cleaning Services in Your Area.',
         'id'      => 'area-services-title',
       )); ?>
-      <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <?php foreach (dm_service_list() as $i => $service) : ?>
           <li data-reveal style="--reveal-delay: <?php echo $i * 90; ?>ms">
             <a href="<?php echo esc_url($service['url']); ?>" data-track="select_service" data-service="<?php echo esc_attr($service['key']); ?>" data-source="service_areas" class="group flex h-full items-center gap-4 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-brand-900/5 transition duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
