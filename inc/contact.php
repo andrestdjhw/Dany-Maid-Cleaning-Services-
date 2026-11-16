@@ -96,6 +96,10 @@ function dm_handle_contact(WP_REST_Request $request) {
   }
   set_transient($ip_key, $attempts + 1, 10 * MINUTE_IN_SECONDS);
 
+  if (!dm_verify_recaptcha((string) $request->get_param('recaptcha'), 'contact')) {
+    return new WP_Error('dm_captcha', 'We could not verify your request. Please try again or call us.', array('status' => 400));
+  }
+
   $data = array(
     'name'           => sanitize_text_field((string) $request->get_param('name')),
     'email'          => sanitize_email((string) $request->get_param('email')),
@@ -130,8 +134,13 @@ function dm_handle_contact(WP_REST_Request $request) {
   }
 
   $reference = 'DM-' . $lead_id;
-  $mail_sent = dm_send_lead_email($reference, $data, $services[$data['service']], $tracking);
-  update_post_meta($lead_id, '_dm_mail_sent', $mail_sent ? 'yes' : 'no');
+  if (dm_emailjs_enabled('contact')) {
+    // The browser sends the email through EmailJS (inc/mail.php); wp_mail only as its fallback.
+    update_post_meta($lead_id, '_dm_mail_sent', 'emailjs');
+  } else {
+    $mail_sent = dm_send_lead_email($reference, $data, $services[$data['service']], $tracking);
+    update_post_meta($lead_id, '_dm_mail_sent', $mail_sent ? 'yes' : 'no');
+  }
 
   return array('ok' => true, 'reference' => $reference);
 }
@@ -190,7 +199,7 @@ function dm_lead_meta_box() {
       'Preferred contact' => isset($lead['contact_method']) && array_key_exists($lead['contact_method'], DM_CONTACT_METHODS) ? DM_CONTACT_METHODS[$lead['contact_method']] : '',
       'SMS consent'       => !empty($lead['sms_consent']) ? 'Yes' : 'No',
       'Message'           => isset($lead['message']) ? $lead['message'] : '',
-      'Email notification' => get_post_meta($post->ID, '_dm_mail_sent', true) === 'yes' ? 'Sent' : 'Not sent — follow up from here',
+      'Email notification' => dm_mail_status_label($post->ID),
     );
     foreach ($tracking as $key => $value) {
       $rows['Tracking: ' . $key] = $value;

@@ -9,7 +9,7 @@ mkdir -p dist
 rm -f "dist/$THEME.zip"
 cd ..
 zip -rq "$THEME/dist/$THEME.zip" "$THEME" \
-  -x "$THEME/node_modules/*" "$THEME/.git/*" "$THEME/src/*" "$THEME/dist/*" "$THEME/bin/*" \
+  -x "$THEME/node_modules/*" "$THEME/.git/*" "$THEME/src/*" "$THEME/dist/*" "$THEME/bin/*" "$THEME/docs/*" \
      "$THEME/package.json" "$THEME/package-lock.json" "$THEME/.gitignore" "*.DS_Store"
 cd "$THEME"
 echo "Created dist/$THEME.zip ($(du -h "dist/$THEME.zip" | cut -f1))"

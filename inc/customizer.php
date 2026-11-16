@@ -183,6 +183,18 @@ function dm_customizer_schema() {
         'careers_recipient' => array('label' => 'Send job applications to (HR email)', 'type' => 'email', 'default' => ''),
       ),
     ),
+    'dm_mail' => array(
+      'title'       => 'Email & reCAPTCHA',
+      'description' => 'Contact and careers form emails are sent with EmailJS (emailjs.com). If EmailJS fails, WordPress sends the email itself. Leave the Service ID empty to send every email with WordPress. reCAPTCHA v3 needs both keys; the secret key can also go in wp-config.php as DM_RECAPTCHA_SECRET.',
+      'fields'      => array(
+        'emailjs_service_id'       => array('label' => 'EmailJS Service ID', 'default' => 'service_tstq273'),
+        'emailjs_public_key'       => array('label' => 'EmailJS Public Key', 'default' => 'KQ26MB1VUr-mYbpXf'),
+        'emailjs_template_contact' => array('label' => 'EmailJS template: Contact / quote form', 'default' => 'template_9nwc2vw'),
+        'emailjs_template_careers' => array('label' => 'EmailJS template: Careers (We Are Hiring) form', 'default' => 'template_x002s3v'),
+        'recaptcha_site_key'       => array('label' => 'reCAPTCHA v3 site key', 'default' => '6Le-uiMuAAAAAE8QODc2uzIUTeo1oTn2Nhe999U1'),
+        'recaptcha_secret_key'     => array('label' => 'reCAPTCHA v3 secret key (keep private)', 'default' => ''),
+      ),
+    ),
     'dm_seo' => array(
       'title'       => 'Home · SEO',
       'description' => 'Ignored when an SEO plugin (Yoast, Rank Math) is active. Edit it there instead.',

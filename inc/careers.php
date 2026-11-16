@@ -112,6 +112,10 @@ function dm_handle_application(WP_REST_Request $request) {
   }
   set_transient($ip_key, $attempts + 1, 10 * MINUTE_IN_SECONDS);
 
+  if (!dm_verify_recaptcha((string) $request->get_param('recaptcha'), 'careers')) {
+    return new WP_Error('dm_captcha', 'captcha', array('status' => 400));
+  }
+
   $o = dm_careers_options();
   // Keeps only known keys from a checkbox list, in the canonical order.
   $pick = function ($param, $allowed) use ($request) {
@@ -159,8 +163,12 @@ function dm_handle_application(WP_REST_Request $request) {
   }
 
   $reference = 'JOB-' . $id;
-  $mail_sent = dm_send_application_email($reference, $data, $rows);
-  update_post_meta($id, '_dm_mail_sent', $mail_sent ? 'yes' : 'no');
+  if (dm_emailjs_enabled('careers')) {
+    update_post_meta($id, '_dm_mail_sent', 'emailjs');
+  } else {
+    $mail_sent = dm_send_application_email($reference, $data, $rows);
+    update_post_meta($id, '_dm_mail_sent', $mail_sent ? 'yes' : 'no');
+  }
 
   return array('ok' => true, 'reference' => $reference);
 }
@@ -240,7 +248,7 @@ function dm_application_meta_box() {
       'Reference' => 'JOB-' . $post->ID,
       'Received'  => get_the_date('M j, Y g:i a', $post),
     ) + dm_application_rows($data) + array(
-      'Email notification' => get_post_meta($post->ID, '_dm_mail_sent', true) === 'yes' ? 'Sent' : 'Not sent, follow up from here',
+      'Email notification' => dm_mail_status_label($post->ID),
     );
     echo '<table class="widefat striped"><tbody>';
     foreach ($rows as $label => $value) {

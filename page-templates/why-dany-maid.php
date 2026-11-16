@@ -6,6 +6,7 @@
  * the commitment block uses the brief's temporary safe copy until a guarantee is approved (§11).
  */
 
+$business  = dm_business();
 $standards = array(
   array('icon' => 'user-group', 'title' => 'Our Team', 'text' => 'Our cleaners are W2 employees of Dany Maid, not independent contractors, and the team members who come into your home are background-checked.'),
   array('icon' => 'shield-check', 'title' => 'Professional Care', 'text' => 'Dany Maid is an insured cleaning company. We approach every visit with respect for your home and your belongings.'),
@@ -166,14 +167,52 @@ get_header(); ?>
     </div>
   </section>
 
-  <!-- Commitment (temporary safe copy from the brief until the guarantee policy is approved) -->
-  <section class="bg-cream py-20 lg:py-24" aria-labelledby="commitment-title">
-    <div data-reveal class="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-      <img src="<?php echo esc_url(get_theme_file_uri('assets/images/quality-badge-512.webp')); ?>" width="512" height="512" loading="lazy" decoding="async" alt="Dany Maid Quality Guaranteed seal" class="mx-auto size-40 animate-float object-contain drop-shadow-[0_15px_22px_rgba(15,43,54,0.25)] sm:size-48">
-      <h2 id="commitment-title" class="mt-6 font-display text-3xl font-semibold text-balance text-brand-950 sm:text-4xl">If Something Needs Attention, We Want to Know.</h2>
-      <p class="mt-5 text-lg leading-relaxed text-ink/75">If something about your cleaning needs attention, please contact our team so we can review your concern and discuss next steps.</p>
-      <div class="mt-8">
-        <?php dm_button('Contact Our Team', dm_page_url('contact'), 'secondary'); ?>
+  <!-- Commitment: same layout as the Verified team block, mirrored and light. Uses the brief's temporary safe
+       copy (no guarantee wording) until the guarantee policy is approved; the steps only describe the contact process. -->
+  <section class="relative overflow-hidden bg-cream py-20 lg:py-28" aria-labelledby="commitment-title">
+    <div class="pointer-events-none absolute -right-32 top-0 size-96 animate-float-slow rounded-full bg-brand-100/70 blur-3xl" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -left-24 bottom-0 size-80 animate-float rounded-full bg-leaf-100/80 blur-3xl" aria-hidden="true"></div>
+
+    <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8">
+      <div data-reveal="zoom" class="relative mx-auto w-60 sm:w-72 lg:order-last lg:col-span-5 lg:w-full lg:max-w-sm">
+        <div class="absolute inset-[10%] rounded-full bg-brand-300/40 blur-3xl" aria-hidden="true"></div>
+        <div class="absolute -inset-6 rounded-full border-2 border-dashed border-brand-200 [animation:spin_60s_linear_infinite]" aria-hidden="true"></div>
+        <span class="absolute -left-4 top-6 animate-float text-leaf-500" aria-hidden="true"><?php echo dm_icon('sparkles', 'size-8'); ?></span>
+        <span class="absolute -right-2 bottom-10 animate-float-slow text-brand-400" aria-hidden="true"><?php echo dm_icon('sparkles', 'size-6'); ?></span>
+        <img src="<?php echo esc_url(get_theme_file_uri('assets/images/quality-badge-512.webp')); ?>" width="512" height="512" loading="lazy" decoding="async" alt="Dany Maid Quality Guaranteed seal" class="relative w-full animate-float object-contain drop-shadow-[0_25px_35px_rgba(15,43,54,0.3)]">
+      </div>
+
+      <div class="lg:col-span-7">
+        <?php get_template_part('template-parts/components/section-heading', null, array(
+          'eyebrow' => 'Our commitment',
+          'title'   => 'If Something Needs Attention, We Want to Know.',
+          'body'    => 'If something about your cleaning needs attention, please contact our team so we can review your concern and discuss next steps.',
+          'id'      => 'commitment-title',
+        )); ?>
+
+        <ol class="mt-8 grid gap-3 sm:grid-cols-3">
+          <?php foreach (array(
+            array('icon' => 'chat', 'title' => 'Tell us', 'text' => 'Call, text or email our team.'),
+            array('icon' => 'user-group', 'title' => 'We review it', 'text' => 'A real person from our local team looks at your concern.'),
+            array('icon' => 'arrow-path', 'title' => 'Next steps', 'text' => 'We discuss the next steps with you.'),
+          ) as $i => $step) : ?>
+            <li data-reveal style="--reveal-delay: <?php echo 100 + $i * 90; ?>ms" class="relative flex items-start gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-brand-900/5 sm:block">
+              <span class="absolute right-4 top-4 font-display text-sm font-semibold text-brand-300"><?php echo sprintf('%02d', $i + 1); ?></span>
+              <span class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-leaf-500 text-brand-950"><?php echo dm_icon($step['icon'], 'size-5'); ?></span>
+              <span class="block">
+                <span class="block font-display text-lg font-semibold text-brand-950 sm:mt-4"><?php echo esc_html($step['title']); ?></span>
+                <span class="mt-1 block text-sm leading-relaxed text-ink/75"><?php echo esc_html($step['text']); ?></span>
+              </span>
+            </li>
+          <?php endforeach; ?>
+        </ol>
+
+        <p data-reveal style="--reveal-delay: 400ms" class="mt-8 max-w-xl leading-relaxed text-ink/75">We value clear communication, before and after every visit.</p>
+
+        <div data-reveal style="--reveal-delay: 450ms" class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <?php dm_button('Contact Our Team', dm_page_url('contact'), 'primary'); ?>
+          <a href="<?php echo esc_url($business['phoneHref']); ?>" data-location="why_commitment" class="<?php echo esc_attr(dm_button_classes('secondary')); ?>"><?php echo dm_icon('phone', 'size-5'); ?><?php echo esc_html($business['phone']); ?></a>
+        </div>
       </div>
     </div>
   </section>

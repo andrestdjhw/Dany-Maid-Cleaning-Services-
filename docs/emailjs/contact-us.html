@@ -1,0 +1,38 @@
+<div style="margin:0; padding:24px 12px; background-color:#f4f7f8; font-family:system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; color:#1d2b2c;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px; margin:0 auto; background-color:#ffffff; border-radius:12px; overflow:hidden; border:1px solid #e3eaec;">
+    <tr>
+      <td style="background-color:#215564; padding:20px 24px;">
+        <div style="font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#b9db8f;">New quote request</div>
+        <div style="margin-top:4px; font-size:22px; font-weight:700; color:#ffffff;">{{service}} · ZIP {{zip}}</div>
+        <div style="margin-top:6px; font-size:13px; color:#d6eff5;">{{reference}} · {{time}}</div>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:24px;">
+        <p style="margin:0 0 16px; font-size:15px; line-height:1.5;">A request from <strong>{{name}}</strong> has been received. They prefer to be contacted by <strong>{{contact_method}}</strong>.</p>
+
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; line-height:1.4; border-collapse:collapse;">
+          <tr><td style="padding:8px 0; width:150px; color:#5b6b6d; border-bottom:1px solid #eef2f3;">Name</td><td style="padding:8px 0; font-weight:600; border-bottom:1px solid #eef2f3;">{{name}}</td></tr>
+          <tr><td style="padding:8px 0; color:#5b6b6d; border-bottom:1px solid #eef2f3;">Email</td><td style="padding:8px 0; font-weight:600; border-bottom:1px solid #eef2f3;"><a href="mailto:{{email}}" style="color:#276878;">{{email}}</a></td></tr>
+          <tr><td style="padding:8px 0; color:#5b6b6d; border-bottom:1px solid #eef2f3;">Phone</td><td style="padding:8px 0; font-weight:600; border-bottom:1px solid #eef2f3;">{{phone}}</td></tr>
+          <tr><td style="padding:8px 0; color:#5b6b6d; border-bottom:1px solid #eef2f3;">ZIP code</td><td style="padding:8px 0; font-weight:600; border-bottom:1px solid #eef2f3;">{{zip}}</td></tr>
+          <tr><td style="padding:8px 0; color:#5b6b6d; border-bottom:1px solid #eef2f3;">Service</td><td style="padding:8px 0; font-weight:600; border-bottom:1px solid #eef2f3;">{{service}}</td></tr>
+          <tr><td style="padding:8px 0; color:#5b6b6d; border-bottom:1px solid #eef2f3;">Preferred contact</td><td style="padding:8px 0; font-weight:600; border-bottom:1px solid #eef2f3;">{{contact_method}}</td></tr>
+          <tr><td style="padding:8px 0; color:#5b6b6d;">SMS consent</td><td style="padding:8px 0; font-weight:600;">{{sms_consent}}</td></tr>
+        </table>
+
+        <div style="margin-top:20px; padding:16px; background-color:#eef8fb; border-radius:8px;">
+          <div style="font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#276878;">About their home</div>
+          <div style="margin-top:6px; font-size:15px; line-height:1.5; white-space:pre-wrap;">{{message}}</div>
+        </div>
+
+        <p style="margin:20px 0 0; font-size:14px;">Reply to this email to answer {{name}} directly.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:14px 24px; background-color:#f4f7f8; font-size:12px; line-height:1.5; color:#7a898b;">
+        Sent from {{page_url}}<br>Source: {{source}}<br>Also saved in WordPress under Leads ({{reference}}).
+      </td>
+    </tr>
+  </table>
+</div>

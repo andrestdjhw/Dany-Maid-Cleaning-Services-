@@ -344,6 +344,12 @@
   }
 }
 
+/* reCAPTCHA v3 badge hidden (it would sit on the phones' bottom bar). Allowed by Google because both
+   forms show the "Protected by reCAPTCHA" text with the Privacy / Terms links. */
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
 /* Unlayered on purpose: WordPress global styles print body { padding: 0 } outside any layer,
    which would beat this rule inside @layer base. Reserves room for the phones' bottom bar. */
 body {

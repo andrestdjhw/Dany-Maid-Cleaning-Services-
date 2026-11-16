@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react"
 import Icon from "./Icon"
 import { track } from "../analytics"
+import { loadRecaptcha, getRecaptchaToken, deliver, submittedAt } from "../email"
 
 const CONTACT_METHODS = [
   { value: "call", label: "Phone call" },
@@ -26,6 +27,25 @@ function validate(values) {
   else if (values.contact_method === "text" && !values.sms_consent) errors.sms_consent = "Please agree to receive text messages, or choose another contact method."
   if (values.message.length > 2000) errors.message = "Please keep your message under 2,000 characters."
   return errors
+}
+
+// EmailJS template variables for the contact / quote email (see the setup notes in inc/mail.php).
+function contactEmailParams(values, reference, serviceOptions, tracking) {
+  return {
+    reference,
+    time: submittedAt(),
+    name: values.name.trim(),
+    email: values.email.trim(),
+    reply_to: values.email.trim(),
+    phone: values.phone.trim() || "Not given",
+    zip: values.zip.trim(),
+    service: serviceOptions.find(o => o.value === values.service)?.label || values.service,
+    contact_method: CONTACT_METHODS.find(m => m.value === values.contact_method)?.label || values.contact_method,
+    sms_consent: values.sms_consent ? "Yes" : "No",
+    message: values.message.trim() || "No message",
+    page_url: window.location.href,
+    source: [tracking.utm_source, tracking.utm_medium, tracking.utm_campaign].filter(Boolean).join(" / ") || "Direct / unknown"
+  }
 }
 
 function readTracking() {
@@ -61,7 +81,7 @@ function Field({ id, label, optional, error, hint, children }) {
 // formId comes from the mount element's data-form-id (see src/index.js); idPrefix keeps
 // field ids unique when a second form is on the page (the quote modal).
 export default function ContactForm({ data, formId = "home_contact", idPrefix: p = "dm-cf" }) {
-  const { services, business, privacyUrl, contact } = data
+  const { services, business, privacyUrl, contact, mail } = data
   const serviceFromUrl = new URLSearchParams(window.location.search).get("service")
   const initialService = services.some(s => s.key === serviceFromUrl) ? serviceFromUrl : ""
 
@@ -79,6 +99,7 @@ export default function ContactForm({ data, formId = "home_contact", idPrefix: p
   function onFirstInteraction() {
     if (started.current) return
     started.current = true
+    loadRecaptcha(mail?.recaptchaSiteKey)
     track("form_start", { form_id: formId, service_type: values.service || "unknown" })
   }
 
@@ -115,14 +136,21 @@ export default function ContactForm({ data, formId = "home_contact", idPrefix: p
     setStatus("submitting")
     setServerMessage("")
     try {
+      const recaptcha = await getRecaptchaToken(mail?.recaptchaSiteKey, "contact")
+      const tracking = readTracking()
       const response = await fetch(contact.endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, elapsed: Date.now() - startedAt.current, tracking: readTracking() })
+        body: JSON.stringify({ ...values, elapsed: Date.now() - startedAt.current, tracking, recaptcha })
       })
       const body = await response.json().catch(() => ({}))
 
       if (response.ok && body.ok) {
+        // Saved in WordPress; now the notification email (EmailJS, wp_mail fallback). Bots that hit the
+        // honeypot get no reference, so nothing is sent for them.
+        if (body.reference && mail?.templates?.contact) {
+          await deliver(mail, mail.templates.contact, contactEmailParams(values, body.reference, serviceOptions, tracking), body.reference)
+        }
         setReference(body.reference)
         setStatus("success")
         track("generate_lead", { form_id: formId, service_type: values.service })
@@ -295,7 +323,9 @@ export default function ContactForm({ data, formId = "home_contact", idPrefix: p
       </button>
 
       <p className="text-center text-xs leading-relaxed text-ink/55">
-        This is a request, not a confirmed appointment. We’ll use your details only to respond to you.
+        This is a request, not a confirmed appointment. We’ll use your details only to respond to you. Protected by reCAPTCHA (Google{" "}
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" className="underline">Privacy</a> and{" "}
+        <a href="https://policies.google.com/terms" target="_blank" rel="noopener" className="underline">Terms</a>).
         {privacyUrl && (
           <>
             {" "}

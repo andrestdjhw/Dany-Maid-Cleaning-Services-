@@ -218,5 +218,6 @@ function dm_react_data() {
     'careers'      => array(
       'endpoint' => rest_url('dany-maid/v1/careers'),
     ),
+    'mail'         => dm_mail_settings(),
   );
 }

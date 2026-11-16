@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react"
 import Icon from "./Icon"
 import { track } from "../analytics"
+import { loadRecaptcha, getRecaptchaToken, deliver, submittedAt } from "../email"
 
 /*
  * Job application form, English / Spanish (toggle at the top). Option keys must match
@@ -34,8 +35,10 @@ const T = {
     consent: "I agree that Dany Maid may contact me by phone, text or email about my application.",
     submit: "Send My Application",
     sending: "Sending…",
-    privacy: "We use your information only to review your application.",
+    privacy: "We use your information only to review your application. Protected by reCAPTCHA (Google",
     privacyLink: "Privacy Policy",
+    googlePrivacy: "Privacy",
+    googleTerms: "Terms",
     successTitle: "Application received",
     successBody: "Thank you for your interest in joining Dany Maid. Our team will review your application and call you if your profile is a good fit.",
     reference: "Your reference:",
@@ -58,7 +61,8 @@ const T = {
       about: "Please keep this under 2,000 characters.",
       consent: "Please agree so we can contact you.",
       too_fast: "Please take a moment to review your answers and try again.",
-      rate_limited: "Too many attempts. Please call us instead."
+      rate_limited: "Too many attempts. Please call us instead.",
+      captcha: "We could not verify your application. Please try again or call us."
     },
     options: {
       position: { cleaner: "House cleaner", team_lead: "Team lead (with cleaning experience)", other: "Other / not sure" },
@@ -94,8 +98,10 @@ const T = {
     consent: "Acepto que Dany Maid me contacte por teléfono, mensaje de texto o correo sobre mi solicitud.",
     submit: "Enviar mi solicitud",
     sending: "Enviando…",
-    privacy: "Usamos tu información solo para revisar tu solicitud.",
+    privacy: "Usamos tu información solo para revisar tu solicitud. Protegido por reCAPTCHA (Google",
     privacyLink: "Política de privacidad",
+    googlePrivacy: "Privacidad",
+    googleTerms: "Términos",
     successTitle: "Solicitud recibida",
     successBody: "Gracias por tu interés en unirte a Dany Maid. Nuestro equipo revisará tu solicitud y te llamará si tu perfil es adecuado.",
     reference: "Tu número de referencia:",
@@ -118,7 +124,8 @@ const T = {
       about: "Escribe menos de 2,000 caracteres.",
       consent: "Acepta para que podamos contactarte.",
       too_fast: "Tómate un momento para revisar tus respuestas e inténtalo de nuevo.",
-      rate_limited: "Demasiados intentos. Por favor llámanos."
+      rate_limited: "Demasiados intentos. Por favor llámanos.",
+      captcha: "No pudimos verificar tu solicitud. Inténtalo de nuevo o llámanos."
     },
     options: {
       position: { cleaner: "Limpieza de casas", team_lead: "Líder de equipo (con experiencia en limpieza)", other: "Otro / no estoy seguro(a)" },
@@ -159,6 +166,34 @@ function validate(v) {
   return e
 }
 
+// EmailJS template variables for the HR email. Always in English (labels from T.en), whatever
+// language the applicant used; form_language says which one that was.
+function careersEmailParams(v, lang, reference) {
+  const o = T.en.options
+  const list = (keys, labels) => keys.map(k => labels[k]).join(", ")
+  const full = { mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday", sun: "Sunday" }
+  return {
+    reference,
+    time: submittedAt(),
+    name: v.name.trim(),
+    phone: v.phone.trim(),
+    email: v.email.trim() || "Not given",
+    reply_to: v.email.trim(),
+    city: v.city.trim(),
+    position: o.position[v.position],
+    schedule: o.schedule[v.schedule],
+    days: list(v.days, full),
+    experience: o.experience[v.experience],
+    transportation: o.yesno[v.transportation],
+    work_authorized: o.yesno[v.work_authorized],
+    languages: list(v.languages, o.languages),
+    pets: o.yesno[v.pets],
+    referral: v.referral ? o.referral[v.referral] : "Not given",
+    about: v.about.trim() || "Nothing added",
+    form_language: lang === "es" ? "Spanish" : "English"
+  }
+}
+
 function initialLang() {
   const fromUrl = new URLSearchParams(window.location.search).get("lang")
   if (fromUrl === "es" || fromUrl === "en") return fromUrl
@@ -178,7 +213,7 @@ function ErrorText({ id, children }) {
 }
 
 export default function CareersForm({ data, formId = "careers" }) {
-  const { business, privacyUrl, careers } = data
+  const { business, privacyUrl, careers, mail } = data
   const [lang, setLang] = useState(initialLang)
   const [values, setValues] = useState(EMPTY)
   const [errors, setErrors] = useState({})
@@ -201,6 +236,7 @@ export default function CareersForm({ data, formId = "careers" }) {
   function onFirstInteraction() {
     if (started.current) return
     started.current = true
+    loadRecaptcha(mail?.recaptchaSiteKey)
     track("form_start", { form_id: formId, form_language: lang })
   }
 
@@ -242,14 +278,18 @@ export default function CareersForm({ data, formId = "careers" }) {
     setStatus("submitting")
     setServerError("")
     try {
+      const recaptcha = await getRecaptchaToken(mail?.recaptchaSiteKey, "careers")
       const response = await fetch(careers.endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, lang, elapsed: Date.now() - startedAt.current })
+        body: JSON.stringify({ ...values, lang, elapsed: Date.now() - startedAt.current, recaptcha })
       })
       const body = await response.json().catch(() => ({}))
 
       if (response.ok && body.ok) {
+        if (body.reference && mail?.templates?.careers) {
+          await deliver(mail, mail.templates.careers, careersEmailParams(values, lang, body.reference), body.reference)
+        }
         setReference(body.reference)
         setStatus("success")
         track("job_application_submit", { form_id: formId, form_language: lang, position: values.position })
@@ -483,7 +523,9 @@ export default function CareersForm({ data, formId = "careers" }) {
       </button>
 
       <p className="text-center text-xs leading-relaxed text-ink/55">
-        {t.privacy}
+        {t.privacy}{" "}
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" className="underline">{t.googlePrivacy}</a>,{" "}
+        <a href="https://policies.google.com/terms" target="_blank" rel="noopener" className="underline">{t.googleTerms}</a>).
         {privacyUrl && (
           <>
             {" "}
