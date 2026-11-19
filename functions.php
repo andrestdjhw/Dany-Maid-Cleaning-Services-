@@ -8,6 +8,7 @@ require_once get_theme_file_path('/inc/seo.php');
 require_once get_theme_file_path('/inc/contact.php');
 require_once get_theme_file_path('/inc/careers.php');
 require_once get_theme_file_path('/inc/mail.php');
+require_once get_theme_file_path('/inc/legal.php');
 require_once get_theme_file_path('/inc/pages.php');
 require_once get_theme_file_path('/inc/scope.php');
 require_once get_theme_file_path('/inc/backup.php');

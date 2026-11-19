@@ -3,6 +3,9 @@
  * Careers application section: steps + bilingual form (React: src/scripts/components/CareersForm.js).
  * Used at the end of /careers/ and /about/. Only one per page (the form mounts on #dm-careers-form).
  * Args: form_id (GA4 form_id), eyebrow, title, body.
+ * Photo collage: real team photos (uploads/2026/11/StaffOnAction, StaffLeft, Office, StaffRoght .webp, 2026-11-18),
+ * rotated upright and optimized to assets/images/careers-*-{480|900}.webp. On lg+ it fills the space beside the tall form;
+ * phones show the first two.
  */
 
 $args = wp_parse_args($args, array(
@@ -12,6 +15,13 @@ $args = wp_parse_args($args, array(
   'body'    => 'Choose English or Español at the top of the form. All you need is a few minutes.',
 ));
 $business = dm_business();
+$collage = array(
+  // file, alt, caption, tilt, extra classes
+  array('careers-action', 'A Dany Maid team member in uniform cleaning a bathroom floor', 'On the job · En acción', '-rotate-3', ''),
+  array('careers-team-1', 'Dany Maid team members in uniform smiling together at the office', 'Our team · Nuestro equipo', 'rotate-2', 'mt-10'),
+  array('careers-office', 'The Dany Maid office with the company logo on the screen and turquoise balloons', 'Our office · Nuestra oficina', 'rotate-2', 'hidden sm:block -mt-4'),
+  array('careers-team-2', 'A group of Dany Maid team members in uniform at a team gathering', 'Team day · Día de equipo', '-rotate-2', 'hidden sm:block mt-6'),
+);
 $steps = array(
   array('Apply online', 'Fill out the short form below. It takes about 3 minutes.'),
   array('We call you', 'Our team reviews every application and calls the people who are a good fit.'),
@@ -51,6 +61,27 @@ $steps = array(
             <?php echo dm_icon('phone', 'size-6 text-leaf-300'); ?><?php echo esc_html($business['phone']); ?>
           </a>
         </div>
+
+        <!-- Polaroid collage of the real team -->
+        <ul class="mt-12 grid grid-cols-2 gap-x-4 gap-y-6 sm:gap-x-6" aria-label="Life at Dany Maid">
+          <?php foreach ($collage as $i => $photo) : ?>
+            <li data-reveal="zoom" style="--reveal-delay: <?php echo 150 + $i * 120; ?>ms" class="<?php echo esc_attr($photo[4]); ?>">
+              <figure class="group <?php echo esc_attr($photo[3]); ?> rounded-2xl bg-white p-2 pb-3 shadow-2xl shadow-brand-950/50 transition duration-500 ease-(--ease-out-soft) hover:z-10 hover:rotate-0 hover:scale-105">
+                <div class="aspect-[4/5] overflow-hidden rounded-xl bg-brand-100">
+                  <img
+                    src="<?php echo esc_url(dm_versioned_asset("assets/images/{$photo[0]}-900.webp")); ?>"
+                    srcset="<?php echo esc_url(dm_versioned_asset("assets/images/{$photo[0]}-480.webp")); ?> 480w, <?php echo esc_url(dm_versioned_asset("assets/images/{$photo[0]}-900.webp")); ?> 900w"
+                    sizes="(min-width: 1024px) 190px, 50vw"
+                    width="900" height="1347" loading="lazy" decoding="async"
+                    alt="<?php echo esc_attr($photo[1]); ?>"
+                    class="size-full object-cover transition duration-700 group-hover:scale-105"
+                  >
+                </div>
+                <figcaption class="mt-2 text-center text-xs font-bold text-brand-800"><?php echo esc_html($photo[2]); ?></figcaption>
+              </figure>
+            </li>
+          <?php endforeach; ?>
+        </ul>
       </div>
 
       <div data-reveal="zoom" class="lg:col-span-8">

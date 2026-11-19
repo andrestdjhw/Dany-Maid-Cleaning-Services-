@@ -49,6 +49,11 @@ function dm_icon($name, $class = 'size-6') {
   return '<svg class="' . esc_attr($class) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' . esc_attr($paths[$name]) . '"/></svg>';
 }
 
+// Triple-chevron arrow for .dm-cta buttons (animated in src/index.css).
+function dm_cta_arrow() {
+  return '<svg class="dm-cta-arrow" viewBox="0 0 66 43" aria-hidden="true"><polygon points="0,0 10,0 31.5,21.5 10,43 0,43 21.5,21.5"/><polygon points="17,0 27,0 48.5,21.5 27,43 17,43 38.5,21.5"/><polygon points="34,0 44,0 65.5,21.5 44,43 34,43 55.5,21.5"/></svg>';
+}
+
 // Brand logos from Simple Icons (CC0), same set as src/scripts/components/BrandIcon.js.
 function dm_brand_icon($name, $class = 'size-6') {
   $paths = array(

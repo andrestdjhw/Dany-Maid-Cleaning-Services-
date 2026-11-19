@@ -22,8 +22,10 @@ get_header(); ?>
     'title'     => 'The Difference Is in the Details and the People.',
     'intro'     => 'We believe great cleaning is about more than a checklist. It’s about respecting your home, communicating clearly, and showing up with care.',
     'secondary' => array('label' => 'Read Customer Reviews', 'url' => dm_page_url('reviews')),
-    'image'     => dm_mod('home_team_image'),
-    'stock'     => 'team-supplies',
+    // Real team photo (uploads/2026/11/Equipo-Dany-Maid-en-la-oficina.png → assets/images/team-office-*.webp), moved here from About.
+    'stock'       => 'team-office',
+    'image_alt'   => 'The Dany Maid team in uniform gathered together at the company office',
+    'image_focus' => 'object-[45%_55%]',
   )); ?>
 
   <section class="bg-white py-20 lg:py-28" aria-labelledby="standards-title">
@@ -46,6 +48,31 @@ get_header(); ?>
           </li>
         <?php endforeach; ?>
       </ul>
+
+      <!-- Our work: real photos (assets/images/gallery-*.webp, see assets/images/CREDITS.md).
+           lg: 4 columns, living room 2×2, team photo 1×2 tall, bathroom and neighborhood 1×1. Phones: 2 columns. -->
+      <?php
+      $gallery = array(
+        array('gallery-living-room', 'A clean, tidy living room with a sectional sofa and plants', 'col-span-2 row-span-2', '(min-width: 1024px) 640px, 100vw'),
+        array('gallery-team-dining', 'Two Dany Maid team members cleaning a dining room', 'row-span-2', '(min-width: 1024px) 320px, 50vw'),
+        array('gallery-bathroom', 'A clean bathroom vanity with marble counters and gold fixtures', '', '(min-width: 1024px) 320px, 50vw'),
+        array('gallery-neighborhood', 'Homes in a Sacramento-area neighborhood at dusk', '', '(min-width: 1024px) 320px, 50vw'),
+      );
+      ?>
+      <div class="mt-20">
+        <p data-reveal class="text-center text-sm font-extrabold uppercase tracking-[0.14em] text-brand-700">Our work</p>
+        <ul class="mt-6 grid auto-rows-[10rem] grid-cols-2 gap-3 sm:auto-rows-[13rem] sm:gap-4 lg:grid-cols-4 lg:auto-rows-[15rem]" aria-label="Photos of Dany Maid at work">
+          <?php foreach ($gallery as $i => $photo) :
+            $big   = dm_versioned_asset("assets/images/{$photo[0]}-1400.webp");
+            $small = dm_versioned_asset("assets/images/{$photo[0]}-800.webp");
+            list($w, $h) = getimagesize(get_theme_file_path("assets/images/{$photo[0]}-1400.webp"));
+            list($sw)    = getimagesize(get_theme_file_path("assets/images/{$photo[0]}-800.webp")); ?>
+            <li data-reveal="zoom" style="--reveal-delay: <?php echo $i * 110; ?>ms" class="group relative overflow-hidden rounded-3xl bg-brand-100 shadow-lg shadow-brand-900/10 <?php echo esc_attr($photo[2]); ?>">
+              <img src="<?php echo esc_url($big); ?>" srcset="<?php echo esc_url($small); ?> <?php echo (int) $sw; ?>w, <?php echo esc_url($big); ?> <?php echo (int) $w; ?>w" sizes="<?php echo esc_attr($photo[3]); ?>" width="<?php echo (int) $w; ?>" height="<?php echo (int) $h; ?>" loading="lazy" decoding="async" alt="<?php echo esc_attr($photo[1]); ?>" class="size-full object-cover transition duration-1000 ease-(--ease-out-soft) group-hover:scale-105">
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
 
       <?php if ($content = dm_page_content()) : ?>
         <div data-reveal class="prose prose-lg mx-auto mt-16 max-w-3xl prose-headings:font-display prose-headings:text-brand-950 prose-a:text-brand-700">
@@ -107,65 +134,7 @@ get_header(); ?>
     </div>
   </section>
 
-  <!-- Pet friendly: confirmed by the client (2026-11-11), no extra cost for homes with pets -->
-  <section class="relative overflow-hidden bg-white py-20 lg:py-28" aria-labelledby="pets-title">
-    <div class="pointer-events-none absolute -left-24 top-10 size-80 animate-float-slow rounded-full bg-leaf-100 blur-3xl" aria-hidden="true"></div>
-    <div class="pointer-events-none absolute -right-24 bottom-0 size-72 animate-float rounded-full bg-brand-50 blur-3xl" aria-hidden="true"></div>
-
-    <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8">
-      <div class="lg:col-span-6">
-        <?php get_template_part('template-parts/components/section-heading', null, array(
-          'eyebrow' => 'Pet friendly',
-          'title'   => 'Pet Friendly, at No Extra Cost.',
-          'body'    => 'Your pets are part of the family, and they are welcome during your cleaning. Having pets at home does not add any extra cost to your service with Dany Maid.',
-          'id'      => 'pets-title',
-        )); ?>
-
-        <ul class="mt-8 space-y-4">
-          <?php foreach (array(
-            'No additional charge for homes with pets.',
-            'Tell us about your pets when you request a quote, so our team knows who they will meet.',
-            'Share any special instructions, like gates, closed rooms, or feeding routines.',
-          ) as $i => $point) : ?>
-            <li data-reveal style="--reveal-delay: <?php echo 100 + $i * 90; ?>ms" class="flex gap-3 text-ink/80">
-              <span class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-leaf-100 text-leaf-700"><?php echo dm_icon('check', 'size-4'); ?></span>
-              <?php echo esc_html($point); ?>
-            </li>
-          <?php endforeach; ?>
-        </ul>
-
-        <div data-reveal style="--reveal-delay: 400ms" class="mt-10">
-          <?php dm_quote_cta('Get a Quote', 'why_pets'); ?>
-        </div>
-      </div>
-
-      <div data-reveal="zoom" class="relative lg:col-span-6">
-        <div class="absolute -right-5 -top-5 hidden size-28 animate-float-slow rounded-full bg-leaf-200/80 sm:block" aria-hidden="true"></div>
-        <span class="absolute -top-8 left-10 z-10 hidden -rotate-12 animate-float text-leaf-500 sm:block" aria-hidden="true"><?php echo dm_icon('paw', 'size-10'); ?></span>
-        <span class="absolute -right-6 bottom-24 z-10 hidden rotate-12 animate-float-slow text-brand-300 sm:block" aria-hidden="true"><?php echo dm_icon('paw', 'size-8'); ?></span>
-
-        <!-- Photo: uploads/2026/11/PetFriendlySection.png, optimized to assets/images/pet-friendly-*.webp -->
-        <div class="group relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl shadow-brand-900/15 sm:rounded-[2rem]">
-          <img
-            src="<?php echo esc_url(get_theme_file_uri('assets/images/pet-friendly-1536.webp')); ?>"
-            srcset="<?php echo esc_url(get_theme_file_uri('assets/images/pet-friendly-800.webp')); ?> 800w, <?php echo esc_url(get_theme_file_uri('assets/images/pet-friendly-1536.webp')); ?> 1536w"
-            sizes="(min-width: 1024px) 640px, 100vw"
-            width="1536" height="1024" loading="lazy" decoding="async"
-            alt="A Dany Maid team member petting a happy golden retriever in a client's living room"
-            class="size-full object-cover object-[center_45%] transition duration-1000 ease-(--ease-out-soft) group-hover:scale-105"
-          >
-        </div>
-
-        <div class="absolute -bottom-6 left-4 flex animate-float items-center gap-3 rounded-2xl bg-white py-3 pl-3 pr-5 shadow-xl ring-1 ring-brand-900/5 sm:-left-6">
-          <span class="flex size-12 shrink-0 items-center justify-center rounded-full bg-leaf-500 text-white"><?php echo dm_icon('paw', 'size-7'); ?></span>
-          <span class="leading-tight">
-            <span class="block font-display text-3xl font-semibold text-brand-950">$0</span>
-            <span class="text-sm font-bold text-brand-800">extra for homes with pets</span>
-          </span>
-        </div>
-      </div>
-    </div>
-  </section>
+  <?php get_template_part('template-parts/home/pets', null, array('position' => 'why_pets', 'bg' => 'tint')); ?>
 
   <!-- Commitment: same layout as the Verified team block, mirrored and light. Uses the brief's temporary safe
        copy (no guarantee wording) until the guarantee policy is approved; the steps only describe the contact process. -->

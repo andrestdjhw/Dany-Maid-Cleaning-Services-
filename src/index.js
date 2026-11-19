@@ -14,6 +14,7 @@ import { initClickTracking, captureUtm } from "./scripts/analytics"
 import { initReveal } from "./scripts/reveal"
 import { initBackgroundVideos } from "./scripts/bg-video"
 import { initIntroVideo } from "./scripts/intro-video"
+import { initHeroHat } from "./scripts/hero-hat"
 
 // window.danyMaid is printed by dm_load_assets() in functions.php
 const data = window.danyMaid
@@ -44,5 +45,6 @@ document.querySelector("#dm-navbar")?.classList.remove("min-h-20", "lg:min-h-32"
 initReveal()
 initBackgroundVideos()
 initIntroVideo()
+initHeroHat()
 initClickTracking()
 captureUtm()

@@ -1,5 +1,5 @@
 import React from "react"
-import Icon from "./Icon"
+import Icon, { CtaArrow } from "./Icon"
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
 
@@ -17,9 +17,9 @@ export default function MobileActionBar({ data }) {
           Call now
           <span className="sr-only"> {business.phone}</span>
         </a>
-        <a href={quoteUrl} data-track="quote_cta_click" data-position="mobile_bar" className={`flex items-center justify-center gap-2 rounded-full bg-cta px-4 py-3 text-base font-bold text-white shadow-sm transition active:scale-[0.98] ${focusRing}`}>
+        <a href={quoteUrl} data-track="quote_cta_click" data-position="mobile_bar" className={`dm-cta flex items-center justify-center gap-2 rounded-full bg-cta px-4 py-3 text-base font-bold text-white ${focusRing}`}>
           Get a Quote
-          <Icon name="arrow-right" className="size-4" />
+          <CtaArrow />
         </a>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import Icon from "./Icon"
+import Icon, { CtaArrow } from "./Icon"
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
 
@@ -96,8 +96,8 @@ function MobileMenu({ menu, business, quoteUrl, onClose, top }) {
           )}
         </ul>
 
-        <a href={quoteUrl} data-track="quote_cta_click" data-position="mobile_menu" className={`mt-6 flex items-center justify-center gap-2 rounded-full bg-cta px-6 py-4 text-lg font-bold text-white ${focusRing}`}>
-          Get a Quote <Icon name="arrow-right" className="size-5" />
+        <a href={quoteUrl} data-track="quote_cta_click" data-position="mobile_menu" className={`dm-cta mt-6 flex items-center justify-center gap-2 rounded-full bg-cta px-6 py-4 text-lg font-bold text-white ${focusRing}`}>
+          Get a Quote <CtaArrow />
         </a>
         <div className="mt-6 space-y-3 rounded-2xl bg-cream p-5 text-brand-950">
           <a href={business.phoneHref} data-location="mobile_menu" className={`flex items-center gap-3 font-bold ${focusRing}`}>
@@ -205,10 +205,10 @@ export default function Navbar({ data }) {
             href={quoteUrl}
             data-track="quote_cta_click"
             data-position="header"
-            className={`hidden items-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-base font-bold transition-colors duration-300 sm:inline-flex ${focusRing} bg-cta text-white hover:bg-cta-hover`}
+            className={`hidden items-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-base font-bold transition-colors duration-300 sm:inline-flex ${focusRing} dm-cta bg-cta text-white hover:bg-cta-hover`}
           >
             Get a Quote
-            <Icon name="arrow-right" className="size-4" />
+            <CtaArrow />
           </a>
           <button
             type="button"

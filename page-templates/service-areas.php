@@ -21,7 +21,9 @@ get_header(); ?>
     'eyebrow' => 'Service areas',
     'title'   => 'House Cleaning Across the Sacramento Area.',
     'intro'   => 'Based in ' . $home_base . ', we serve households across nearby Sacramento-area communities. Check your location when requesting a quote.',
-    'background' => attachment_url_to_postid(wp_upload_dir()['baseurl'] . '/2026/11/California--scaled.jpg'),
+    // California State Capitol, Sacramento (media library, uploaded 2026-11-17); focus keeps the dome in frame.
+    'background' => attachment_url_to_postid(wp_upload_dir()['baseurl'] . '/2026/11/Sacramento-scaled.jpg'),
+    'focus'      => 'object-[48%_30%]',
   )); ?>
 
   <section class="bg-white py-20 lg:py-28" aria-labelledby="cities-title">
@@ -53,7 +55,7 @@ get_header(); ?>
   </section>
 
   <!-- Services available in these areas -->
-  <section class="bg-cream py-20 lg:py-24" aria-labelledby="area-services-title">
+  <section class="bg-brand-50 py-20 lg:py-24" aria-labelledby="area-services-title">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <?php get_template_part('template-parts/components/section-heading', null, array(
         'eyebrow' => 'Our services',

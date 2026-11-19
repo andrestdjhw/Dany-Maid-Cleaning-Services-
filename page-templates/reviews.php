@@ -49,7 +49,7 @@ get_header(); ?>
   </section>
 
   <!-- Share your experience -->
-  <section class="bg-cream py-20 lg:py-24" aria-labelledby="share-title">
+  <section class="bg-leaf-100 py-20 lg:py-24" aria-labelledby="share-title">
     <div data-reveal class="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
       <h2 id="share-title" class="font-display text-3xl font-semibold text-balance text-brand-950 sm:text-4xl">Had a Cleaning With Us? Share Your Experience.</h2>
       <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink/75">Your feedback helps local families choose with confidence and helps our team keep improving.</p>

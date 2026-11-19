@@ -21,11 +21,11 @@ get_header(); ?>
     'title'     => 'A Local Cleaning Company Built on Trust.',
     'intro'     => 'Our story began in 2013. Since becoming Dany Maid in 2021, we have continued building a local cleaning team focused on dependable service and lasting customer relationships.',
     'secondary' => array('label' => 'Why Dany Maid', 'url' => dm_page_url('why-dany-maid')),
-    // Real team photo (uploads/2026/11/Equipo-Dany-Maid-en-la-oficina.png → assets/images/team-office-*.webp).
-    // 4:3 like the desktop frame; the focus keeps the group centered when it becomes the phone background.
-    'stock'       => 'team-office',
-    'image_alt'   => 'The Dany Maid team in uniform gathered together at the company office',
-    'image_focus' => 'object-[45%_55%]',
+    // Real photo (uploads/2026/11/AboutUsHero.webp, 2026-11-18 → assets/images/team-founders-*.webp).
+    // The focus keeps both faces in frame in the 4:3 desktop crop and the phone background.
+    'stock'       => 'team-founders',
+    'image_alt'   => 'Dany Maid founder, right, standing together with a colleague in a bright kitchen',
+    'image_focus' => 'object-[50%_35%]',
   )); ?>
 
   <section class="bg-white py-20 lg:py-28" aria-labelledby="story-title">
@@ -61,7 +61,7 @@ get_header(); ?>
   <?php get_template_part('template-parts/home/trust'); ?>
 
   <!-- Where we are -->
-  <section class="bg-white py-20 lg:py-24" aria-labelledby="location-title">
+  <section class="bg-leaf-100 py-20 lg:py-24" aria-labelledby="location-title">
     <div class="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
       <?php get_template_part('template-parts/components/section-heading', null, array(
         'eyebrow' => 'Where we are',

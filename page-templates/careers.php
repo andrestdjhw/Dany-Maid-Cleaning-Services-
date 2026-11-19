@@ -25,11 +25,14 @@ get_header(); ?>
     'intro'     => 'We are looking for reliable, detail-oriented people who take pride in caring for our clients’ homes. Apply online in English or Spanish.',
     'cta'       => 'Apply Now',
     'cta_url'   => '#apply',
-    'image'     => 0,
-    'stock'     => 'team-supplies',
+    'image'       => 0,
+    // Real photo: uploads/2026/11/Mesa-de-trabajo-2.webp → assets/images/careers-hero-*.webp
+    'stock'       => 'careers-hero',
+    'image_alt'   => 'Two Dany Maid team members making a bed together',
+    'image_focus' => 'object-center',
   )); ?>
 
-  <section class="relative overflow-hidden bg-white py-20 lg:py-28" aria-labelledby="why-work-title">
+  <section class="relative overflow-hidden bg-brand-50 py-20 lg:py-28" aria-labelledby="why-work-title">
     <div class="mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8">
       <div class="lg:col-span-6">
         <?php get_template_part('template-parts/components/section-heading', null, array(
@@ -41,7 +44,7 @@ get_header(); ?>
 
         <ul class="mt-10 grid gap-4 sm:grid-cols-2">
           <?php foreach ($reasons as $i => $reason) : ?>
-            <li data-reveal style="--reveal-delay: <?php echo $i * 90; ?>ms" class="group rounded-3xl bg-cream p-6 ring-1 ring-brand-900/5 transition duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/10">
+            <li data-reveal style="--reveal-delay: <?php echo $i * 90; ?>ms" class="group rounded-3xl bg-white p-6 shadow-sm ring-1 ring-brand-900/5 transition duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/10">
               <span class="flex size-12 items-center justify-center rounded-2xl bg-brand-100 text-brand-700 transition duration-500 group-hover:bg-cta group-hover:text-white"><?php echo dm_icon($reason[0], 'size-6'); ?></span>
               <h3 class="mt-5 font-display text-xl font-semibold text-brand-950"><?php echo esc_html($reason[1]); ?></h3>
               <p class="mt-2 leading-relaxed text-ink/75"><?php echo esc_html($reason[2]); ?></p>

@@ -30,7 +30,7 @@ $sizing   = isset($args['layout']) && $args['layout'] === 'grid'
   <?php endif; ?>
 
   <div class="absolute inset-x-0 bottom-0 p-6">
-    <span class="flex size-11 items-center justify-center rounded-xl bg-white/15 text-white ring-1 ring-white/25 backdrop-blur transition duration-500 group-hover:-rotate-6 group-hover:bg-leaf-500 group-hover:text-brand-950 group-hover:ring-leaf-500">
+    <span class="flex size-11 items-center justify-center rounded-xl bg-white/15 text-white ring-1 ring-white/25 backdrop-blur transition duration-500 group-hover:-rotate-6 group-hover:bg-cta group-hover:text-white group-hover:ring-cta">
       <?php echo dm_icon($service['icon'], 'size-6'); ?>
     </span>
     <h3 class="mt-4 font-display text-2xl font-semibold text-white"><?php echo esc_html($service['title']); ?></h3>

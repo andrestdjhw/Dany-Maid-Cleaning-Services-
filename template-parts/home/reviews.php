@@ -8,7 +8,7 @@ $testimonials = dm_testimonials();
 $widget = dm_reviews_widget();
 ?>
 
-<section id="reviews" class="scroll-mt-28 bg-white py-20 lg:py-28" aria-labelledby="reviews-title">
+<section id="reviews" class="scroll-mt-28 bg-leaf-100 py-20 lg:py-28" aria-labelledby="reviews-title">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="grid items-end gap-10 lg:grid-cols-2">
       <?php get_template_part('template-parts/components/section-heading', null, array(
@@ -29,7 +29,7 @@ $widget = dm_reviews_widget();
     <?php elseif ($testimonials) : ?>
       <div class="mt-14 grid gap-6 md:grid-cols-3">
         <?php foreach ($testimonials as $i => $t) : ?>
-          <figure data-reveal style="--reveal-delay: <?php echo $i * 120; ?>ms" class="flex flex-col rounded-3xl bg-cream p-8 transition duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/5">
+          <figure data-reveal style="--reveal-delay: <?php echo $i * 120; ?>ms" class="flex flex-col rounded-3xl bg-white p-8 shadow-sm ring-1 ring-brand-900/5 transition duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/5">
             <span class="font-display text-6xl leading-none text-brand-200" aria-hidden="true">&ldquo;</span>
             <blockquote class="-mt-4 flex-1 text-lg leading-relaxed text-ink/85">
               <p><?php echo esc_html($t['quote']); ?></p>

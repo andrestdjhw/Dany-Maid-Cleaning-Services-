@@ -45,38 +45,39 @@ $business = dm_business();
         <?php dm_button(dm_mod('home_hero_secondary'), '#services', 'ghost'); ?>
       </div>
 
-      <!-- Phones: hidden (CTAs only). sm+: 2×2 grid of frosted chips -->
-      <ul class="mx-auto mt-10 hidden max-w-lg sm:grid grid-cols-2 gap-2 text-left text-xs font-semibold text-white sm:text-sm lg:mx-0 lg:max-w-none lg:gap-x-3 short:mt-6">
-        <?php for ($i = 1; $i <= 4; $i++) : ?>
-          <li style="animation-delay: <?php echo 350 + $i * 80; ?>ms" class="animate-fade-up flex items-center gap-2 rounded-2xl bg-white/10 py-2 pl-2 pr-3 ring-1 ring-white/15 backdrop-blur-sm">
-            <span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-leaf-100 text-leaf-700"><?php echo dm_icon('check', 'size-4'); ?></span>
-            <?php echo esc_html(dm_mod("home_trust_pillar_{$i}_title")); ?>
-          </li>
-        <?php endfor; ?>
-      </ul>
-
-      <div style="animation-delay: 750ms" class="animate-fade-up mt-8 hidden sm:block short:mt-5 [&>ul]:justify-center lg:[&>ul]:justify-start">
+      <div style="animation-delay: 400ms" class="animate-fade-up mt-10 hidden sm:block short:mt-5 [&>ul]:justify-center lg:[&>ul]:justify-start">
         <?php get_template_part('template-parts/components/rating-badges', null, array('variant' => 'compact')); ?>
       </div>
     </div>
-
-
-    <!-- Opens the quote form in src/scripts/components/QuoteModal.js; plain link to /contact/ without JS -->
-    <a href="<?php echo esc_url(dm_quote_url()); ?>" data-quote-modal data-track="quote_cta_click" data-position="hero_badge" aria-haspopup="dialog" class="group absolute bottom-10 right-8 hidden max-w-xs animate-float rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white lg:block">
-      <span class="flex items-center gap-4 rounded-2xl bg-white/95 p-4 shadow-xl ring-1 ring-brand-900/5 backdrop-blur transition duration-500 ease-(--ease-out-soft) group-hover:-translate-y-1 group-hover:scale-[1.03] group-hover:shadow-2xl group-hover:shadow-brand-900/30 group-hover:ring-brand-600/40">
-        <span class="relative flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-700 text-white transition duration-500 group-hover:rotate-[-8deg] group-hover:bg-leaf-500 group-hover:text-brand-950">
+    <!-- Compact quote badge (lg+). Opens the quote form in src/scripts/components/QuoteModal.js; plain link to /contact/ without JS.
+         Magic hat: after 3 s the card pops out of an upside-down top hat (src/scripts/hero-hat.js, .dm-hat CSS in src/index.css).
+         Reduced motion or no JS: the card is simply there. -->
+    <div data-hero-hat class="dm-hat absolute bottom-8 right-8 hidden animate-float lg:block">
+    <a href="<?php echo esc_url(dm_quote_url()); ?>" data-quote-modal data-track="quote_cta_click" data-position="hero_badge" aria-haspopup="dialog" class="group relative block rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+      <span class="dm-hat-card flex items-center gap-3 rounded-2xl bg-white/95 py-2.5 pl-2.5 pr-4 shadow-xl ring-1 ring-brand-900/5 backdrop-blur transition duration-500 ease-(--ease-out-soft) group-hover:-translate-y-1 group-hover:shadow-2xl group-hover:shadow-brand-900/30 group-hover:ring-cta/40">
+        <span class="relative flex size-9 shrink-0 items-center justify-center rounded-xl bg-brand-700 text-white transition duration-500 group-hover:rotate-[-8deg] group-hover:bg-cta">
           <span class="absolute inset-0 animate-ping rounded-xl bg-brand-500 opacity-30 group-hover:opacity-0" aria-hidden="true"></span>
-          <?php echo dm_icon('home', 'relative size-6'); ?>
+          <?php echo dm_icon('home', 'relative size-5'); ?>
         </span>
-        <span class="text-sm leading-snug text-ink/80">
+        <span class="text-xs leading-snug">
           <span class="block font-bold text-brand-950">Based in <?php echo esc_html($business['city']); ?></span>
-          Serving homes across the Sacramento area
-          <span class="mt-1.5 flex items-center gap-1.5 font-bold text-brand-700">
+          <span class="flex items-center gap-1 font-bold text-brand-700">
             Get a Quote
-            <span class="transition-transform duration-300 group-hover:translate-x-1"><?php echo dm_icon('arrow-right', 'size-4'); ?></span>
+            <span class="transition-transform duration-300 group-hover:translate-x-1"><?php echo dm_icon('arrow-right', 'size-3.5'); ?></span>
           </span>
         </span>
       </span>
     </a>
+      <span class="dm-hat-spark left-[18%] top-[-14px] text-leaf-300" aria-hidden="true"><?php echo dm_icon('sparkles', 'size-5'); ?></span>
+      <span class="dm-hat-spark right-[14%] top-[-22px] text-white [animation-delay:1.1s]" aria-hidden="true"><?php echo dm_icon('sparkles', 'size-6'); ?></span>
+      <span class="dm-hat-spark right-[-14px] top-[30%] text-brand-200 [animation-delay:1.2s]" aria-hidden="true"><?php echo dm_icon('sparkles', 'size-4'); ?></span>
+      <svg class="dm-hat-hat" viewBox="0 0 72 56" width="92" height="72" aria-hidden="true" focusable="false">
+        <path d="M16 12h40l-4 38q-16 6-32 0z" fill="#0f2b36"/>
+        <path d="M17.3 22h37.4l-.6 7H17.9z" fill="#4dabc1"/>
+        <path d="M24 16l-2 30" stroke="#ffffff" stroke-opacity=".18" stroke-width="3" stroke-linecap="round"/>
+        <ellipse cx="36" cy="12" rx="34" ry="8" fill="#215564"/>
+        <ellipse cx="36" cy="12" rx="22" ry="4.5" fill="#06141a"/>
+      </svg>
+    </div>
   </div>
 </section>

@@ -6,7 +6,7 @@
 $pillar_icons = array(1 => 'user-group', 2 => 'identification', 3 => 'shield-check', 4 => 'calendar');
 ?>
 
-<section class="bg-cream py-20 lg:py-28" aria-labelledby="trust-title">
+<section class="bg-brand-50 py-20 lg:py-28" aria-labelledby="trust-title">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-5">

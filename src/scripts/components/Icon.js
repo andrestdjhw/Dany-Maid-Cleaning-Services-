@@ -20,3 +20,14 @@ export default function Icon({ name, className = "size-6" }) {
     </svg>
   )
 }
+
+// Triple-chevron arrow for .dm-cta buttons (same markup as dm_cta_arrow() in inc/icons.php).
+export function CtaArrow() {
+  return (
+    <svg className="dm-cta-arrow" viewBox="0 0 66 43" aria-hidden="true">
+      <polygon points="0,0 10,0 31.5,21.5 10,43 0,43 21.5,21.5" />
+      <polygon points="17,0 27,0 48.5,21.5 27,43 17,43 38.5,21.5" />
+      <polygon points="34,0 44,0 65.5,21.5 44,43 34,43 55.5,21.5" />
+    </svg>
+  )
+}

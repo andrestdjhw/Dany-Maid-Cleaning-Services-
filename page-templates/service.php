@@ -26,8 +26,10 @@ get_header(); ?>
     'cta'       => $copy['cta'],
     'service'   => $key,
     'secondary' => array('label' => 'See All Services', 'url' => dm_page_url('house-cleaning')),
-    'image'     => $service['image'],
-    'stock'     => $service['stock'],
+    'image'       => $service['image'],
+    'stock'       => $service['stock'],
+    'image_alt'   => $service['alt'],
+    'image_focus' => $service['focus'],
   )); ?>
 
   <!-- Benefit -->

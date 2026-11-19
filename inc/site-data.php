@@ -6,16 +6,17 @@
  */
 
 // Services (residential, plus Airbnb and commercial from the client's services sheet).
-// Titles and card text are editable in the Customizer. 'stock' overrides the default
-// assets/images/service-{key}-*.webp illustrative photo.
+// Titles and card text are editable in the Customizer. Photo: assets/images/service-{key}-*.webp
+// ('stock' overrides the name). Real Dany Maid photos (uploads/2026/11/Mesa-de-trabajo-*.webp, 2026-11-19)
+// except commercial (illustrative). 'alt' and 'focus' are used by the service page hero.
 function dm_services() {
   return array(
-    'recurring'  => array('slug' => 'recurring-house-cleaning', 'icon' => 'arrow-path'),
-    'deep'       => array('slug' => 'deep-cleaning', 'icon' => 'sparkles'),
-    'one-time'   => array('slug' => 'one-time-cleaning', 'icon' => 'calendar'),
-    'move'       => array('slug' => 'move-in-move-out-cleaning', 'icon' => 'truck'),
-    'airbnb'     => array('slug' => 'airbnb-cleaning', 'icon' => 'key', 'stock' => 'hero-living-room'),
-    'commercial' => array('slug' => 'commercial-cleaning', 'icon' => 'building'),
+    'recurring'  => array('slug' => 'recurring-house-cleaning', 'icon' => 'arrow-path', 'alt' => 'Two Dany Maid team members vacuuming and tidying a dining room', 'focus' => 'object-[50%_62%]'),
+    'deep'       => array('slug' => 'deep-cleaning', 'icon' => 'sparkles', 'alt' => 'A Dany Maid team member wiping down a dining chair', 'focus' => 'object-[50%_45%]'),
+    'one-time'   => array('slug' => 'one-time-cleaning', 'icon' => 'calendar', 'alt' => 'A Dany Maid team member making a bed with fresh sheets', 'focus' => 'object-[50%_58%]'),
+    'move'       => array('slug' => 'move-in-move-out-cleaning', 'icon' => 'truck', 'alt' => 'A clean, bright kitchen and dining area', 'focus' => 'object-center'),
+    'airbnb'     => array('slug' => 'airbnb-cleaning', 'icon' => 'key', 'alt' => 'A Dany Maid team member changing the bed linens', 'focus' => 'object-[50%_28%]'),
+    'commercial' => array('slug' => 'commercial-cleaning', 'icon' => 'building', 'alt' => '', 'focus' => 'object-center'),
   );
 }
 
@@ -30,6 +31,8 @@ function dm_service_list() {
       'text'  => dm_mod('service_' . $key . '_text'),
       'image' => (int) dm_mod('service_' . $key . '_image'),
       'stock' => isset($service['stock']) ? $service['stock'] : 'service-' . $key,
+      'alt'   => $service['alt'],
+      'focus' => $service['focus'],
     );
   }
   return $list;
@@ -196,6 +199,8 @@ function dm_react_data() {
     'homeUrl'      => home_url('/'),
     'quoteUrl'     => dm_quote_url(),
     'logo'         => dm_logo(),
+    // All-white version of the logo for the dark footer (made from DANY-LOGO-scaled.png: colour → white, white outline → transparent)
+    'footerLogo'   => dm_versioned_asset('assets/images/logo-white-900.webp'),
     'business'     => dm_business(),
     'social'       => dm_social_links(),
     'services'     => dm_service_list(),
@@ -205,6 +210,7 @@ function dm_react_data() {
     'footerMenu'   => dm_menu_tree('footer', dm_default_footer_menu()),
     'footerTagline' => dm_mod('footer_tagline'),
     'privacyUrl'   => get_privacy_policy_url(),
+    'termsUrl'     => dm_page_url('terms-and-conditions'),
     // Every page template already ends with its own CTA (contact form or cta-band).
     'hideFooterCta' => is_front_page() || is_page(),
     'cookies'      => array(

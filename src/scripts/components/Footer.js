@@ -1,5 +1,6 @@
 import React from "react"
-import Icon from "./Icon"
+import Icon, { CtaArrow } from "./Icon"
+import BrandIcon, { hasBrandIcon } from "./BrandIcon"
 import { OPEN_COOKIE_SETTINGS } from "../consent"
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
@@ -15,7 +16,7 @@ function Column({ title, children }) {
 }
 
 export default function Footer({ data }) {
-  const { homeUrl, quoteUrl, logo, business, social, services, serviceAreas, footerMenu, footerTagline, privacyUrl, hideFooterCta } = data
+  const { homeUrl, quoteUrl, footerLogo, business, social, services, serviceAreas, footerMenu, footerTagline, privacyUrl, termsUrl, hideFooterCta } = data
   const year = new Date().getFullYear()
 
   return (
@@ -29,8 +30,8 @@ export default function Footer({ data }) {
               <p className="mt-2 text-lg text-brand-100">Tell us about your home and we’ll help you find the next step.</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <a href={quoteUrl} data-track="quote_cta_click" data-position="footer" className={`inline-flex items-center justify-center gap-2 rounded-full bg-cta px-6 py-3.5 font-bold text-white transition hover:bg-cta-hover ${focusRing}`}>
-                Get a Quote <Icon name="arrow-right" className="size-5" />
+              <a href={quoteUrl} data-track="quote_cta_click" data-position="footer" className={`dm-cta inline-flex items-center justify-center gap-2 rounded-full bg-cta px-6 py-3.5 font-bold text-white hover:bg-cta-hover ${focusRing}`}>
+                Get a Quote <CtaArrow />
               </a>
               <a href={business.phoneHref} data-location="footer_cta" className={`inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/40 px-6 py-3 font-bold text-white transition hover:bg-white/10 ${focusRing}`}>
                 <Icon name="phone" className="size-5" /> {business.phone}
@@ -42,8 +43,8 @@ export default function Footer({ data }) {
 
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-2 lg:grid-cols-12 lg:px-8">
         <div className="lg:col-span-4">
-          <a href={homeUrl} className={`inline-block rounded-2xl bg-white p-3 ${focusRing}`} aria-label="Dany Maid home">
-            {logo ? <img src={logo.url} srcSet={logo.srcset} sizes="150px" width={logo.width} height={logo.height} alt={logo.alt} className="h-14 w-auto" loading="lazy" /> : <span className="font-display text-2xl font-bold text-brand-800">Dany Maid</span>}
+          <a href={homeUrl} className={`inline-block rounded-xl transition hover:opacity-90 ${focusRing}`} aria-label="Dany Maid home">
+            {footerLogo ? <img src={footerLogo} width="900" height="414" alt="Dany Maid" className="h-24 w-auto sm:h-28" loading="lazy" /> : <span className="font-display text-3xl font-bold text-white">Dany Maid</span>}
           </a>
           {footerTagline && <p className="mt-6 max-w-sm leading-relaxed">{footerTagline}</p>}
 
@@ -71,6 +72,20 @@ export default function Footer({ data }) {
               </p>
             )}
           </address>
+
+          {/* Profiles as round icon buttons (BBB has no brand icon, so it shows its initials) */}
+          {social.length > 0 && (
+            <ul className="mt-8 flex flex-wrap gap-3" aria-label="Dany Maid on other sites">
+              {social.map(link => (
+                <li key={link.key}>
+                  <a href={link.url} target="_blank" rel="noopener" title={link.label} className={`flex size-11 items-center justify-center rounded-full text-white ring-1 ring-white/25 transition duration-300 hover:-translate-y-0.5 hover:bg-cta hover:ring-cta ${focusRing}`}>
+                    {hasBrandIcon(link.key) ? <BrandIcon name={link.key} className="size-5" /> : <span className="text-xs font-extrabold tracking-wide">{link.label}</span>}
+                    <span className="sr-only">{link.label} (opens in a new tab)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <div className="lg:col-span-2">
@@ -115,38 +130,40 @@ export default function Footer({ data }) {
         </div>
       </div>
 
+      {/* Bottom bar: one line on desktop (copyright + legal links left, credit right), centered stack on phones */}
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 text-sm sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 py-6 text-center text-sm sm:px-6 lg:flex-row lg:justify-between lg:px-8 lg:text-left">
+          <div className="flex flex-col items-center gap-x-6 gap-y-3 sm:flex-row sm:flex-wrap sm:justify-center">
             <p>© {year} Dany Maid LLC. All rights reserved.</p>
-            {privacyUrl && (
-              <a href={privacyUrl} className={linkClass}>
-                Privacy Policy
-              </a>
-            )}
-            <button type="button" onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS))} className={linkClass}>
-              Cookie Settings
-            </button>
-            <p className="text-brand-100/80">
-              Crafted by{" "}
-              <a href="https://828marketingsolutions.com" target="_blank" rel="noopener" className={`font-semibold text-white ${linkClass}`}>
-                828 Marketing Solutions
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-            </p>
-          </div>
-          {social.length > 0 && (
-            <ul className="flex flex-wrap gap-2" aria-label="Dany Maid on other sites">
-              {social.map(link => (
-                <li key={link.key}>
-                  <a href={link.url} target="_blank" rel="noopener" className={`inline-block rounded-full px-4 py-2 font-semibold ring-1 ring-white/20 transition hover:bg-white/10 hover:text-white ${focusRing}`}>
-                    {link.label}
-                    <span className="sr-only"> (opens in a new tab)</span>
+            <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2" aria-label="Legal">
+              {privacyUrl && (
+                <li>
+                  <a href={privacyUrl} className={linkClass}>
+                    Privacy Policy
                   </a>
                 </li>
-              ))}
+              )}
+              {termsUrl && (
+                <li>
+                  <a href={termsUrl} className={linkClass}>
+                    Terms &amp; Conditions
+                  </a>
+                </li>
+              )}
+              <li>
+                <button type="button" onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS))} className={linkClass}>
+                  Cookie Settings
+                </button>
+              </li>
             </ul>
-          )}
+          </div>
+          <p className="text-brand-100/80">
+            Crafted by{" "}
+            <a href="https://828marketingsolutions.com" target="_blank" rel="noopener" className={`font-semibold text-white ${linkClass}`}>
+              828 Marketing Solutions
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </p>
         </div>
       </div>
     </footer>

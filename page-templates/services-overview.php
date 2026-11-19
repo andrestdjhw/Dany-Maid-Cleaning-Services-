@@ -13,7 +13,10 @@ get_header(); ?>
     'eyebrow' => 'Our services',
     'title'   => 'Cleaning Services in the Sacramento Area.',
     'intro'   => 'A regular routine, a deeper reset, a move, a rental turnover or a workspace. Every service has a clear scope, so you know exactly what is included.',
-    'stock'   => 'hero-living-room',
+    // Real photo: uploads/2026/11/Mesa-de-trabajo-5.webp → assets/images/services-team-vacuum-*.webp
+    'stock'       => 'services-team-vacuum',
+    'image_alt'   => 'A Dany Maid team member vacuuming the rug under a dining table',
+    'image_focus' => 'object-[50%_22%]',
   )); ?>
 
   <section class="bg-white py-20 lg:py-28" aria-labelledby="services-list-title">

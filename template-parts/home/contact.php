@@ -6,6 +6,7 @@
  */
 
 $business = dm_business();
+$directions = $business['mapsUrl'] ? $business['mapsUrl'] : 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode($business['name'] . ', ' . $business['street'] . ', ' . $business['city'] . ', ' . $business['region'] . ' ' . $business['zip']);
 $form_id  = isset($args['form_id']) ? $args['form_id'] : 'home_contact';
 $promises = array(
   'A real person from our local team reviews every request.',
@@ -24,7 +25,6 @@ $promises = array(
       <?php get_template_part('template-parts/components/section-heading', null, array(
         'eyebrow' => 'Request a quote',
         'title'   => dm_mod('home_contact_title'),
-        'body'    => dm_mod('home_contact_body'),
         'dark'    => true,
         'id'      => 'contact-title',
       )); ?>
@@ -38,7 +38,7 @@ $promises = array(
         <?php endforeach; ?>
       </ul>
 
-      <div data-reveal style="--reveal-delay: 400ms" class="mt-10 space-y-4 rounded-3xl bg-white/[0.07] p-6 ring-1 ring-white/15">
+      <div data-reveal style="--reveal-delay: 400ms" class="mt-8 space-y-4 rounded-3xl bg-white/[0.07] p-6 ring-1 ring-white/15">
         <p class="text-sm font-extrabold uppercase tracking-[0.14em] text-leaf-300">Prefer to talk?</p>
         <a href="<?php echo esc_url($business['phoneHref']); ?>" data-location="contact_section" class="flex items-center gap-3 font-display text-2xl font-semibold text-white hover:underline">
           <?php echo dm_icon('phone', 'size-6 text-leaf-300'); ?><?php echo esc_html($business['phone']); ?>
@@ -48,24 +48,27 @@ $promises = array(
             <?php echo dm_icon('envelope', 'size-5 text-leaf-300'); ?><?php echo esc_html($business['email']); ?>
           </a>
         <?php endif; ?>
-        <p class="flex items-start gap-3 text-brand-100">
+        <div class="flex items-start gap-3 text-brand-100">
           <?php echo dm_icon('map-pin', 'size-5 shrink-0 text-leaf-300'); ?>
-          <span><?php echo esc_html($business['street']); ?>, <?php echo esc_html($business['city']); ?>, <?php echo esc_html($business['region'] . ' ' . $business['zip']); ?></span>
-        </p>
+          <span>
+            <?php echo esc_html($business['street']); ?>, <?php echo esc_html($business['city']); ?>, <?php echo esc_html($business['region'] . ' ' . $business['zip']); ?>
+            <a href="<?php echo esc_url($directions); ?>" target="_blank" rel="noopener" class="mt-1 flex w-fit items-center gap-2 text-sm font-bold text-leaf-300 hover:underline">Get directions<?php echo dm_icon('arrow-right', 'size-4'); ?><span class="sr-only"> (opens in a new tab)</span></a>
+          </span>
+        </div>
       </div>
     </div>
 
-    <div data-reveal="zoom" class="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
+    <div data-reveal="zoom" class="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1 lg:flex lg:flex-col">
       <!-- React: src/scripts/components/ContactForm.js -->
-      <div id="dm-contact-form" data-form-id="<?php echo esc_attr($form_id); ?>" class="min-h-160 rounded-[2rem] bg-white p-6 shadow-2xl shadow-brand-950/40 sm:p-10">
+      <div id="dm-contact-form" data-form-id="<?php echo esc_attr($form_id); ?>" class="min-h-160 rounded-[2rem] bg-white p-6 shadow-2xl shadow-brand-950/40 sm:p-10 lg:flex lg:flex-1 lg:flex-col lg:justify-center">
         <noscript>
           <p class="text-ink/80">Please call us at <a class="font-bold text-brand-700" href="<?php echo esc_url($business['phoneHref']); ?>"><?php echo esc_html($business['phone']); ?></a> or email <a class="font-bold text-brand-700" href="mailto:<?php echo esc_attr($business['email']); ?>"><?php echo esc_html($business['email']); ?></a>.</p>
         </noscript>
       </div>
     </div>
 
-    <!-- React: src/scripts/components/LocationMap.js (plain Google Maps link without JS) -->
-    <div id="dm-location-map" data-reveal class="lg:col-span-5 lg:col-start-1 lg:row-start-2">
+    <!-- React: src/scripts/components/LocationMap.js (plain Google Maps link without JS). lg+: stretches so the map ends level with the form. -->
+    <div id="dm-location-map" data-reveal class="lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:flex lg:flex-col">
       <?php if ($business['mapsUrl']) : ?>
         <a href="<?php echo esc_url($business['mapsUrl']); ?>" target="_blank" rel="noopener" class="font-bold text-leaf-300 hover:underline">View our location on Google Maps<span class="sr-only"> (opens in a new tab)</span></a>
       <?php endif; ?>

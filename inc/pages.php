@@ -7,7 +7,7 @@
  * content is rendered as the editable "details" block of each template (e.g. a service's approved checklist).
  */
 
-const DM_PAGES_VERSION = '3';
+const DM_PAGES_VERSION = '4';
 
 function dm_pages() {
   return array(
@@ -95,6 +95,18 @@ function dm_pages() {
       'seo_title'   => 'Contact Dany Maid | Request a House Cleaning Quote',
       'description' => 'Tell us about your home and request a personalized house cleaning quote from Dany Maid, or call our Citrus Heights team.',
     ),
+    'privacy-policy' => array(
+      'title'       => 'Privacy Policy',
+      'template'    => 'page-templates/legal.php',
+      'seo_title'   => 'Privacy Policy | Dany Maid',
+      'description' => 'How Dany Maid collects and uses information on this website, including cookies, EmailJS form delivery and Google reCAPTCHA.',
+    ),
+    'terms-and-conditions' => array(
+      'title'       => 'Terms & Conditions',
+      'template'    => 'page-templates/legal.php',
+      'seo_title'   => 'Terms & Conditions | Dany Maid',
+      'description' => 'The terms that apply to using the Dany Maid website, quote requests, text messages and job applications.',
+    ),
     'careers' => array(
       'title'       => 'Careers',
       'template'    => 'page-templates/careers.php',
@@ -112,12 +124,20 @@ function dm_ensure_pages() {
   foreach (dm_pages() as $slug => $page) {
     $existing = get_page_by_path($slug);
     if ($existing) {
-      if (!get_post_meta($existing->ID, '_wp_page_template', true)) {
+      $current = get_post_meta($existing->ID, '_wp_page_template', true);
+      if (!$current || $current === 'default') {
         update_post_meta($existing->ID, '_wp_page_template', $page['template']);
+      }
+      // WordPress creates /privacy-policy/ as a draft; registry pages must be live.
+      if ($existing->post_status === 'draft') {
+        wp_update_post(array('ID' => $existing->ID, 'post_status' => 'publish'));
+      }
+      if ($slug === 'privacy-policy') {
+        update_option('wp_page_for_privacy_policy', $existing->ID);
       }
       continue;
     }
-    wp_insert_post(array(
+    $id = wp_insert_post(array(
       'post_type'    => 'page',
       'post_status'  => 'publish',
       'post_name'    => $slug,
@@ -125,6 +145,9 @@ function dm_ensure_pages() {
       'post_content' => '',
       'meta_input'   => array('_wp_page_template' => $page['template']),
     ));
+    if ($slug === 'privacy-policy' && $id && !is_wp_error($id)) {
+      update_option('wp_page_for_privacy_policy', $id);
+    }
   }
   update_option('dm_pages_version', DM_PAGES_VERSION);
 }

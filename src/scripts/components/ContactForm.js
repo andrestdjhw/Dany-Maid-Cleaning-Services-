@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react"
-import Icon from "./Icon"
+import Icon, { CtaArrow } from "./Icon"
 import { track } from "../analytics"
 import { loadRecaptcha, getRecaptchaToken, deliver, submittedAt } from "../email"
 
@@ -305,7 +305,7 @@ export default function ContactForm({ data, formId = "home_contact", idPrefix: p
       <button
         type="submit"
         disabled={submitting}
-        className="group/btn flex w-full items-center justify-center gap-2 rounded-full bg-cta px-6 py-4 text-lg font-bold text-white shadow-lg shadow-brand-900/20 transition duration-300 hover:-translate-y-0.5 hover:bg-cta-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:translate-y-0 disabled:cursor-wait disabled:opacity-80"
+        className="dm-cta flex w-full items-center justify-center gap-2 rounded-full bg-cta px-6 py-4 text-lg font-bold text-white hover:bg-cta-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:translate-y-0 disabled:cursor-wait disabled:opacity-80"
       >
         {submitting ? (
           <>
@@ -315,9 +315,7 @@ export default function ContactForm({ data, formId = "home_contact", idPrefix: p
         ) : (
           <>
             Send My Request
-            <span className="transition-transform duration-300 group-hover/btn:translate-x-1">
-              <Icon name="arrow-right" className="size-5" />
-            </span>
+            <CtaArrow />
           </>
         )}
       </button>

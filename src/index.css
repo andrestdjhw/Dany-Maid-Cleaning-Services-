@@ -344,6 +344,127 @@
   }
 }
 
+/*
+ * CTA hover effect (adapted from Uiverse.io by Li-Deheng): glow, pulsing ring, colour blink and a
+ * triple-chevron arrow that slides in and blinks. Class .dm-cta + the arrow from dm_cta_arrow()
+ * (inc/icons.php) / <CtaArrow /> (src/scripts/components/Icon.js). Unlayered on purpose so the glow
+ * wins over Tailwind's hover:shadow utilities. Reduced motion stops the loops (base rule above).
+ */
+.dm-cta {
+  box-shadow: 0 0 0.2em 0 var(--color-cta);
+  transition: box-shadow 0.5s, background-color 0.3s, translate 0.3s, scale 0.15s;
+}
+
+.dm-cta:hover {
+  box-shadow: 0 0 1em 0 var(--color-cta);
+  text-shadow: 0 2px 6px rgb(15 43 54 / 0.3);
+  animation: dm-cta-ripple 1s linear infinite, dm-cta-colorize 1s infinite;
+}
+
+.dm-cta:active {
+  scale: 0.95;
+  text-shadow: none;
+}
+
+.dm-cta:disabled {
+  animation: none;
+  scale: 1;
+}
+
+.dm-cta-arrow {
+  height: 0.8em;
+  width: auto;
+  margin-left: -0.15em;
+  overflow: visible;
+  fill: currentColor;
+  transition: filter 0.5s;
+}
+
+.dm-cta:hover .dm-cta-arrow {
+  filter: drop-shadow(2px 2px 2px rgb(15 43 54 / 0.3));
+}
+
+/* Resting: the two left chevrons sit hidden under the right one. Hover: they slide out and blink. */
+.dm-cta-arrow polygon {
+  transition: transform 0.4s var(--ease-out-soft), opacity 0.3s;
+}
+
+.dm-cta-arrow polygon:nth-child(1) {
+  transform: translateX(34px);
+  opacity: 0;
+}
+
+.dm-cta-arrow polygon:nth-child(2) {
+  transform: translateX(17px);
+  opacity: 0;
+  transition-duration: 0.5s;
+}
+
+.dm-cta:hover .dm-cta-arrow polygon:nth-child(1) {
+  transform: translateX(0);
+  opacity: 1;
+  animation: dm-cta-blink 1s infinite 0.6s;
+}
+
+.dm-cta:hover .dm-cta-arrow polygon:nth-child(2) {
+  transform: translateX(0);
+  opacity: 1;
+  animation: dm-cta-blink 1s infinite 0.4s;
+}
+
+.dm-cta:hover .dm-cta-arrow polygon:nth-child(3) {
+  animation: dm-cta-blink 1s infinite 0.2s;
+}
+
+@keyframes dm-cta-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes dm-cta-colorize {
+  0%, 100% { background-color: var(--color-cta); }
+  50% { background-color: var(--color-cta-hover); }
+}
+
+@keyframes dm-cta-ripple {
+  0% { outline: 0 solid transparent; outline-offset: -0.1em; }
+  50% { outline: 0.2em solid rgb(77 171 193 / 0.4); outline-offset: 0.2em; }
+  100% { outline: 0.4em solid transparent; outline-offset: 0.4em; }
+}
+
+/* Cookie table on the Privacy Policy (page-templates/legal.php) */
+.dm-legal-table {
+  width: 100%;
+  min-width: 40rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.dm-legal-table th {
+  background: var(--color-brand-900);
+  color: #fff;
+  font-weight: 700;
+  text-align: left;
+  padding: 0.75rem 1rem;
+}
+
+.dm-legal-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-brand-100);
+  vertical-align: top;
+  color: color-mix(in oklab, var(--color-ink) 85%, transparent);
+}
+
+.dm-legal-table tr:nth-child(even) td {
+  background: var(--color-brand-50);
+}
+
+.dm-legal-table code {
+  font-weight: 600;
+  color: var(--color-brand-800);
+}
+
 /* reCAPTCHA v3 badge hidden (it would sit on the phones' bottom bar). Allowed by Google because both
    forms show the "Protected by reCAPTCHA" text with the Privacy / Terms links. */
 .grecaptcha-badge {
@@ -354,4 +475,46 @@
    which would beat this rule inside @layer base. Reserves room for the phones' bottom bar. */
 body {
   padding-bottom: var(--dm-bottom-bar);
+}
+
+/* Home hero quote badge: magic hat reveal (template-parts/home/hero.php, src/scripts/hero-hat.js).
+   The card waits hidden; at 3 s .is-hat-show plays: the hat rises and wiggles, the card pops out of it
+   with sparkles, the hat drops away, then .is-hat-done leaves the card in place. Hat and sparkles only
+   exist during the show, and reduced motion skips the whole thing. */
+.dm-hat-hat,
+.dm-hat-spark { display: none; }
+.dm-hat-hat {
+  position: absolute; left: 50%; bottom: -24px; z-index: 1;
+  translate: -50% 0; transform-origin: 50% 100%;
+  filter: drop-shadow(0 10px 12px rgb(6 20 26 / 0.35));
+}
+.dm-hat-spark { position: absolute; z-index: 2; }
+.dm-hat-card { transform-origin: 50% 100%; }
+@media (prefers-reduced-motion: no-preference) {
+  .dm-js .dm-hat:not(.is-hat-done) .dm-hat-card { visibility: hidden; }
+  .dm-js .dm-hat.is-hat-show .dm-hat-card { visibility: visible; animation: dm-hat-card 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) 0.95s both; }
+  .dm-hat.is-hat-show .dm-hat-hat { display: block; animation: dm-hat-hat 2.4s ease-in-out both; }
+  .dm-hat.is-hat-show .dm-hat-spark { display: block; animation: dm-hat-spark 0.9s ease-out 1s both; }
+}
+@keyframes dm-hat-hat {
+  0% { transform: translateY(40px) scale(0.4); opacity: 0; }
+  14% { transform: translateY(0) scale(1); opacity: 1; }
+  20% { transform: rotate(-10deg); }
+  26% { transform: rotate(9deg); }
+  32% { transform: rotate(-6deg); }
+  38% { transform: rotate(0) scaleY(1); }
+  42% { transform: scaleX(1.08) scaleY(0.86); }
+  50% { transform: translateY(8px) scaleX(0.97) scaleY(1.04); }
+  60%, 76% { transform: translateY(34px); opacity: 1; }
+  100% { transform: translateY(70px) rotate(14deg) scale(0.6); opacity: 0; }
+}
+@keyframes dm-hat-card {
+  0% { transform: translateY(14px) scale(0.12); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes dm-hat-spark {
+  0% { transform: scale(0) rotate(0); opacity: 0; }
+  40% { transform: scale(1.25) rotate(25deg); opacity: 1; }
+  100% { transform: scale(0.4) rotate(70deg) translateY(-10px); opacity: 0; }
 }

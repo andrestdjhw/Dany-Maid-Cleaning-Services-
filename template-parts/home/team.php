@@ -59,8 +59,14 @@ $points = array(
         <?php endforeach; ?>
       </ul>
 
-      <div data-reveal style="--reveal-delay: 450ms" class="mt-10">
+      <div data-reveal style="--reveal-delay: 450ms" class="mt-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center">
         <?php dm_button(dm_mod('home_team_cta'), home_url('/about/'), 'secondary'); ?>
+        <!-- Job applications (/careers/, bilingual form) -->
+        <a href="<?php echo esc_url(dm_page_url('careers') . '#apply'); ?>" data-track="careers_click" data-position="home_team" class="group inline-flex items-center gap-3 rounded-full font-bold text-brand-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-700">
+          <span class="rounded-full bg-leaf-100 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-leaf-700">We’re hiring</span>
+          <span class="underline-offset-4 group-hover:underline">Join Our Team</span>
+          <span class="transition group-hover:translate-x-1"><?php echo dm_icon('arrow-right', 'size-5'); ?></span>
+        </a>
       </div>
     </div>
   </div>

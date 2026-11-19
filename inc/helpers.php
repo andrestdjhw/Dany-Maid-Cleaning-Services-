@@ -12,7 +12,7 @@ function dm_quote_url($context = array()) {
 function dm_button_classes($variant = 'primary') {
   $base = 'group/btn inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-base font-bold transition duration-300 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
   $variants = array(
-    'primary'   => 'bg-cta text-white shadow-sm shadow-brand-900/20 hover:bg-cta-hover focus-visible:outline-brand-700',
+    'primary'   => 'dm-cta bg-cta text-white hover:bg-cta-hover focus-visible:outline-brand-700',
     'secondary' => 'border-2 border-brand-700 bg-white text-brand-800 hover:bg-brand-50 focus-visible:outline-brand-700',
     'light'     => 'bg-white text-brand-900 shadow-sm hover:bg-brand-50 focus-visible:outline-white',
     'ghost'     => 'border-2 border-white/70 text-white hover:bg-white/10 focus-visible:outline-white',
@@ -28,13 +28,17 @@ function dm_button($label, $url, $variant = 'primary', $track = array()) {
   foreach ($track as $name => $value) {
     $attrs .= sprintf(' data-%s="%s"', esc_attr($name), esc_attr($value));
   }
+  // Primary (turquoise) CTAs get the animated triple-chevron arrow; other variants the plain arrow.
+  $arrow = $variant === 'primary'
+    ? dm_cta_arrow()
+    : '<span class="transition-transform duration-300 group-hover/btn:translate-x-1">' . dm_icon('arrow-right', 'size-5') . '</span>';
   printf(
-    '<a href="%s" class="%s"%s>%s<span class="transition-transform duration-300 group-hover/btn:translate-x-1">%s</span></a>',
+    '<a href="%s" class="%s"%s>%s%s</a>',
     esc_url($url),
     esc_attr(dm_button_classes($variant)),
     $attrs,
     esc_html($label),
-    dm_icon('arrow-right', 'size-5')
+    $arrow
   );
 }
 
@@ -60,6 +64,14 @@ function dm_text_link($label, $url, $track = array()) {
   );
 }
 
+// Theme file URL with ?v=<last modified> so a replaced image or video is fetched again instead of
+// coming from the browser cache (same file name, new content).
+function dm_versioned_asset($path) {
+  $file = get_theme_file_path($path);
+  $url  = get_theme_file_uri($path);
+  return file_exists($file) ? add_query_arg('v', filemtime($file), $url) : $url;
+}
+
 // Theme stock photo (assets/images/{name}-{800|1400}.webp) as a responsive <img>.
 function dm_stock_image($name, $alt, $class, $sizes, $eager = false) {
   $file = get_theme_file_path("/assets/images/{$name}-1400.webp");
@@ -67,17 +79,20 @@ function dm_stock_image($name, $alt, $class, $sizes, $eager = false) {
     return '';
   }
   list($width, $height) = getimagesize($file);
+  // Real widths in srcset: a photo smaller than 1400 px is saved at its own size.
+  $small = getimagesize(get_theme_file_path("/assets/images/{$name}-800.webp"));
   return sprintf(
-    '<img src="%1$s" srcset="%2$s 800w, %1$s 1400w" sizes="%3$s" width="%4$d" height="%5$d" alt="%6$s" class="%7$s" loading="%8$s" decoding="async"%9$s>',
-    esc_url(get_theme_file_uri("/assets/images/{$name}-1400.webp")),
-    esc_url(get_theme_file_uri("/assets/images/{$name}-800.webp")),
+    '<img src="%1$s" srcset="%2$s %10$dw, %1$s %4$dw" sizes="%3$s" width="%4$d" height="%5$d" alt="%6$s" class="%7$s" loading="%8$s" decoding="async"%9$s>',
+    esc_url(dm_versioned_asset("assets/images/{$name}-1400.webp")),
+    esc_url(dm_versioned_asset("assets/images/{$name}-800.webp")),
     esc_attr($sizes),
     $width,
     $height,
     esc_attr($alt),
     esc_attr($class),
     $eager ? 'eager' : 'lazy',
-    $eager ? ' fetchpriority="high"' : ''
+    $eager ? ' fetchpriority="high"' : '',
+    $small ? $small[0] : 800
   );
 }
 

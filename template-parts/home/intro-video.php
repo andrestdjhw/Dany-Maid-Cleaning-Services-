@@ -9,8 +9,8 @@
  */
 ?>
 
-<section class="relative overflow-hidden bg-white py-20 lg:py-28" aria-labelledby="intro-title">
-  <div class="pointer-events-none absolute -right-32 top-10 size-96 animate-float-slow rounded-full bg-brand-100/70 blur-3xl" aria-hidden="true"></div>
+<section class="relative overflow-hidden bg-brand-50 py-14 lg:py-20" aria-labelledby="intro-title">
+  <div class="pointer-events-none absolute -right-32 top-10 size-96 animate-float-slow rounded-full bg-brand-100 blur-3xl" aria-hidden="true"></div>
   <div class="pointer-events-none absolute -left-24 bottom-0 size-72 animate-float rounded-full bg-leaf-100/80 blur-3xl" aria-hidden="true"></div>
 
   <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8">
