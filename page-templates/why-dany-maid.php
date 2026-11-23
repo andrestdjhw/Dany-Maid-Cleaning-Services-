@@ -50,25 +50,30 @@ get_header(); ?>
       </ul>
 
       <!-- Our work: real photos (assets/images/gallery-*.webp, see assets/images/CREDITS.md).
-           lg: 4 columns, living room 2×2, team photo 1×2 tall, bathroom and neighborhood 1×1. Phones: 2 columns. -->
+           lg: 4 columns in two mirrored blocks (a 2×2 photo, a 1×2 tall photo and two 1×1). Phones: 2 columns;
+           grid-flow-row-dense fills the gap a 2-column photo would leave. Fifth value: object position. -->
       <?php
       $gallery = array(
         array('gallery-living-room', 'A clean, tidy living room with a sectional sofa and plants', 'col-span-2 row-span-2', '(min-width: 1024px) 640px, 100vw'),
         array('gallery-team-dining', 'Two Dany Maid team members cleaning a dining room', 'row-span-2', '(min-width: 1024px) 320px, 50vw'),
         array('gallery-bathroom', 'A clean bathroom vanity with marble counters and gold fixtures', '', '(min-width: 1024px) 320px, 50vw'),
         array('gallery-neighborhood', 'Homes in a Sacramento-area neighborhood at dusk', '', '(min-width: 1024px) 320px, 50vw'),
+        array('gallery-chair', 'A Dany Maid team member wiping down a dining chair', 'row-span-2', '(min-width: 1024px) 320px, 50vw', 'object-[50%_40%]'),
+        array('gallery-kitchen', 'A spotless kitchen and dining table with an orchid centerpiece', '', '(min-width: 1024px) 320px, 50vw'),
+        array('gallery-team-bedroom', 'Two Dany Maid team members making a bed together', 'col-span-2 row-span-2', '(min-width: 1024px) 640px, 100vw'),
+        array('gallery-bed', 'A Dany Maid team member smoothing fresh bed sheets', '', '(min-width: 1024px) 320px, 50vw', 'object-[50%_62%]'),
       );
       ?>
       <div class="mt-20">
         <p data-reveal class="text-center text-sm font-extrabold uppercase tracking-[0.14em] text-brand-700">Our work</p>
-        <ul class="mt-6 grid auto-rows-[10rem] grid-cols-2 gap-3 sm:auto-rows-[13rem] sm:gap-4 lg:grid-cols-4 lg:auto-rows-[15rem]" aria-label="Photos of Dany Maid at work">
+        <ul class="mt-6 grid grid-flow-row-dense auto-rows-[10rem] grid-cols-2 gap-3 sm:auto-rows-[13rem] sm:gap-4 lg:grid-cols-4 lg:auto-rows-[15rem]" aria-label="Photos of Dany Maid at work">
           <?php foreach ($gallery as $i => $photo) :
             $big   = dm_versioned_asset("assets/images/{$photo[0]}-1400.webp");
             $small = dm_versioned_asset("assets/images/{$photo[0]}-800.webp");
             list($w, $h) = getimagesize(get_theme_file_path("assets/images/{$photo[0]}-1400.webp"));
             list($sw)    = getimagesize(get_theme_file_path("assets/images/{$photo[0]}-800.webp")); ?>
-            <li data-reveal="zoom" style="--reveal-delay: <?php echo $i * 110; ?>ms" class="group relative overflow-hidden rounded-3xl bg-brand-100 shadow-lg shadow-brand-900/10 <?php echo esc_attr($photo[2]); ?>">
-              <img src="<?php echo esc_url($big); ?>" srcset="<?php echo esc_url($small); ?> <?php echo (int) $sw; ?>w, <?php echo esc_url($big); ?> <?php echo (int) $w; ?>w" sizes="<?php echo esc_attr($photo[3]); ?>" width="<?php echo (int) $w; ?>" height="<?php echo (int) $h; ?>" loading="lazy" decoding="async" alt="<?php echo esc_attr($photo[1]); ?>" class="size-full object-cover transition duration-1000 ease-(--ease-out-soft) group-hover:scale-105">
+            <li data-reveal="zoom" style="--reveal-delay: <?php echo ($i % 4) * 110; ?>ms" class="group relative overflow-hidden rounded-3xl bg-brand-100 shadow-lg shadow-brand-900/10 <?php echo esc_attr($photo[2]); ?>">
+              <img src="<?php echo esc_url($big); ?>" srcset="<?php echo esc_url($small); ?> <?php echo (int) $sw; ?>w, <?php echo esc_url($big); ?> <?php echo (int) $w; ?>w" sizes="<?php echo esc_attr($photo[3]); ?>" width="<?php echo (int) $w; ?>" height="<?php echo (int) $h; ?>" loading="lazy" decoding="async" alt="<?php echo esc_attr($photo[1]); ?>" class="size-full object-cover <?php echo esc_attr($photo[4] ?? ''); ?> transition duration-1000 ease-(--ease-out-soft) group-hover:scale-105">
             </li>
           <?php endforeach; ?>
         </ul>

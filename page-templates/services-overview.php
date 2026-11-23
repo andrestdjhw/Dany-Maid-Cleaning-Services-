@@ -3,7 +3,7 @@
  * Template Name: Services Overview
  *
  * /house-cleaning/: overview of every service (residential, Airbnb and commercial), linking to each
- * service page, plus the scope comparison from the client's services sheet.
+ * service page.
  */
 
 get_header(); ?>
@@ -49,7 +49,6 @@ get_header(); ?>
     </div>
   </section>
 
-  <?php get_template_part('template-parts/components/scope-compare', null, array('bg' => 'tint')); ?>
   <?php get_template_part('template-parts/home/recurring'); ?>
   <?php get_template_part('template-parts/home/steps'); ?>
   <?php get_template_part('template-parts/components/pricing-factors', null, array('bg' => 'white')); ?>

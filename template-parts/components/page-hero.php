@@ -35,7 +35,7 @@ $crumbs = dm_breadcrumbs();
 $tone = array(
   'section' => array('bg' => 'bg-brand-950', 'split' => 'bg-brand-950 lg:bg-cream', 'plain' => 'bg-cream'),
   'blob'    => array('bg' => 'hidden', 'split' => 'hidden lg:block', 'plain' => ''),
-  'wrap'    => array('bg' => 'relative py-20 lg:py-32', 'split' => 'py-20 sm:py-24 lg:relative lg:grid-cols-12 lg:gap-16 lg:py-20', 'plain' => 'relative py-12 lg:py-20'),
+  'wrap'    => array('bg' => 'relative py-20 lg:py-32', 'split' => 'max-lg:gap-8! pb-14 sm:pb-20 lg:relative lg:grid-cols-12 lg:gap-16 lg:py-20', 'plain' => 'relative py-12 lg:py-20'),
   'copy'    => array('bg' => 'max-w-3xl', 'split' => 'relative z-10 lg:col-span-6', 'plain' => 'max-w-3xl'),
   'crumbs'  => array('bg' => 'text-white/80', 'split' => 'text-white/80 lg:text-ink/60', 'plain' => 'text-ink/60'),
   'link'    => array('bg' => 'text-white', 'split' => 'text-white lg:text-brand-700', 'plain' => 'text-brand-700'),
@@ -85,12 +85,12 @@ $c = array_map(fn($row) => $row[$mode], $tone);
         </p>
       <?php endif; ?>
 
-      <h1 id="page-title" style="animation-delay: 140ms" class="mt-4 animate-fade-up font-display text-4xl font-semibold leading-[1.08] tracking-tight text-balance sm:text-5xl lg:text-[3.5rem] <?php echo $c['title']; ?>">
+      <h1 id="page-title" style="animation-delay: 140ms" class="mt-4 animate-fade-up font-display text-[2rem] font-semibold leading-[1.08] tracking-tight text-balance sm:text-5xl lg:text-[3.5rem] <?php echo $c['title']; ?>">
         <?php echo esc_html($args['title']); ?>
       </h1>
 
       <?php if ($args['intro']) : ?>
-        <p style="animation-delay: 220ms" class="mt-6 max-w-xl animate-fade-up text-lg leading-relaxed sm:text-xl <?php echo $c['intro']; ?>"><?php echo esc_html($args['intro']); ?></p>
+        <p style="animation-delay: 220ms" class="mt-4 max-w-xl animate-fade-up text-base leading-relaxed sm:mt-6 sm:text-xl <?php echo $c['intro']; ?>"><?php echo esc_html($args['intro']); ?></p>
       <?php endif; ?>
 
       <?php if ($args['cta'] || $args['secondary']) : ?>
@@ -108,12 +108,13 @@ $c = array_map(fn($row) => $row[$mode], $tone);
     </div>
 
     <?php if ($mode === 'split') : ?>
-      <div style="animation-delay: 150ms" class="absolute inset-0 animate-fade-in-zoom lg:relative lg:inset-auto lg:col-span-6">
+      <!-- Below lg the photo sits above the copy, full-bleed and uncovered; lg+ beside it -->
+      <div style="animation-delay: 150ms" class="relative order-first -mx-4 h-72 animate-fade-in-zoom sm:-mx-6 sm:h-96 lg:order-none lg:mx-0 lg:h-auto lg:col-span-6">
         <div class="absolute -bottom-6 -left-6 hidden size-36 animate-float rounded-full bg-leaf-200/70 lg:block" aria-hidden="true"></div>
         <div class="relative h-full overflow-hidden lg:aspect-[4/3] lg:h-auto lg:rounded-[2rem] lg:shadow-2xl lg:shadow-brand-900/20">
           <?php dm_photo($args['image'], $args['stock'], $args['image_alt'], 'size-full animate-slow-zoom object-cover ' . $args['image_focus'], '(min-width: 1024px) 600px, 100vw', true); ?>
-          <!-- Below lg: dark veil so the white copy reads over the photo. lg+: soft bottom shade only. -->
-          <div class="absolute inset-0 bg-linear-to-b from-brand-950/80 via-brand-950/70 to-brand-950/85 lg:bg-linear-to-t lg:from-brand-950/25 lg:via-transparent lg:to-transparent" aria-hidden="true"></div>
+          <!-- Below lg: only the bottom edge fades into the section. lg+: soft bottom shade. -->
+          <div class="absolute inset-0 bg-linear-to-t from-brand-950 via-transparent via-30% to-transparent lg:from-brand-950/25 lg:via-50%" aria-hidden="true"></div>
         </div>
       </div>
     <?php endif; ?>

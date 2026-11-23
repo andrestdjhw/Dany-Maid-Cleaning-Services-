@@ -8,7 +8,7 @@
 // Services (residential, plus Airbnb and commercial from the client's services sheet).
 // Titles and card text are editable in the Customizer. Photo: assets/images/service-{key}-*.webp
 // ('stock' overrides the name). Real Dany Maid photos (uploads/2026/11/Mesa-de-trabajo-*.webp, 2026-11-19)
-// except commercial (illustrative). 'alt' and 'focus' are used by the service page hero.
+// 'alt' and 'focus' are used by the service page hero.
 function dm_services() {
   return array(
     'recurring'  => array('slug' => 'recurring-house-cleaning', 'icon' => 'arrow-path', 'alt' => 'Two Dany Maid team members vacuuming and tidying a dining room', 'focus' => 'object-[50%_62%]'),
@@ -16,7 +16,7 @@ function dm_services() {
     'one-time'   => array('slug' => 'one-time-cleaning', 'icon' => 'calendar', 'alt' => 'A Dany Maid team member making a bed with fresh sheets', 'focus' => 'object-[50%_58%]'),
     'move'       => array('slug' => 'move-in-move-out-cleaning', 'icon' => 'truck', 'alt' => 'A clean, bright kitchen and dining area', 'focus' => 'object-center'),
     'airbnb'     => array('slug' => 'airbnb-cleaning', 'icon' => 'key', 'alt' => 'A Dany Maid team member changing the bed linens', 'focus' => 'object-[50%_28%]'),
-    'commercial' => array('slug' => 'commercial-cleaning', 'icon' => 'building', 'alt' => '', 'focus' => 'object-center'),
+    'commercial' => array('slug' => 'commercial-cleaning', 'icon' => 'building', 'alt' => 'Aerial view of Dany Maid company cars parked in front of a commercial plaza', 'focus' => 'object-[60%_center]'),
   );
 }
 
@@ -147,7 +147,8 @@ function dm_default_primary_menu() {
     array('label' => 'Service Areas', 'url' => home_url('/service-areas/'), 'children' => array()),
     array('label' => 'Reviews', 'url' => home_url('/reviews/'), 'children' => array()),
     array('label' => 'About', 'url' => home_url('/about/'), 'children' => array()),
-    array('label' => 'Contact', 'url' => home_url('/contact/'), 'children' => array()),
+    // Careers goes straight to the job application form (#apply on the Careers page). Contact stays in the footer and the Get a Quote buttons.
+    array('label' => 'Careers', 'url' => home_url('/careers/#apply'), 'children' => array()),
   );
 }
 

@@ -1,29 +1,47 @@
 <?php
 /**
  * Home · 01 Hero: what we do, for whom and where; primary CTA and immediate trust.
- * Full-bleed background video of the Dany Maid team (assets/video/hero-color-*.mp4, from
- * uploads/2026/11/COLOR.mp4) at every width, with a dark veil so the white copy reads on top.
- * src/scripts/bg-video.js loads the 4.5 Mbps file on lg+, a lighter 720p one below; both lightly sharpened; reduced motion keeps the poster.
+ * Full-bleed background video playlist (src/scripts/bg-playlist.js), with a dark veil so the white copy reads on top:
+ *   1. team waving by the cars  (assets/video/hero-team-*.mp4,    from uploads/2026/11/DANY-MAIN22.mp4)
+ *   2. fleet tracking shot      (assets/video/hero-fleet-1-*.mp4, from uploads/2026/11/web2.mp4)
+ *   3. fleet tracking shot      (assets/video/hero-fleet-2-*.mp4, from uploads/2026/11/web4.mp4)
+ * Two stacked <video> elements crossfade (1 s) from one clip to the next and loop back to the first.
+ * Each clip loads only when it is next. lg+: 1080p (Lanczos upscale of the 720p sources, light sharpening,
+ * 8 Mbps); below lg: 720p (3.2 Mbps). Stronger sharpening smeared the faces. No audio. Reduced motion keeps the poster.
  */
 
 $business = dm_business();
 ?>
 
-<section class="relative flex flex-1 overflow-hidden bg-brand-950" aria-labelledby="hero-title">
-  <video
-    data-bg-video
-    data-src-lg="<?php echo esc_url(get_theme_file_uri('/assets/video/hero-color-720.mp4')); ?>"
-    data-src-sm="<?php echo esc_url(get_theme_file_uri('/assets/video/hero-color-720-mobile.mp4')); ?>"
-    poster="<?php echo esc_url(get_theme_file_uri('/assets/images/hero-color-poster.webp')); ?>"
-    class="absolute inset-0 size-full object-cover object-[center_60%]"
-    muted loop playsinline preload="none" aria-hidden="true"
-  ></video>
-  <!-- Phones/tablet: even veil behind centered copy. lg+: dark on the left (copy), clear on the right so the team shows. -->
-  <div class="absolute inset-0 bg-linear-to-b from-brand-950/80 via-brand-950/65 to-brand-950/85 lg:bg-linear-to-r lg:from-brand-950/90 lg:via-brand-950/60 lg:to-brand-950/5" aria-hidden="true"></div>
+<section class="relative flex flex-1 flex-col overflow-hidden bg-brand-950 sm:flex-row" aria-labelledby="hero-title">
+  <?php
+  $hero_clips = array();
+  foreach (array('team', 'fleet-1', 'fleet-2') as $clip) {
+    $hero_clips[] = array(
+      'lg' => dm_versioned_asset("assets/video/hero-{$clip}-1080.mp4"),
+      'sm' => dm_versioned_asset("assets/video/hero-{$clip}-720.mp4"),
+    );
+  }
+  ?>
+  <div data-bg-playlist="<?php echo esc_attr(wp_json_encode($hero_clips)); ?>" class="relative h-[42svh] min-h-60 shrink-0 sm:absolute sm:inset-0 sm:h-auto" aria-hidden="true">
+    <video
+      poster="<?php echo esc_url(dm_versioned_asset('assets/images/hero-main-poster.webp')); ?>"
+      class="absolute inset-0 size-full object-cover object-[center_60%] transition-opacity duration-1000"
+      muted playsinline preload="none"
+    ></video>
+    <video
+      class="absolute inset-0 size-full object-cover object-[center_60%] opacity-0 transition-opacity duration-1000"
+      muted playsinline preload="none"
+    ></video>
+    <!-- Phones: the video sits above the copy, uncovered; only its bottom edge fades into the section -->
+    <div class="absolute inset-x-0 bottom-0 h-1/4 bg-linear-to-t from-brand-950 to-transparent sm:hidden"></div>
+  </div>
+  <!-- Tablet: even veil behind centered copy. lg+: dark on the left (copy), clear on the right so the team shows. -->
+  <div class="absolute inset-0 hidden sm:block bg-linear-to-b sm:from-brand-950/80 sm:via-brand-950/65 sm:to-brand-950/85 lg:bg-linear-to-r lg:from-brand-950/90 lg:via-brand-950/60 lg:to-brand-950/5" aria-hidden="true"></div>
 
-  <div class="relative mx-auto flex w-full max-w-7xl items-center px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-16 short:py-8">
+  <div class="relative mx-auto flex w-full max-w-7xl items-start px-4 pb-10 pt-2 sm:items-center sm:px-6 sm:py-20 lg:px-8 lg:py-16 short:py-8">
     <div class="relative z-10 mx-auto max-w-2xl text-center lg:mx-0 lg:max-w-xl lg:text-left xl:max-w-2xl">
-      <p class="animate-fade-up inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-bold text-brand-800 shadow-sm ring-1 ring-brand-900/10">
+      <p class="animate-fade-up inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-bold sm:px-4 sm:py-1.5 sm:text-sm text-brand-800 shadow-sm ring-1 ring-brand-900/10">
         <span class="relative flex size-2">
           <span class="absolute inline-flex size-full animate-ping rounded-full bg-leaf-500 opacity-60"></span>
           <span class="relative inline-flex size-2 rounded-full bg-leaf-500"></span>
@@ -31,16 +49,16 @@ $business = dm_business();
         <?php echo esc_html(dm_mod('home_hero_eyebrow')); ?>
       </p>
 
-      <h1 id="hero-title" style="animation-delay: 100ms" class="animate-fade-up mt-6 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-balance text-white sm:text-5xl lg:text-6xl short:mt-4 short:text-5xl">
+      <h1 id="hero-title" style="animation-delay: 100ms" class="animate-fade-up mt-4 font-display text-[2rem] sm:mt-6 font-semibold leading-[1.08] tracking-tight text-balance text-white sm:text-5xl lg:text-6xl short:mt-4 short:text-5xl">
         <?php echo esc_html(dm_mod('home_hero_title')); ?>
       </h1>
 
-      <p style="animation-delay: 200ms" class="animate-fade-up mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/90 sm:text-xl lg:mx-0 short:mt-4 short:text-lg">
+      <p style="animation-delay: 200ms" class="animate-fade-up mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/90 sm:mt-6 sm:text-xl lg:mx-0 short:mt-4 short:text-lg">
         <?php echo esc_html(dm_mod('home_hero_body')); ?>
       </p>
 
       <!-- Hidden on tablet (sm–lg): the header's Get a Quote is enough there -->
-      <div style="animation-delay: 300ms" class="animate-fade-up mt-8 flex flex-col gap-3 sm:hidden lg:flex lg:flex-row lg:justify-start short:mt-6">
+      <div style="animation-delay: 300ms" class="animate-fade-up mt-6 flex flex-col gap-3 sm:hidden lg:flex lg:flex-row lg:justify-start short:mt-6">
         <?php dm_quote_cta(dm_mod('home_hero_cta'), 'hero'); ?>
         <?php dm_button(dm_mod('home_hero_secondary'), '#services', 'ghost'); ?>
       </div>

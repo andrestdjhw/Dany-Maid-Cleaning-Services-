@@ -15,6 +15,7 @@ import { initReveal } from "./scripts/reveal"
 import { initBackgroundVideos } from "./scripts/bg-video"
 import { initIntroVideo } from "./scripts/intro-video"
 import { initHeroHat } from "./scripts/hero-hat"
+import { initBackgroundPlaylists } from "./scripts/bg-playlist"
 
 // window.danyMaid is printed by dm_load_assets() in functions.php
 const data = window.danyMaid
@@ -39,11 +40,10 @@ Object.entries(mounts).forEach(([selector, Component]) => {
   }
 })
 
-// The navbar wrapper reserves space before React mounts; once rendered it should follow the header's height.
-document.querySelector("#dm-navbar")?.classList.remove("min-h-20", "lg:min-h-32")
 
 initReveal()
 initBackgroundVideos()
+initBackgroundPlaylists()
 initIntroVideo()
 initHeroHat()
 initClickTracking()

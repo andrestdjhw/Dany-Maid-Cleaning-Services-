@@ -149,7 +149,7 @@ export default function Navbar({ data }) {
   }, [menuOpen])
 
   return (
-    <header ref={headerRef} className={`bg-white transition-shadow duration-300 ${scrolled || menuOpen ? "shadow-md" : ""}`}>
+    <header ref={headerRef} className={`fixed inset-x-0 top-(--dm-admin-bar) z-50 bg-white transition-shadow duration-300 ${scrolled || menuOpen ? "shadow-md" : ""}`}>
       {/* Utility bar (desktop): collapses once the visitor scrolls */}
       <div className={`hidden overflow-hidden bg-cta text-sm font-bold text-white transition-all duration-300 lg:block ${scrolled ? "max-h-0" : "max-h-10"}`}>
         <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-8">

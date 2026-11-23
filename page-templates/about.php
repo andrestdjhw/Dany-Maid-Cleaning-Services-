@@ -3,14 +3,16 @@
  * Template Name: About
  *
  * Company story (brief §08): 2013 is when the company began, 2021 when it became Dany Maid —
- * never "13 years as Dany Maid". The founders' story goes in the page editor once confirmed.
+ * never "13 years as Dany Maid". The founders' story is taken word for word from Miguel Sandoval's
+ * welcome video (uploads/2026/11/DANYMaidWelcomeVideo.mp4, burned-in subtitles). Text typed in the
+ * page editor (Pages → About) replaces it.
  */
 
 $business = dm_business();
 $timeline = array(
-  array('year' => '2013', 'title' => 'Our story begins', 'text' => 'The company starts caring for homes in the Sacramento area.'),
+  array('year' => '2013', 'title' => 'Our story begins', 'text' => 'Miguel and Claudia Sandoval start the company, cleaning their clients’ homes themselves.'),
   array('year' => '2021', 'title' => 'Becoming Dany Maid', 'text' => 'We continue as Dany Maid, building a local cleaning team focused on dependable service and lasting customer relationships.'),
-  array('year' => 'Today', 'title' => 'A local team in ' . $business['city'], 'text' => 'Our team of employees serves households across nearby Sacramento-area communities.'),
+  array('year' => 'Today', 'title' => 'A local team in ' . $business['city'], 'text' => 'Trained teams, leaders who inspect every job, additional supervision and an administrative team that coordinates services and assists our clients.'),
 );
 
 get_header(); ?>
@@ -24,7 +26,7 @@ get_header(); ?>
     // Real photo (uploads/2026/11/AboutUsHero.webp, 2026-11-18 → assets/images/team-founders-*.webp).
     // The focus keeps both faces in frame in the 4:3 desktop crop and the phone background.
     'stock'       => 'team-founders',
-    'image_alt'   => 'Dany Maid founder, right, standing together with a colleague in a bright kitchen',
+    'image_alt'   => 'Dany Maid founders Miguel and Claudia Sandoval smiling together in a bright kitchen',
     'image_focus' => 'object-[50%_35%]',
   )); ?>
 
@@ -40,8 +42,18 @@ get_header(); ?>
           <div data-reveal class="prose prose-lg mt-6 prose-headings:font-display prose-headings:text-brand-950 prose-a:text-brand-700">
             <?php echo $content; ?>
           </div>
-        <?php elseif (current_user_can('edit_pages')) : ?>
-          <p class="mt-6 rounded-xl border-2 border-dashed border-brand-200 p-4 text-sm font-semibold text-brand-900">Optional: add the founders’ story (once confirmed in the interview) in the page editor (Pages → About). Only editors see this note.</p>
+        <?php else : ?>
+          <div class="mt-6 space-y-5 text-lg leading-relaxed text-ink/80">
+            <p data-reveal>Dany Maid was founded by Miguel Sandoval and his wife, Claudia. They started the company cleaning their clients’ homes themselves.</p>
+            <p data-reveal style="--reveal-delay: 100ms">Along the way, they learned something very important: when someone opens the doors of their home to us, they are giving us their trust. That is why, throughout all these years, we have worked to build much more than just a cleaning service.</p>
+            <p data-reveal style="--reveal-delay: 200ms">Today we have trained teams, leaders who inspect every job, additional supervision, and an administrative team that coordinates services and assists our clients. We created this structure with one purpose: so you can trust the quality of our work, not just on the first visit, but on every single one.</p>
+          </div>
+
+          <figure data-reveal style="--reveal-delay: 300ms" class="mt-8 rounded-3xl bg-brand-50 p-6 ring-1 ring-brand-900/5">
+            <span class="text-leaf-600" aria-hidden="true"><?php echo dm_icon('chat', 'size-7'); ?></span>
+            <blockquote class="mt-3 font-display text-xl font-semibold leading-snug text-brand-950">“When someone opens the doors of their home to us, they are giving us their trust.”</blockquote>
+            <figcaption class="mt-3 text-sm font-bold text-brand-700">Miguel Sandoval, Founder</figcaption>
+          </figure>
         <?php endif; ?>
       </div>
 

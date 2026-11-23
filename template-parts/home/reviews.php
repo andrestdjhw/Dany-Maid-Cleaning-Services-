@@ -47,10 +47,6 @@ $widget = dm_reviews_widget();
           </figure>
         <?php endforeach; ?>
       </div>
-    <?php elseif (current_user_can('edit_theme_options')) : ?>
-      <p class="mt-10 rounded-2xl border-2 border-dashed border-brand-200 p-6 text-sm font-semibold text-brand-900">
-        Pending: add up to three authorized, word-for-word reviews in Customize → Dany Maid → Home · 03 Reviews. Only editors see this note.
-      </p>
     <?php endif; ?>
 
     <div data-reveal class="mt-12">

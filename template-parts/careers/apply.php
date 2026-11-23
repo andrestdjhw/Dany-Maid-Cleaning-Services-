@@ -3,8 +3,8 @@
  * Careers application section: steps + bilingual form (React: src/scripts/components/CareersForm.js).
  * Used at the end of /careers/ and /about/. Only one per page (the form mounts on #dm-careers-form).
  * Args: form_id (GA4 form_id), eyebrow, title, body.
- * Photo collage: real team photos (uploads/2026/11/StaffOnAction, StaffLeft, Office, StaffRoght .webp, 2026-11-18),
- * rotated upright and optimized to assets/images/careers-*-{480|900}.webp. On lg+ it fills the space beside the tall form;
+ * Photo collage: real team photos (uploads/2026/11/Mesa-de-trabajo-7, StaffLeft, Office, StaffRoght .webp, 2026-11-18),
+ * the StaffLeft, Office and StaffRoght photos rotated upright; all optimized to assets/images/careers-*-{480|900}.webp. On lg+ it fills the space beside the tall form;
  * phones show the first two.
  */
 
@@ -17,7 +17,7 @@ $args = wp_parse_args($args, array(
 $business = dm_business();
 $collage = array(
   // file, alt, caption, tilt, extra classes
-  array('careers-action', 'A Dany Maid team member in uniform cleaning a bathroom floor', 'On the job · En acción', '-rotate-3', ''),
+  array('careers-action', 'A Dany Maid team member in uniform making a bed with fresh linens', 'On the job · En acción', '-rotate-3', ''),
   array('careers-team-1', 'Dany Maid team members in uniform smiling together at the office', 'Our team · Nuestro equipo', 'rotate-2', 'mt-10'),
   array('careers-office', 'The Dany Maid office with the company logo on the screen and turquoise balloons', 'Our office · Nuestra oficina', 'rotate-2', 'hidden sm:block -mt-4'),
   array('careers-team-2', 'A group of Dany Maid team members in uniform at a team gathering', 'Team day · Día de equipo', '-rotate-2', 'hidden sm:block mt-6'),

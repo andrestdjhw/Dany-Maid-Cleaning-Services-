@@ -109,9 +109,6 @@ get_header(); ?>
             </div>
           <?php else : ?>
             <p class="text-lg leading-relaxed text-ink/80">Every home is different, so we confirm exactly what your cleaning includes when we prepare your quote, including your priority areas and any special instructions.</p>
-            <?php if (current_user_can('edit_pages')) : ?>
-              <p class="mt-4 rounded-xl border-2 border-dashed border-brand-200 p-4 text-sm font-semibold text-brand-900">Pending: the services sheet has no checklist for this service. Add it to dm_service_scope() in inc/scope.php, or type it in the page editor (Pages → <?php echo esc_html(get_the_title()); ?>). Only editors see this note.</p>
-            <?php endif; ?>
           <?php endif; ?>
         </div>
       <?php endif; ?>

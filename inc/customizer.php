@@ -34,7 +34,7 @@ function dm_customizer_schema() {
       'title'  => 'Business Info (NAP & Profiles)',
       'fields' => array(
         'business_phone'    => array('label' => 'Phone', 'default' => '(916) 517-9652'),
-        'business_email'    => array('label' => 'Email', 'type' => 'email', 'default' => 'Danymaid@outlook.com'),
+        'business_email'    => array('label' => 'Email', 'type' => 'email', 'default' => 'info@danymaid.com'),
         'business_street'   => array('label' => 'Street address', 'default' => '7433 Greenback Ln, Suite L'),
         'business_city'     => array('label' => 'City', 'default' => 'Citrus Heights'),
         'business_region'   => array('label' => 'State', 'default' => 'CA'),
